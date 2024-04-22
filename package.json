@@ -1,0 +1,23 @@
+{
+  "name": "archai",
+  "version": "2.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "npm run prepare && concurrently \"npm run start:backend\" \"npm run start:frontend\"",
+    "start:backend": "cd backend && npm start",
+    "start:frontend": "cd frontend && npm run dev",
+    "prepare": "concurrently \"npm run prepare:backend\" \"npm run prepare:frontend\"",
+    "prepare:backend": "cd backend && npm install",
+    "prepare:frontend": "cd frontend && npm install",
+    "build": "npm run prepare && concurrently \"npm run build:backend\" \"npm run build:frontend\"",
+    "build:backend": "cd backend && npm run build",
+    "build:frontend": "cd frontend && npm run build",
+    "test": "npm run prepare && concurrently \"npm run test:frontend\" \"npm run test:backend\"",
+    "test:frontend": "cd frontend && npm test",
+    "test:backend": "cd backend && npm test"
+  },
+  "license": "Apache 2.0",
+  "devDependencies": {
+    "concurrently": "^7.1.0"
+  }
+}

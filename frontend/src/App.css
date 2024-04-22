@@ -1,0 +1,282 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+  padding: 1rem 1rem;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #2f2e42;
+  color: #fff;
+}
+
+main {
+  width: 80vw;
+  height: 100vh;
+  background: #434058;
+  border-radius: 0.5rem;
+  box-shadow: 0 0 5rem #0b0b0b;
+}
+
+nav {
+  padding: 2rem 3rem;
+}
+
+nav ul {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  list-style: none;
+  margin-left: auto;
+  width: max-content;
+  font-size: 1.5rem;
+  color: white;
+  /* Ensures the text color is white */
+}
+
+nav ul li {
+  text-decoration: none;
+  /* Removes underline */
+  color: white;
+  /* Ensures the text color is white */
+}
+
+nav ul li a {
+  text-decoration: none;
+  /* Removes underline */
+  color: inherit;
+  /* Inherits the color from the parent, ensuring it's white */
+}
+
+button,
+input[type="submit"] {
+  background: #91e3a9;
+  cursor: pointer;
+  border: none;
+  border-radius: 0.2rem;
+  padding: 0.5rem;
+  color: #2f2e42;
+  font-size: 1.2rem;
+}
+
+.prompt-button {
+  background: #2f2e42;
+  border: 1px solid #91e3a9;
+  cursor: pointer;
+  border-radius: 0.2rem;
+  padding: 0.5rem;
+  margin: 10px;
+  color: #91e3a9;
+  font-size: 1.2rem;
+}
+
+.prompt-button.selected {
+  background: #91e3a9;
+  color: #2f2e42;
+}
+
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 1rem 3rem;
+}
+
+h1 {
+  font-size: 2.5rem;
+  font-weight: 500;
+}
+
+header p {
+  margin: 1rem 0;
+  font-size: 1.2rem;
+  line-height: 1.5;
+}
+
+header img {
+  width: 35%;
+}
+
+form {
+  width: max-content;
+}
+
+input[type="email"] {
+  outline: none;
+  background: transparent;
+  border: 1px solid #dcdcdc74;
+  border-radius: 0.2rem;
+  padding: 0.45rem;
+  margin: 10px;
+  height: 40px;
+  font-size: 1.2rem;
+  min-width: 200px;
+}
+
+input[type="text"] {
+  outline: none;
+  background: transparent;
+  border: 1px solid #dcdcdc74;
+  color: white;
+  border-radius: 0.2rem;
+  padding: 0.45rem;
+  margin: 20px 10px 10px 0px;
+  height: 40px;
+  font-size: 1.2rem;
+  min-width: 200px;
+}
+
+textarea {
+  outline: none;
+  background: transparent;
+  border: 1px solid #dcdcdc74;
+  color: white;
+  border-radius: 0.2rem;
+  padding: 0.45rem;
+  margin: 20px 10px 10px 0px;
+  height: 100px;
+  font-size: 1.2rem;
+  min-width: 200px;
+  width: 100%;
+  resize: vertical;
+ }
+
+::placeholder {
+  color: #dcdcdc;
+}
+
+.features {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  border-radius: 0.25rem;
+  background: #2f2e42;
+  padding: 2rem;
+  margin: 0 3rem 3rem 3rem;
+}
+
+.feature {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 0.5rem;
+  font-size: 0.75rem;
+  max-width: 300px;
+  background: #252334;
+}
+
+.feature img {
+  width: 150px;
+  height: 150px;
+}
+
+.feature-name {
+  font-weight: 700;
+  font-size: 1.2rem;
+  padding: 0 1rem 1rem 1rem;
+}
+
+.feature-note {
+  opacity: .8;
+  font-size: 0.9rem;
+  padding: 0 20px 20px 20px;
+}
+
+/* GENERATE IMAGE */
+.single-feature-container {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  border-radius: 0.25rem;
+  background: #2f2e42;
+  padding: 2rem;
+  margin: 0 3rem 3rem 3rem;
+}
+
+.single-feature {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 0.5rem;
+  font-size: 0.75rem;
+  min-width: 70%;
+  margin-left: 30px;
+  min-height: 75vh;
+  background: #252334;
+}
+
+.single-feature img {
+  width: 650px;
+  height: 650px;
+}
+
+.single-feature-name {
+  font-weight: 700;
+  font-size: 1.2rem;
+  padding: 0 1rem 1rem 1rem;
+}
+
+.single-feature-note {
+  opacity: .8;
+  font-size: 0.9rem;
+  padding: 0 20px 20px 20px;
+}
+
+.single-intro {
+  width: 25%;
+  justify-content: center;
+}
+
+.submit-prompt-button {
+  min-width: 100%;
+}
+
+.default-options {
+  margin-top: 10px;
+}
+
+.default-options input {
+  display: block;
+  width: 90%;
+  margin-top: 5px;
+}
+
+.default-options-button {
+  background-color: #dcdcdc74;
+}
+
+@media (max-width: 570px) {
+
+  header img {
+    display: none;
+  }
+
+  .features {
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+@media (max-width: 400px) {
+  form {
+    width: auto;
+  }
+
+  input[type="submit"],
+  input[type="email"] {
+    width: 100%;
+    margin-bottom: 0.5rem;
+  }
+
+  nav ul {
+    flex-wrap: wrap;
+    width: auto;
+  }
+}
