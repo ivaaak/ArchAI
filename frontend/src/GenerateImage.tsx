@@ -1,15 +1,12 @@
 import { useState } from 'react';
 import apiClient from './axios'; // Adjust the import path as necessary
 import Prompts from './Prompts';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCog } from '@fortawesome/free-solid-svg-icons';
 import './App.css';
 import ImageGenerationParameters from './ImageGenerationParameters';
 
 const GenerateImage = () => {
     const [prompt, setPrompt] = useState('');
     const [generatedImage, setGeneratedImage] = useState('');
-    const [showDefaultOptions, setShowDefaultOptions] = useState(false);
 
     const handleSubmit = async (event: { preventDefault: () => void; }) => {
         event.preventDefault();
@@ -39,7 +36,7 @@ const GenerateImage = () => {
     return (
         <section className="single-feature-container">
             <div className="single-intro">
-                <h1>Generate Sketches Using AI</h1>
+                <h1>Generate A Sketch: </h1>
                 <Prompts></Prompts>
                 <ImageGenerationParameters></ImageGenerationParameters>
                 <form onSubmit={handleSubmit}>
@@ -51,18 +48,6 @@ const GenerateImage = () => {
                         style={{ width: '100%' }}
                     />
                     <input className='submit-prompt-button' type="submit" value="PROMPT" />
-                    <button className='default-options-button' type="button" onClick={() => setShowDefaultOptions(!showDefaultOptions)}>
-                        <FontAwesomeIcon icon={faCog} />
-                    </button>
-                    {showDefaultOptions && (
-                        <div className="default-options">
-                            <input
-                                type="text"
-                                placeholder="Default Prompt Option"
-                            // Add functionality to handle default options
-                            />
-                        </div>
-                    )}
                 </form>
             </div>
             <div className="single-feature">

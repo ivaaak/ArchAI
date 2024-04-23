@@ -41,16 +41,12 @@ nav ul {
 
 nav ul li {
   text-decoration: none;
-  /* Removes underline */
   color: white;
-  /* Ensures the text color is white */
 }
 
 nav ul li a {
   text-decoration: none;
-  /* Removes underline */
   color: inherit;
-  /* Inherits the color from the parent, ensuring it's white */
 }
 
 button,
@@ -180,12 +176,16 @@ textarea {
   font-weight: 700;
   font-size: 1.2rem;
   padding: 0 1rem 1rem 1rem;
+  text-decoration: none !important;
+  color: white;
 }
 
 .feature-note {
   opacity: .8;
   font-size: 0.9rem;
   padding: 0 20px 20px 20px;
+  text-decoration: none !important;
+  color: white;
 }
 
 /* GENERATE IMAGE */
@@ -196,7 +196,7 @@ textarea {
   border-radius: 0.25rem;
   background: #2f2e42;
   padding: 2rem;
-  margin: 0 3rem 3rem 3rem;
+  margin: 0 2rem 1rem 1rem;
 }
 
 .single-feature {
@@ -249,9 +249,12 @@ textarea {
 }
 
 .default-options-button {
-  background-color: #dcdcdc74;
+  background-color: transparent;
+  color: #91e3a9;
+  border: 1px solid #91e3a9;
 }
 
+ 
 @media (max-width: 570px) {
 
   header img {

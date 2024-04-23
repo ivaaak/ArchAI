@@ -18,7 +18,7 @@ const ImageGenerationParameters = () => {
     <div className="image-generation-parameters">
       <div className="parameter">
         <select id="sketchType" value={sketchType} onChange={(event) => handleChange(event, setSketchType)}>
-          <option value=""> Main Type of Sketch:</option>
+          <option value=""> Sketch Type: </option>
           <option value="city plan">City Plan</option>
           <option value="single building sketch">Single Building Sketch</option>
           <option value="site plan">Site Plan</option>

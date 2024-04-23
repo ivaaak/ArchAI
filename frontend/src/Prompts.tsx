@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCog } from '@fortawesome/free-solid-svg-icons';
 import './App.css';
 
 const GenerateImage: React.FC = () => {
+    const [showDefaultOptions, setShowDefaultOptions] = useState(false);
     const [selectedPrompts, setSelectedPrompts] = useState<string[]>([]);
 
     const handlePromptClick = (prompt: string) => {
@@ -25,6 +28,18 @@ const GenerateImage: React.FC = () => {
             <button className={`prompt-button ${selectedPrompts.includes('Sketch') ? 'selected' : ''}`} onClick={() => handlePromptClick('Sketch')}>Sketch</button>
             <button className={`prompt-button ${selectedPrompts.includes('Paper') ? 'selected' : ''}`} onClick={() => handlePromptClick('Paper')}>Paper</button>
             <button className={`prompt-button ${selectedPrompts.includes('Monochrome') ? 'selected' : ''}`} onClick={() => handlePromptClick('Monochrome')}>Monochrome</button>
+            <button className='default-options-button' type="button" onClick={() => setShowDefaultOptions(!showDefaultOptions)}>
+                <FontAwesomeIcon icon={faCog} />
+            </button>
+            {showDefaultOptions && (
+                <div className="default-options">
+                    <input
+                        type="text"
+                        placeholder="Default Prompt Option"
+                    // Add functionality to handle default options
+                    />
+                </div>
+            )}
         </div>
     );
 };

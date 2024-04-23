@@ -4,6 +4,8 @@ import Features from './Features';
 import './App.css';
 import Browse from './Browse';
 import Examples from './Examples';
+import UploadImage from './UploadImage';
+import SketchImage from './SketchImage';
 
 function App() {
    return (
@@ -27,7 +29,7 @@ function App() {
                      <Link to="/upload">Upload</Link>
                   </li>
                   <li>
-                     <Link to="/draw">Draw</Link>
+                     <Link to="/sketch">Sketch</Link>
                   </li>
                   <li>
                      <button>Sign Up</button>
@@ -39,6 +41,9 @@ function App() {
                <Route path="/browse" Component={Browse} />
                <Route path="/examples" Component={Examples} />
                <Route path="/generate" Component={GenerateImage} />
+               <Route path="/upload" Component={UploadImage} />
+               <Route path="/sketch" Component={SketchImage} />
+
                {/* Add routes for "Upload" and "Draw" components here */}
             </Routes>
          </main>
