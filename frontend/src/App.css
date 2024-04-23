@@ -66,7 +66,7 @@ input[type="submit"] {
   cursor: pointer;
   border-radius: 0.2rem;
   padding: 0.5rem;
-  margin: 10px;
+  margin: 6px 8px 0 0px;
   color: #91e3a9;
   font-size: 1.2rem;
 }
@@ -99,7 +99,8 @@ header img {
 }
 
 form {
-  width: max-content;
+  width: 105%;
+  padding: 10px;
 }
 
 input[type="email"] {
@@ -133,8 +134,8 @@ textarea {
   border: 1px solid #dcdcdc74;
   color: white;
   border-radius: 0.2rem;
-  padding: 0.45rem;
-  margin: 20px 10px 10px 0px;
+  padding: 10px;
+  margin: 0px 10px 10px 0px;
   height: 100px;
   font-size: 1.2rem;
   min-width: 200px;
@@ -196,7 +197,7 @@ textarea {
   border-radius: 0.25rem;
   background: #2f2e42;
   padding: 2rem;
-  margin: 0 2rem 1rem 1rem;
+  margin: 0 2rem 1rem 2rem;
 }
 
 .single-feature {
@@ -227,6 +228,7 @@ textarea {
   opacity: .8;
   font-size: 0.9rem;
   padding: 0 20px 20px 20px;
+  max-width: 650px;
 }
 
 .single-intro {
@@ -283,3 +285,21 @@ textarea {
     width: auto;
   }
 }
+
+/* Loader */
+.loader {
+  border: 50px solid #434058;
+  border-top: 50px solid #91e3a9;
+  border-radius: 50%;
+  width: 360px;
+  height: 360px;
+  margin: 4rem;
+  margin-top: 8rem;
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+

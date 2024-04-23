@@ -3,7 +3,7 @@ The project consists of:
 
 ### [Frontend: React ](https://github.com/ivaaak/ArchAI/tree/main/frontend)
   
-### [Backend: Express + MongoDB + Node LLAMA CPP LLM ](https://github.com/ivaaak/ArchAI/tree/main/backend)
+### [Backend: Express + MongoDB + StableDiffusion + ControlNet ](https://github.com/ivaaak/ArchAI/tree/main/backend)
 
 ## Getting Started
 
