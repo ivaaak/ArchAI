@@ -3,6 +3,7 @@ import GenerateImage from './GenerateImage';
 import Features from './Features';
 import './App.css';
 import Browse from './Browse';
+import Examples from './Examples';
 
 function App() {
    return (
@@ -15,6 +16,9 @@ function App() {
                   </li>
                   <li>
                      <Link to="/browse">Browse</Link>
+                  </li>
+                  <li>
+                     <Link to="/examples">Examples</Link>
                   </li>
                   <li>
                      <Link to="/generate">Generate</Link>
@@ -33,6 +37,7 @@ function App() {
             <Routes>
                <Route path="/" Component={Features} />
                <Route path="/browse" Component={Browse} />
+               <Route path="/examples" Component={Examples} />
                <Route path="/generate" Component={GenerateImage} />
                {/* Add routes for "Upload" and "Draw" components here */}
             </Routes>

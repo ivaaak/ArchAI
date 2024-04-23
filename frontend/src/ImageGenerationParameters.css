@@ -1,0 +1,23 @@
+.image-generation-parameters {
+    width: 105%;
+    margin: 0 auto;
+    padding: 10px;
+}
+
+.parameter {
+    margin-bottom: 10px;
+}
+
+.parameter select {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+}
+.parameter input {
+    width: 100%;
+    padding: 8px;
+    margin: 0px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+}

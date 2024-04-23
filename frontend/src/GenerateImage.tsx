@@ -4,6 +4,7 @@ import Prompts from './Prompts';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCog } from '@fortawesome/free-solid-svg-icons';
 import './App.css';
+import ImageGenerationParameters from './ImageGenerationParameters';
 
 const GenerateImage = () => {
     const [prompt, setPrompt] = useState('');
@@ -39,8 +40,8 @@ const GenerateImage = () => {
         <section className="single-feature-container">
             <div className="single-intro">
                 <h1>Generate Sketches Using AI</h1>
-                <p>Prompt Options:</p>
                 <Prompts></Prompts>
+                <ImageGenerationParameters></ImageGenerationParameters>
                 <form onSubmit={handleSubmit}>
                     <textarea
                         placeholder="Prompt The Model"

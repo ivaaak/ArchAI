@@ -6,7 +6,7 @@ interface ImageData {
     prompt: string;
 }
 
-const Gallery = () => {
+const Browse = () => {
     const [imagesData, setImagesData] = useState<ImageData[]>([]);
 
     useEffect(() => {
@@ -34,4 +34,4 @@ const Gallery = () => {
     );
 };
 
-export default Gallery;
+export default Browse;
