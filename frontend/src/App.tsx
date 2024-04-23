@@ -1,11 +1,11 @@
 import { BrowserRouter as Router, Route, Link, Routes } from 'react-router-dom';
-import GenerateImage from './GenerateImage';
-import Features from './Features';
+import GenerateImage from './components/GenerateImage';
+import Features from './components/Features';
+import Browse from './components/Browse';
+import Examples from './components/Examples';
+import UploadImage from './components/UploadImage';
+import SketchImage from './components/SketchImage';
 import './App.css';
-import Browse from './Browse';
-import Examples from './Examples';
-import UploadImage from './UploadImage';
-import SketchImage from './SketchImage';
 
 function App() {
    return (

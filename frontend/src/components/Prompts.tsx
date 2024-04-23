@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCog } from '@fortawesome/free-solid-svg-icons';
-import './App.css';
+import '../App.css';
 
 const GenerateImage: React.FC = () => {
     const [showDefaultOptions, setShowDefaultOptions] = useState(false);

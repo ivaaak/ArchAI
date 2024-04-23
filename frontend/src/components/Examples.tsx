@@ -1,9 +1,9 @@
+import cityPlanImage from '../../public/sketchTypePreviews/city plan.jpeg'
+import combinedImage from '../../public/sketchTypePreviews/combined.jpeg'
+import singleBuildingImage from '../../public/sketchTypePreviews/single building 3d sketch.jpeg'
+import sitePlanImage from '../../public/sketchTypePreviews/site plan.jpeg'
+import sketchAerialImage from '../../public/sketchTypePreviews/sketch aerial isomorphic view.jpeg'
 import './Browse.css';
-import cityPlanImage from '../public/sketchTypePreviews/city plan.jpeg'
-import combinedImage from '../public/sketchTypePreviews/combined.jpeg'
-import singleBuildingImage from '../public/sketchTypePreviews/single building 3d sketch.jpeg'
-import sitePlanImage from '../public/sketchTypePreviews/site plan.jpeg'
-import sketchAerialImage from '../public/sketchTypePreviews/sketch aerial isomorphic view.jpeg'
 
 interface ImageData {
     url: string;

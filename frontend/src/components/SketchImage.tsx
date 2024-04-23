@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import Prompts from './Prompts';
-import './App.css';
 import { ReactSketchCanvas } from 'react-sketch-canvas';
+import '../App.css';
 
 const SketchImage = () => {
     const [prompt, setPrompt] = useState('');

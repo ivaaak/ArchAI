@@ -1,8 +1,8 @@
 import { SetStateAction, useState } from 'react';
-import apiClient from './axios'; // Adjust the import path as necessary
+import apiClient from '../utils/axios';
 import Prompts from './Prompts';
 import ImageGenerationParameters from './ImageGenerationParameters';
-import './App.css';
+import '../App.css';
 
 const GenerateImage = () => {
     const [prompt, setPrompt] = useState('');

@@ -1,6 +1,6 @@
 import TitleSection from './TitleSection';
 import { Link } from 'react-router-dom';
-import './App.css'
+import '../App.css'
 
 const Features = () => {
     return (
