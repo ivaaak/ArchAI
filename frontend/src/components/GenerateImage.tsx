@@ -35,25 +35,25 @@ const GenerateImage = () => {
     const combinePromptParameters = () => {
         let combinedParameters = '';
         if (parameters.sketchType) {
-            combinedParameters += `Sketch Type: ${parameters.sketchType}, `;
+            combinedParameters += `(Sketch Type ${parameters.sketchType}), `;
         }
         if (parameters.color) {
-            combinedParameters += `Color: ${parameters.color}, `;
+            combinedParameters += `(Color ${parameters.color}), `;
         }
         if (parameters.artStyle) {
-            combinedParameters += `Art Style: ${parameters.artStyle}, `;
+            combinedParameters += `(Art Style ${parameters.artStyle}), `;
         }
         if (parameters.perspective) {
-            combinedParameters += `Perspective: ${parameters.perspective}, `;
+            combinedParameters += `(Perspective ${parameters.perspective}), `;
         }
         if (parameters.dimension) {
-            combinedParameters += `Dimension: ${parameters.dimension}, `;
+            combinedParameters += `(Dimension ${parameters.dimension}), `;
         }
         if (parameters.structure) {
-            combinedParameters += `Structure: ${parameters.structure}, `;
+            combinedParameters += `(Structure ${parameters.structure}), `;
         }
         if (parameters.location) {
-            combinedParameters += `Location: ${parameters.location}, `;
+            combinedParameters += `(Location ${parameters.location}), `;
         }
 
         combinedParameters = combinedParameters.replace(/,\s*$/, '');
@@ -63,7 +63,7 @@ const GenerateImage = () => {
 
     const handleSubmit = async (event: { preventDefault: () => void; }) => {
         event.preventDefault();
-        let combinedPrompt = `${combinePromptParameters()} ${prompt}`;
+        let combinedPrompt = `${prompt}, ${combinePromptParameters()}`;
         console.log("combinedPrompt", combinedPrompt)
         setCombinedPrompt(combinedPrompt);
         setIsLoading(true);

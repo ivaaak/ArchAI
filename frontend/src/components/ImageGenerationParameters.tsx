@@ -65,6 +65,12 @@ const ImageGenerationParameters: React.FC<ImageGenerationParametersProps> = ({ o
           <option value="black and white">Black and White</option>
           <option value="monochrome">Monochrome</option>
           <option value="colored">Colored</option>
+          <option value="contrasting">Contrasting</option>
+          <option value="watercolor">Watercolor</option>
+          <option value="warm">Warm</option>
+          <option value="vibrant">Vibrant</option>
+          <option value="triadic color palette">Triadic Color Palette</option>
+
         </select>
       </div>
       <div className="parameter">
@@ -74,6 +80,14 @@ const ImageGenerationParameters: React.FC<ImageGenerationParametersProps> = ({ o
           <option value="sketch">Sketch</option>
           <option value="hough line map">Hough Line Map</option>
           <option value="outline">Outline</option>
+          <option value="realistic">Realistic</option>
+          <option value="stylized">Stylized</option>
+          <option value="texture">Texture</option>
+          <option value="lighting">Lighting</option>
+          <option value="shadow">Shadow</option>
+          <option value="detail">Detail</option>
+          <option value="simplified">Simplified</option>
+          <option value="abstract">Abstract</option>
         </select>
       </div>
       <div className="parameter">
@@ -81,6 +95,23 @@ const ImageGenerationParameters: React.FC<ImageGenerationParametersProps> = ({ o
           <option value="" selected disabled hidden> Perspective:</option>
           <option value="aerial view">Aerial View</option>
           <option value="topdown view">Top-Down View</option>
+          <option value="front view">Front View</option>
+          <option value="side view">Side View</option>
+          <option value="rear view">Rear View</option>
+          <option value="ground plan">Ground Plan</option>
+          <option value="elevation">Elevation</option>
+          <option value="section">Section</option>
+          <option value="perspective">Perspective</option>
+          <option value="birds eye view">Bird's Eye View</option>
+          <option value="oblique view">Oblique View</option>
+          <option value="detail view">Detail View</option>
+          <option value="walkthrough">Walkthrough</option>
+          <option value="interior view">Interior View</option>
+          <option value="exterior view">Exterior View</option>
+          <option value="night view">Night View</option>
+          <option value="day view">Day View</option>
+          <option value="sunrise view">Sunrise View</option>
+          <option value="sunset view">Sunset View</option>
         </select>
       </div>
       <div className="parameter">
