@@ -98,11 +98,6 @@ header img {
   width: 35%;
 }
 
-form {
-  width: 105%;
-  padding: 10px;
-}
-
 input[type="email"] {
   outline: none;
   background: transparent;

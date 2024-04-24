@@ -1,11 +1,12 @@
 import { SetStateAction, useState } from 'react';
 import apiClient from '../utils/axios';
-import Prompts from './Prompts';
+import PromptsMenu from './PromptMenu';
 import ImageGenerationParameters from './ImageGenerationParameters';
 import '../App.css';
 
 const GenerateImage = () => {
-    const [prompt, setPrompt] = useState('');
+    const [textPrompt, setTextPrompt] = useState('');
+    const [selectedPromptsMenu, setSelectedPromptsMenu] = useState<string[]>([]);
     const [combinedPrompt, setCombinedPrompt] = useState('');
     const [generatedImage, setGeneratedImage] = useState('');
     const [isLoading, setIsLoading] = useState(false);
@@ -18,6 +19,10 @@ const GenerateImage = () => {
         structure: '',
         location: '',
     });
+
+    const handleSelectedPromptsChange = (newSelectedPrompts: string[]) => {
+        setSelectedPromptsMenu(newSelectedPrompts);
+    };
 
     const handleParametersChange = (newParameters: SetStateAction<{
         sketchType: string;
@@ -35,25 +40,25 @@ const GenerateImage = () => {
     const combinePromptParameters = () => {
         let combinedParameters = '';
         if (parameters.sketchType) {
-            combinedParameters += `(Sketch Type ${parameters.sketchType}), `;
-        }
-        if (parameters.color) {
-            combinedParameters += `(Color ${parameters.color}), `;
+            combinedParameters += `((${parameters.sketchType})), `;
         }
         if (parameters.artStyle) {
-            combinedParameters += `(Art Style ${parameters.artStyle}), `;
+            combinedParameters += `((${parameters.artStyle})), `;
         }
         if (parameters.perspective) {
-            combinedParameters += `(Perspective ${parameters.perspective}), `;
-        }
-        if (parameters.dimension) {
-            combinedParameters += `(Dimension ${parameters.dimension}), `;
+            combinedParameters += `((${parameters.perspective})), `;
         }
         if (parameters.structure) {
-            combinedParameters += `(Structure ${parameters.structure}), `;
+            combinedParameters += `((${parameters.structure})), `;
+        }
+        if (parameters.dimension) {
+            combinedParameters += `(${parameters.dimension}), `;
         }
         if (parameters.location) {
-            combinedParameters += `(Location ${parameters.location}), `;
+            combinedParameters += `(${parameters.location}), `;
+        }
+        if (parameters.color) {
+            combinedParameters += `(${parameters.color}), `;
         }
 
         combinedParameters = combinedParameters.replace(/,\s*$/, '');
@@ -63,7 +68,7 @@ const GenerateImage = () => {
 
     const handleSubmit = async (event: { preventDefault: () => void; }) => {
         event.preventDefault();
-        let combinedPrompt = `${prompt}, ${combinePromptParameters()}`;
+        let combinedPrompt = `${combinePromptParameters()}, ((${textPrompt})), ${selectedPromptsMenu}`;
         console.log("combinedPrompt", combinedPrompt)
         setCombinedPrompt(combinedPrompt);
         setIsLoading(true);
@@ -73,7 +78,7 @@ const GenerateImage = () => {
                 negativePrompt: ''
             });
             setGeneratedImage(response.data);
-            saveImageToLocalStorage(response.data, prompt);
+            saveImageToLocalStorage(response.data, textPrompt);
         } catch (error) {
             console.error('Error submitting the form:', error);
         } finally {
@@ -96,14 +101,13 @@ const GenerateImage = () => {
         <section className="single-feature-container">
             <div className="single-intro">
                 <h1>Generate A Sketch: </h1>
-                <Prompts></Prompts>
-                <ImageGenerationParameters onParametersChange={handleParametersChange}>
-                </ImageGenerationParameters>
+                <PromptsMenu onSelectedPromptsChange={handleSelectedPromptsChange}></PromptsMenu>
+                <ImageGenerationParameters onParametersChange={handleParametersChange}></ImageGenerationParameters>
                 <form onSubmit={handleSubmit}>
                     <textarea
                         placeholder="Prompt The Model"
-                        value={prompt}
-                        onChange={(e) => setPrompt(e.target.value)}
+                        value={textPrompt}
+                        onChange={(e) => setTextPrompt(e.target.value)}
                         rows={4}
                         style={{ width: '100%' }}
                     />
@@ -121,7 +125,7 @@ const GenerateImage = () => {
                     <img src="https://stories.freepiklabs.com/storage/1864/Meeting-01.svg" />}
                 {generatedImage && !isLoading &&
                     <img src={generatedImage} />}
-                {prompt && !isLoading &&
+                {textPrompt && !isLoading &&
                     <p className="single-feature-note">Prompt Used: {combinedPrompt}</p>}
             </div>
         </section>

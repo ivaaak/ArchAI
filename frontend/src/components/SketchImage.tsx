@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
-import Prompts from './Prompts';
+import Prompts from './PromptMenu';
 import { ReactSketchCanvas } from 'react-sketch-canvas';
 import '../App.css';
 

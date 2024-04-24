@@ -50,7 +50,7 @@ const ImageGenerationParameters: React.FC<ImageGenerationParametersProps> = ({ o
     <div className="image-generation-parameters">
       <div className="parameter">
         <select id="sketchType" value={sketchType} onChange={(event) => handleChange(event, setSketchType)}>
-          <option value="" selected disabled hidden>General Type:</option>
+          <option value="" disabled hidden>General Sketch Type:</option>
           <option value="city plan">City Plan</option>
           <option value="single building sketch">Single Building Sketch</option>
           <option value="site plan">Site Plan</option>
@@ -61,7 +61,7 @@ const ImageGenerationParameters: React.FC<ImageGenerationParametersProps> = ({ o
       </div>
       <div className="parameter">
         <select id="color" value={color} onChange={(event) => handleChange(event, setColor)}>
-          <option value="" selected disabled hidden> Select a color:</option>
+          <option value="" disabled hidden> Color Options: </option>
           <option value="black and white">Black and White</option>
           <option value="monochrome">Monochrome</option>
           <option value="colored">Colored</option>
@@ -75,24 +75,23 @@ const ImageGenerationParameters: React.FC<ImageGenerationParametersProps> = ({ o
       </div>
       <div className="parameter">
         <select id="artStyle" value={artStyle} onChange={(event) => handleChange(event, setArtStyle)}>
-          <option value="" selected disabled hidden> Art style: </option>
+          <option value="" disabled hidden> Art style: </option>
           <option value="wireframe">Wireframe</option>
-          <option value="sketch">Sketch</option>
+          <option value="pencil sketch">Pencil Sketch</option>
           <option value="hough line map">Hough Line Map</option>
           <option value="outline">Outline</option>
           <option value="realistic">Realistic</option>
           <option value="stylized">Stylized</option>
-          <option value="texture">Texture</option>
-          <option value="lighting">Lighting</option>
-          <option value="shadow">Shadow</option>
-          <option value="detail">Detail</option>
+          <option value="cinematic">Cinematic</option>
+          <option value="photographic">Photographic</option>
+          <option value="3d model">3D Model</option>
           <option value="simplified">Simplified</option>
           <option value="abstract">Abstract</option>
         </select>
       </div>
       <div className="parameter">
         <select id="perspective" value={perspective} onChange={(event) => handleChange(event, setPerspective)}>
-          <option value="" selected disabled hidden> Perspective:</option>
+          <option value="" disabled hidden> Perspective:</option>
           <option value="aerial view">Aerial View</option>
           <option value="topdown view">Top-Down View</option>
           <option value="front view">Front View</option>
@@ -116,7 +115,7 @@ const ImageGenerationParameters: React.FC<ImageGenerationParametersProps> = ({ o
       </div>
       <div className="parameter">
         <select id="dimension" value={dimension} onChange={(event) => handleChange(event, setDimension)}>
-          <option value="" selected disabled hidden> Dimension</option>
+          <option value="" disabled hidden> Dimension</option>
           <option value="2D">2D</option>
           <option value="3D">3D</option>
           <option value="One-Point Perspective">One-Point Perspective</option>

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import Prompts from './Prompts';
+import Prompts from './PromptMenu';
 import '../App.css';
 
 const UploadImage = () => {
