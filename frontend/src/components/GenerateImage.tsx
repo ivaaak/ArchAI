@@ -126,7 +126,9 @@ const GenerateImage = () => {
                 {generatedImage && !isLoading &&
                     <img src={generatedImage} />}
                 {textPrompt && !isLoading &&
-                    <p className="single-feature-note">Prompt Used: {combinedPrompt}</p>}
+                    <p className="single-feature-note"> Prompt Used: {textPrompt}</p>}
+                    <p className="single-feature-note"> Options Used: {selectedPromptsMenu}</p>
+                    <p className="single-feature-note"> Parameters Used: {combinePromptParameters()}</p>
             </div>
         </section>
     );

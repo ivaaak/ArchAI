@@ -2,11 +2,13 @@ import { useState, useRef, useEffect } from 'react';
 import Prompts from './PromptMenu';
 import { ReactSketchCanvas } from 'react-sketch-canvas';
 import '../App.css';
+import PromptsMenu from './PromptMenu';
 
 const SketchImage = () => {
     const [prompt, setPrompt] = useState('');
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const contextRef = useRef<CanvasRenderingContext2D | null>(null);
+    const [selectedPromptsMenu, setSelectedPromptsMenu] = useState<string[]>([]);
 
     useEffect(() => {
         const canvas = canvasRef.current;
@@ -25,6 +27,10 @@ const SketchImage = () => {
         borderRadius: "0.25rem"
     };
 
+    const handleSelectedPromptsChange = (newSelectedPrompts: string[]) => {
+        setSelectedPromptsMenu(newSelectedPrompts);
+    };
+
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         console.log("event", event);
@@ -34,7 +40,7 @@ const SketchImage = () => {
         <section className="single-feature-container">
             <div className="single-intro">
                 <h1> Sketch An Image: </h1>
-                <Prompts></Prompts>
+                <PromptsMenu onSelectedPromptsChange={handleSelectedPromptsChange}></PromptsMenu>
                 <form onSubmit={handleSubmit}>
                     <textarea
                         placeholder="Prompt The Model"

@@ -1,10 +1,21 @@
-import { useState } from 'react';
-import Prompts from './PromptMenu';
+import { SetStateAction, useState } from 'react';
 import '../App.css';
+import PromptsMenu from './PromptMenu';
+import ImageGenerationParameters from './ImageGenerationParameters';
 
 const UploadImage = () => {
     const [prompt, setPrompt] = useState('');
     const [generatedImage, setGeneratedImage] = useState('');
+    const [selectedPromptsMenu, setSelectedPromptsMenu] = useState<string[]>([]);
+    const [parameters, setParameters] = useState({
+        sketchType: '',
+        color: '',
+        artStyle: '',
+        perspective: '',
+        dimension: '',
+        structure: '',
+        location: '',
+    });
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -33,12 +44,29 @@ const UploadImage = () => {
         }
     };
 
+    const handleSelectedPromptsChange = (newSelectedPrompts: string[]) => {
+        setSelectedPromptsMenu(newSelectedPrompts);
+    };
+
+    const handleParametersChange = (newParameters: SetStateAction<{
+        sketchType: string;
+        color: string;
+        artStyle: string;
+        perspective: string;
+        dimension: string;
+        structure: string;
+        location: string;
+    }>) => {
+        setParameters(newParameters);
+        console.log(parameters);
+    };
+
     return (
         <section className="single-feature-container">
             <div className="single-intro">
                 <h1>Upload A Sketch: </h1>
-                <Prompts></Prompts>
-                {/* <ImageGenerationParameters></ImageGenerationParameters> */}
+                <PromptsMenu onSelectedPromptsChange={handleSelectedPromptsChange}></PromptsMenu>
+                <ImageGenerationParameters onParametersChange={handleParametersChange}></ImageGenerationParameters>
                 <form onSubmit={handleSubmit}>
                     <textarea
                         placeholder="Prompt The Model"
@@ -47,7 +75,7 @@ const UploadImage = () => {
                         rows={4}
                         style={{ width: '100%' }}
                     />
-                    <input className='submit-prompt-button' type="submit" value="PROMPT" />
+                    <input className='submit-prompt-button' type="submit" value="Modify Image" />
                 </form>
             </div>
             <div className="single-feature"
