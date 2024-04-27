@@ -1,10 +1,10 @@
 import express from 'express';
 import multer from 'multer';
 import { ObjectId } from 'mongodb';
-import path from 'path';
-import { Image } from '../models/image'
+import { Image } from '../models/image';
 import { collections } from '../database';
 import { Request, Response } from 'express';
+import path from 'path';
 
 // Multer storage configuration
 const storage = multer.diskStorage({
@@ -15,8 +15,10 @@ const storage = multer.diskStorage({
         cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));
     }
 });
-
-const upload = multer({ storage: storage });
+// Use multer.memoryStorage to store files in the server's uploads folder
+const uploadToStorage = multer({ storage: storage });
+// Use multer.memoryStorage to store files in memory as Buffer objects
+const uploadToDB = multer({ storage: multer.memoryStorage() });
 
 const imageService = express.Router();
 
@@ -57,7 +59,8 @@ imageService.get('/', async (req: Request, res: Response) => {
     }
 });
 
-imageService.post('/', upload.single('image'), async (req, res) => {
+// Upload base64 to DB
+imageService.post('/', uploadToDB.single('image'), async (req, res) => {
     console.log("Image upload endpoint called");
     if (!req.file) {
         return res.status(400).json({ message: "No file uploaded" });
@@ -67,7 +70,7 @@ imageService.post('/', upload.single('image'), async (req, res) => {
         const imageData: Image = {
             employeeId: new ObjectId(req.body?.employeeId),
             name: req.file.originalname,
-            imageData: req.file.path
+            imageData: req.file.buffer // Save the file data (Buffer) directly
         };
         if (!req.body.employeeId) {
             imageData.employeeId = new ObjectId();
@@ -75,6 +78,32 @@ imageService.post('/', upload.single('image'), async (req, res) => {
 
         const result = await collections.images?.insertOne(imageData);
 
+        if (result) {
+            res.status(201).json({ message: "Image uploaded successfully", imageId: result.insertedId });
+        } else {
+            res.status(500).json({ message: "Error uploading image" });
+        }
+    } catch (error) {
+        const err = error as Error;
+        res.status(500).json({ message: "Error uploading image", error: err.message });
+    }
+});
+
+// Upload file to server /uploads
+imageService.post('/uploadToServer', uploadToStorage.single('image'), async (req, res) => {
+    console.log("Image upload endpoint called");
+    if (!req.file) {
+        return res.status(400).json({ message: "No file uploaded" });
+    }
+
+    try {
+        const imageData: Image = {
+            employeeId: new ObjectId(req.body?.employeeId),
+            name: req.file.originalname,
+            //imageData: req.file.path
+        };
+        if (!req.body.employeeId) { imageData.employeeId = new ObjectId(); }
+        const result = await collections.images?.insertOne(imageData);
         if (result) {
             res.status(201).json({ message: "Image uploaded successfully", imageId: result.insertedId });
         } else {
