@@ -2,6 +2,7 @@ import { SetStateAction, useState } from 'react';
 import '../App.css';
 import PromptsMenu from './PromptMenu';
 import ImageGenerationParameters from './ImageGenerationParameters';
+import apiClient from '../utils/axios';
 
 const UploadImage = () => {
     const [prompt, setPrompt] = useState('');
@@ -19,7 +20,37 @@ const UploadImage = () => {
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        console.log("event", event);
+
+        if (!generatedImage) {
+            alert('Please upload an image');
+            return;
+        }
+
+        try {
+            // Convert the data URL to a Blob
+            const response = await fetch(generatedImage);
+            const blob = await response.blob();
+
+            const formData = new FormData();
+            formData.append('image', blob, 'uploadedImage.jpg');
+            //formData.append('employeeId', '');
+
+            // Send the FormData to the backend using Axios
+            const result = await apiClient.post('/image/', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+            });
+
+            if (result.status === 201) {
+                alert(`Image uploaded successfully. Image ID: ${result.data.imageId}`);
+            } else {
+                alert('Error uploading image');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            alert('Error uploading image');
+        }
     };
 
     const handleDragOver = (event: React.DragEvent<HTMLDivElement>) => {
@@ -91,7 +122,7 @@ const UploadImage = () => {
                     </>
                 )}
                 {generatedImage &&
-                    <img src={generatedImage} />}
+                    <img src={generatedImage} alt="Uploaded Image Preview" />}
                 {prompt &&
                     <p className="single-feature-note">Prompt Used: {prompt}</p>}
             </div>

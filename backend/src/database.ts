@@ -1,12 +1,12 @@
 import * as mongodb from "mongodb";
 import { employeeJsonSchema } from "./dbSchemaValidations/employeeSchema";
 import { Employee } from "./models/employee";
-
+import { Image } from "./models/image";
 
 export const collections: {
     employees?: mongodb.Collection<Employee>;
+    images?: mongodb.Collection<Image>;
 } = {};
-
 
 export async function connectToDatabase(uri: string) {
     const client = new mongodb.MongoClient(uri);
@@ -17,6 +17,9 @@ export async function connectToDatabase(uri: string) {
 
     const employeesCollection = db.collection<Employee>("employees");
     collections.employees = employeesCollection;
+
+    const imagesCollection = db.collection<Image>("images");
+    collections.images = imagesCollection;
 }
 
 
