@@ -6,12 +6,15 @@ import Examples from './components/Examples';
 import UploadImage from './components/UploadImage';
 import SketchImage from './components/SketchImage';
 import './App.css';
+import HowItWorks from './components/HowItWorks';
+import ExampleShowcase from './components/ExampleShowcase';
 
 function App() {
    return (
       <Router>
          <main>
             <nav>
+               <div className='navTitle'><h1 className='title'>Arch</h1><h1 className='title2'>AI</h1></div>
                <ul>
                   <li>
                      <Link to="/">Home</Link>
@@ -46,6 +49,8 @@ function App() {
 
                {/* Add routes for "Upload" and "Draw" components here */}
             </Routes>
+            <HowItWorks></HowItWorks>
+            <ExampleShowcase></ExampleShowcase>
          </main>
       </Router>
    );

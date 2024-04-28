@@ -1,5 +1,7 @@
 import TitleSection from './TitleSection';
 import { Link } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowDown } from '@fortawesome/free-solid-svg-icons/faArrowDown';
 import '../App.css'
 
 const Features = () => {
@@ -7,6 +9,12 @@ const Features = () => {
         <>
             <TitleSection></TitleSection>
             <section className="features">
+                <div className='checkItOut'>
+                    See How It Works Below:
+                    <a className='downArrowBtn' href='#howItWorks'>
+                    <FontAwesomeIcon icon={faArrowDown} />                    
+                    </a>
+                </div>
                 <Link to="/generate">
                     <div className="feature">
                         <img src="https://stories.freepiklabs.com/storage/1864/Meeting-01.svg" alt="" width="80" height="80" />
@@ -24,10 +32,16 @@ const Features = () => {
                 <Link to="/sketch">
                     <div className="feature">
                         <img src="https://stories.freepiklabs.com/storage/39672/Coins-01.svg" alt="" width="80" height="80" />
-                        <p className="feature-name"> Sketch An Image <br /> And The LLM Will Improve It </p>
+                        <p className="feature-name"> Sketch An Image <br /> And Enhance It </p>
                         <p className="feature-note">And build up a full arsenal of tools to grow your business.</p>
                     </div>
                 </Link>
+                <div className='browseExamples'>
+                    AI Generated Examples:
+                    <a className='downArrowBtn' href='#exampleShowcase'>
+                    <FontAwesomeIcon icon={faArrowDown} />                    
+                    </a>
+                </div>
             </section>
         </>
     );

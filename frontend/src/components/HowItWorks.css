@@ -1,0 +1,31 @@
+.gallery {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    overflow-y:auto;
+    margin-bottom: 40px;
+}
+.gallery-showcase {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+}
+
+.gallery .instructionImg {
+    border: 2px dashed #91e3a9;
+    border-radius: 20px;
+    margin: 30px 20px 30px 20px
+}
+
+.gallery-title{
+    width: 80%;
+    height: 5%;
+    text-align: center;
+}
+
+.gallery-showcase img {
+    border-radius: 20px;
+    margin: 30px 20px 30px 20px
+}
