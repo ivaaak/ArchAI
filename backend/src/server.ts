@@ -2,6 +2,7 @@ import * as dotenv from "dotenv";
 import express from "express";
 import routes from "./routes";
 import cors from "cors";
+import path from "path";
 import { connectToDatabase } from "./database";
 
 dotenv.config();
@@ -23,6 +24,7 @@ async function startServer() {
   // Use the routes module
   app.use(cors());
   app.use(express.json());
+  app.use('/src/uploads', express.static(path.join(__dirname, 'uploads'))); // Static image serving for uploads
   app.use('/api', routes); // Prefix all routes with '/api'
 
   app.listen(port, () => {

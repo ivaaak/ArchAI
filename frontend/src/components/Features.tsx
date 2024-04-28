@@ -2,6 +2,8 @@ import TitleSection from './TitleSection';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowDown } from '@fortawesome/free-solid-svg-icons/faArrowDown';
+import ExampleShowcase from './ExampleShowcase';
+import HowItWorks from './HowItWorks';
 import '../App.css'
 
 const Features = () => {
@@ -43,6 +45,8 @@ const Features = () => {
                     </a>
                 </div>
             </section>
+            <HowItWorks></HowItWorks>
+            <ExampleShowcase></ExampleShowcase>
         </>
     );
 };

@@ -31,7 +31,7 @@ const Browse = () => {
             {imagesData.map((image, index) => (
                 <div key={index} className="gallery-item">
                     <div className="image-container">
-                        <img src={`data:image/png;base64,${image.imageData}`} alt={`Generated Image ${index + 1}`} />
+                        <img src={`http://localhost:3000/${image.imageData}`} alt={`Generated Image ${index + 1}`} />
                         <div className="overlay">
                             <button onClick={() => downloadImage(image.imageData, index)} className="overlay-button">Download</button>
                             <button className="overlay-button">Edit</button>

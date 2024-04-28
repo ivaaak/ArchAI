@@ -32,7 +32,7 @@ nav ul {
   list-style: none;
   margin-left: auto;
   width: max-content;
-  font-size: 1.5rem;
+  font-size: 1.2rem;
   color: white;
   /* Ensures the text color is white */
 }
@@ -168,12 +168,13 @@ textarea {
 }
 
 .checkItOut {
-  position: absolute;
-  left: 150px;
-  width: 250px;
   margin-top: 50px;
-  font-size: 2.5rem;
   text-align: center;
+  position: relative;
+  /* left: 120px; */
+  max-width: 100px;
+  margin-top: 50px;
+  font-size: 1.5rem;
 
   a {
     padding: 1rem;
@@ -183,7 +184,7 @@ textarea {
 
     svg {
       margin-top: 50px;
-      width: 50px;
+      width: 40px;
       height: 40px;
       color: #91e3a9;
     }
@@ -191,12 +192,13 @@ textarea {
 }
 
 .browseExamples {
-  position: absolute;
-  right: 150px;
-  width: 250px;
   margin-top: 50px;
-  font-size: 2.5rem;
   text-align: center;
+  position: relative;
+  /* left: 120px; */
+  max-width: 100px;
+  margin-top: 50px;
+  font-size: 1.5rem;
 
   a {
     padding: 1rem;
@@ -206,7 +208,7 @@ textarea {
 
     svg {
       margin-top: 50px;
-      width: 50px;
+      width: 40px;
       height: 40px;
       color: #91e3a9;
     }
@@ -313,6 +315,11 @@ textarea {
   border: 1px solid #91e3a9;
 }
 
+.actionBtn{
+  border-radius: 0.2rem;
+  padding: 0.5rem;
+  border: 1px solid white;
+}
  
 @media (max-width: 570px) {
 

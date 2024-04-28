@@ -9,7 +9,7 @@ import path from 'path';
 // Multer storage configuration
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        cb(null, 'uploads/');
+        cb(null, 'src/uploads/');
     },
     filename: function (req, file, cb) {
         cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));
@@ -60,7 +60,7 @@ imageService.get('/', async (req: Request, res: Response) => {
 });
 
 // Upload base64 to DB
-imageService.post('/', uploadToDB.single('image'), async (req, res) => {
+imageService.post('/uploadToDB', uploadToDB.single('image'), async (req, res) => {
     console.log("Image upload endpoint called");
     if (!req.file) {
         return res.status(400).json({ message: "No file uploaded" });
@@ -70,7 +70,8 @@ imageService.post('/', uploadToDB.single('image'), async (req, res) => {
         const imageData: Image = {
             employeeId: new ObjectId(req.body?.employeeId),
             name: req.file.originalname,
-            imageData: req.file.buffer // Save the file data (Buffer) directly
+            //imageData: req.file.buffer 
+            // Save the file data (Buffer) directly - very slow
         };
         if (!req.body.employeeId) {
             imageData.employeeId = new ObjectId();
@@ -89,8 +90,8 @@ imageService.post('/', uploadToDB.single('image'), async (req, res) => {
     }
 });
 
-// Upload file to server /uploads
-imageService.post('/uploadToServer', uploadToStorage.single('image'), async (req, res) => {
+// Upload file to server /src/uploads
+imageService.post('/', uploadToStorage.single('image'), async (req, res) => {
     console.log("Image upload endpoint called");
     if (!req.file) {
         return res.status(400).json({ message: "No file uploaded" });
@@ -100,7 +101,7 @@ imageService.post('/uploadToServer', uploadToStorage.single('image'), async (req
         const imageData: Image = {
             employeeId: new ObjectId(req.body?.employeeId),
             name: req.file.originalname,
-            //imageData: req.file.path
+            imageData: req.file.path
         };
         if (!req.body.employeeId) { imageData.employeeId = new ObjectId(); }
         const result = await collections.images?.insertOne(imageData);

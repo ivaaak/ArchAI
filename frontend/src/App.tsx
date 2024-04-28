@@ -6,8 +6,6 @@ import Examples from './components/Examples';
 import UploadImage from './components/UploadImage';
 import SketchImage from './components/SketchImage';
 import './App.css';
-import HowItWorks from './components/HowItWorks';
-import ExampleShowcase from './components/ExampleShowcase';
 
 function App() {
    return (
@@ -20,21 +18,21 @@ function App() {
                      <Link to="/">Home</Link>
                   </li>
                   <li>
-                     <Link to="/browse">Browse</Link>
+                     <Link to="/browse">Gallery</Link>
                   </li>
                   <li>
                      <Link to="/examples">Examples</Link>
                   </li>
-                  <li>
+                  <li className='actionBtn'>
                      <Link to="/generate">Generate</Link>
                   </li>
-                  <li>
+                  <li className='actionBtn'>
                      <Link to="/upload">Upload</Link>
                   </li>
-                  <li>
+                  <li className='actionBtn'>
                      <Link to="/sketch">Sketch</Link>
                   </li>
-                  <li>
+                  <li >
                      <button>Sign Up</button>
                   </li>
                </ul>
@@ -49,8 +47,6 @@ function App() {
 
                {/* Add routes for "Upload" and "Draw" components here */}
             </Routes>
-            <HowItWorks></HowItWorks>
-            <ExampleShowcase></ExampleShowcase>
          </main>
       </Router>
    );
