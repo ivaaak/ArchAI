@@ -1,20 +1,27 @@
-import TitleSection from './TitleSection';
 import { Link } from 'react-router-dom';
+import TitleSection from './TitleSection';
 import ExampleShowcase from './ExampleShowcase';
 import HowItWorks from './HowItWorks';
 import '../App.css'
 
 const Features = () => {
+    const scrollToElementId = (elementId: string) => {
+        let targetElement = document.getElementById(elementId);
+        console.log("targetElement", targetElement)
+        if (targetElement) {
+            targetElement.scrollIntoView({ behavior: 'smooth' });
+        }
+    };
     return (
         <>
             <TitleSection></TitleSection>
             <section className="features">
-                <a className='checkItOut' href='#howItWorks'>
+                <div className='checkItOut' onClick={() => scrollToElementId('howItWorks')}>
                     Try It Out Below:
-                    <a className="arrow-wrap" href="#howItWorks">
+                    <a className="arrow-wrap">
                         <span className="arrow"></span>
                     </a>
-                </a>
+                </div>
                 <Link to="/generate">
                     <div className="feature">
                         <img src="https://stories.freepiklabs.com/storage/1864/Meeting-01.svg" alt="" width="80" height="80" />
@@ -36,12 +43,12 @@ const Features = () => {
                         <p className="feature-note">And build up a full arsenal of tools to grow your business.</p>
                     </div>
                 </Link>
-                <a className='checkItOut' href='#exampleShowcase'>
+                <div className='checkItOut' onClick={() => scrollToElementId('exampleShowcase')}>
                     Example Sketches:
-                    <a className="arrow-wrap" href="#exampleShowcase">
+                    <a className="arrow-wrap">
                         <span className="arrow"></span>
                     </a>
-                </a>
+                </div>
             </section>
             <HowItWorks></HowItWorks>
             <ExampleShowcase></ExampleShowcase>

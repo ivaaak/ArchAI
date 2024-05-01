@@ -43,13 +43,13 @@ const SketchImage = () => {
                 <PromptsMenu onSelectedPromptsChange={handleSelectedPromptsChange}></PromptsMenu>
                 <form onSubmit={handleSubmit}>
                     <textarea
-                        placeholder="Prompt The Model"
+                        placeholder="Add Parameters For The Model"
                         value={prompt}
                         onChange={(e) => setPrompt(e.target.value)}
                         rows={4}
                         style={{ width: '100%' }}
                     />
-                    <input className='submit-prompt-button' type="submit" value="PROMPT" />
+                    <input className='submit-prompt-button' type="submit" value="Generate From Sketch" />
                 </form>
             </div>
             <div className="single-feature">

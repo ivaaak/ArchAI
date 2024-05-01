@@ -12,11 +12,11 @@ function App() {
       <Router>
          <main>
             <nav>
-               <div className='navTitle'><h1 className='title'>Arch</h1><h1 className='title2'>AI</h1></div>
+               <Link to="/">
+                  <div className='navTitle'><h1 className='title'>Arch</h1><h1 className='title2'>AI</h1></div>
+               </Link>
+
                <ul>
-                  <li>
-                     <Link to="/">Home</Link>
-                  </li>
                   <li>
                      <Link to="/browse">Gallery</Link>
                   </li>

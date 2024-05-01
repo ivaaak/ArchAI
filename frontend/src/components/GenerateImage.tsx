@@ -3,6 +3,7 @@ import apiClient from '../utils/axios';
 import PromptsMenu from './PromptMenu';
 import ImageGenerationParameters from './ImageGenerationParameters';
 import '../App.css';
+import ImageOptions from './ImageOptions';
 
 const GenerateImage = () => {
     const [textPrompt, setTextPrompt] = useState('');
@@ -23,6 +24,9 @@ const GenerateImage = () => {
     const handleSelectedPromptsChange = (newSelectedPrompts: string[]) => {
         setSelectedPromptsMenu(newSelectedPrompts);
     };
+
+    const handleImagesCountOptionChange = () => {};
+
 
     const handleParametersChange = (newParameters: SetStateAction<{
         sketchType: string;
@@ -102,10 +106,11 @@ const GenerateImage = () => {
             <div className="single-intro">
                 <h1>Generate A Sketch: </h1>
                 <PromptsMenu onSelectedPromptsChange={handleSelectedPromptsChange}></PromptsMenu>
+                <ImageOptions onImageOptionsChange={handleImagesCountOptionChange}></ImageOptions>
                 <ImageGenerationParameters onParametersChange={handleParametersChange}></ImageGenerationParameters>
                 <form onSubmit={handleSubmit}>
                     <textarea
-                        placeholder="Prompt The Model"
+                        placeholder="Describe specifics or details to the model"
                         value={textPrompt}
                         onChange={(e) => setTextPrompt(e.target.value)}
                         rows={4}
@@ -115,7 +120,7 @@ const GenerateImage = () => {
                 </form>
             </div>
             <div className="single-feature">
-                {isLoading && 
+                {isLoading &&
                     <>
                         <div className="loader"></div>
                         <p> Loading... </p>
@@ -127,8 +132,8 @@ const GenerateImage = () => {
                     <img src={generatedImage} />}
                 {textPrompt && !isLoading &&
                     <p className="single-feature-note"> Prompt Used: {textPrompt}</p>}
-                    <p className="single-feature-note"> Options Used: {selectedPromptsMenu}</p>
-                    <p className="single-feature-note"> Parameters Used: {combinePromptParameters()}</p>
+                <p className="single-feature-note"> Options Used: {selectedPromptsMenu}</p>
+                <p className="single-feature-note"> Parameters Used: {combinePromptParameters()}</p>
             </div>
         </section>
     );
