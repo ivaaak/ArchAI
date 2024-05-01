@@ -43,6 +43,7 @@ nav ul {
   font-size: 3.5rem;
   top: 30px;
 }
+
 .navTitle .title2 {
   position: absolute;
   font-weight: 900;
@@ -92,7 +93,7 @@ input[type="file"] {
 }
 
 header {
-  height: 30vh;
+  height: 40vh;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -108,10 +109,11 @@ header p {
   margin: 1rem 0;
   font-size: 1.2rem;
   line-height: 1.5;
+  color: rgba(255, 255, 255, 0.701);
 }
 
 header img {
-  width: 35%;
+  width: 41%;
 }
 
 input[type="email"] {
@@ -152,7 +154,7 @@ textarea {
   min-width: 200px;
   width: 100%;
   resize: vertical;
- }
+}
 
 ::placeholder {
   color: #dcdcdc;
@@ -161,7 +163,7 @@ textarea {
 .features {
   display: flex;
   justify-content: center;
-  gap: 3rem;
+  gap: 5rem;
   border-radius: 0.25rem;
   background: #2f2e42;
   padding: 2rem;
@@ -169,51 +171,15 @@ textarea {
 }
 
 .checkItOut {
+  float: inline-start;
   margin-top: 50px;
   text-align: center;
   position: relative;
-  /* left: 120px; */
-  max-width: 100px;
-  margin-top: 50px;
-  font-size: 1.5rem;
-
-  a {
-    padding: 1rem;
-    border: 2px solid #91e3a9;
-    border-radius: 50%;
-    background-color: #2f2e42;
-
-    svg {
-      margin-top: 50px;
-      width: 40px;
-      height: 40px;
-      color: #91e3a9;
-    }
-  }
-}
-
-.browseExamples {
-  margin-top: 50px;
-  text-align: center;
-  position: relative;
-  /* left: 120px; */
-  max-width: 100px;
-  margin-top: 50px;
-  font-size: 1.5rem;
-
-  a {
-    padding: 1rem;
-    border: 2px solid #91e3a9;
-    border-radius: 50%;
-    background-color: #2f2e42;
-
-    svg {
-      margin-top: 50px;
-      width: 40px;
-      height: 40px;
-      color: #91e3a9;
-    }
-  }
+  max-width: 150px;
+  max-height: 150px;
+  font-size: 2rem;
+  color: white;
+  text-decoration: none !important;
 }
 
 .feature {
@@ -226,6 +192,7 @@ textarea {
   max-width: 300px;
   background: #252334;
   border: 1px dashed white;
+  border-radius: 20px;
 }
 
 .feature img {
@@ -239,6 +206,43 @@ textarea {
   padding: 0 1rem 1rem 1rem;
   text-decoration: none !important;
   color: white;
+}
+
+.arrow-wrap {
+  position: relative;
+  z-index: 1;
+  top: 10%;
+  left: 5%;
+  background: #111;
+  width: 8em;
+  height: 8em;
+  padding: 3em 1.5em;
+  border-radius: 50%;
+  font-size: 0.5em;
+  display: block;
+  box-shadow: 0px 0px 5px 0px #333;
+  transition: opacity 0.3s ease; /* Smooth transition for the hover effect */
+}
+.arrow-wrap:hover {
+  opacity: 0.5;
+}
+
+.arrow {
+  float: left;
+  position: relative;
+  border-style: solid;
+  border-width: 40px 40px 0 40px;
+  border-color: #ffffff transparent transparent transparent;
+}
+
+.arrow:after {
+  content: '';
+  position: absolute;
+  top: -3.5em;
+  left: -3em;
+  border-style: solid;
+  border-width: 3em 3em 0 3em;
+  border-color: #111 transparent transparent transparent;
 }
 
 .feature-note {
@@ -299,6 +303,7 @@ textarea {
 .submit-prompt-button {
   min-width: 100%;
 }
+
 .undo-button {
   min-width: 100%;
   background-color: coral;
@@ -321,12 +326,12 @@ textarea {
   border: 1px solid #91e3a9;
 }
 
-.actionBtn{
+.actionBtn {
   border-radius: 0.2rem;
   padding: 0.5rem;
   border: 1px solid white;
 }
- 
+
 @media (max-width: 570px) {
 
   header img {
@@ -369,11 +374,15 @@ textarea {
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
-/* CSS */
 #customFileInput {
   width: 100%;
   height: 75px;
@@ -394,4 +403,8 @@ textarea {
 
 #customFileInput:hover {
   background-color: #dde0e3;
+}
+
+.gallery-hint {
+  font-size: 0.8rem;
 }

@@ -1,7 +1,5 @@
 import TitleSection from './TitleSection';
 import { Link } from 'react-router-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowDown } from '@fortawesome/free-solid-svg-icons/faArrowDown';
 import ExampleShowcase from './ExampleShowcase';
 import HowItWorks from './HowItWorks';
 import '../App.css'
@@ -11,12 +9,12 @@ const Features = () => {
         <>
             <TitleSection></TitleSection>
             <section className="features">
-                <div className='checkItOut'>
-                    See How It Works Below:
-                    <a className='downArrowBtn' href='#howItWorks'>
-                    <FontAwesomeIcon icon={faArrowDown} />                    
+                <a className='checkItOut' href='#howItWorks'>
+                    Try It Out Below:
+                    <a className="arrow-wrap" href="#howItWorks">
+                        <span className="arrow"></span>
                     </a>
-                </div>
+                </a>
                 <Link to="/generate">
                     <div className="feature">
                         <img src="https://stories.freepiklabs.com/storage/1864/Meeting-01.svg" alt="" width="80" height="80" />
@@ -38,12 +36,12 @@ const Features = () => {
                         <p className="feature-note">And build up a full arsenal of tools to grow your business.</p>
                     </div>
                 </Link>
-                <div className='browseExamples'>
-                    AI Generated Examples:
-                    <a className='downArrowBtn' href='#exampleShowcase'>
-                    <FontAwesomeIcon icon={faArrowDown} />                    
+                <a className='checkItOut' href='#exampleShowcase'>
+                    Example Sketches:
+                    <a className="arrow-wrap" href="#exampleShowcase">
+                        <span className="arrow"></span>
                     </a>
-                </div>
+                </a>
             </section>
             <HowItWorks></HowItWorks>
             <ExampleShowcase></ExampleShowcase>

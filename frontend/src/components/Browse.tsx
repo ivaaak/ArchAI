@@ -26,6 +26,10 @@ const Browse = () => {
         a.remove();
     };
 
+    const openInNewTab = (imageData: string) => {
+        window.open(`http://localhost:3000/${imageData}`, '_blank');
+    };
+
     return (
         <div className="gallery">
             {imagesData.map((image, index) => (
@@ -36,6 +40,7 @@ const Browse = () => {
                             <button onClick={() => downloadImage(image.imageData, index)} className="overlay-button">Download</button>
                             <button className="overlay-button">Edit</button>
                             <button className="overlay-button">Share</button>
+                            <button onClick={() => openInNewTab(image.imageData)} className="overlay-button">Open in New Tab</button>
                         </div>
                     </div>
                 </div>

@@ -121,7 +121,7 @@ const UploadImage = () => {
                         <h1> 2. Modify The Sketch: </h1>
                         <PromptsMenu onSelectedPromptsChange={handleSelectedPromptsChange}></PromptsMenu>
                         <ImageGenerationParameters onParametersChange={handleParametersChange}></ImageGenerationParameters>
-                        <form onSubmit={handleModifySubmit}>
+                        <form onSubmit={handleUploadSubmit}> {/*  handleModifySubmit */}
                             <textarea
                                 placeholder="Prompt The Model"
                                 value={prompt}
