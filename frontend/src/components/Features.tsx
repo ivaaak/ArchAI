@@ -7,7 +7,6 @@ import '../App.css'
 const Features = () => {
     const scrollToElementId = (elementId: string) => {
         let targetElement = document.getElementById(elementId);
-        console.log("targetElement", targetElement)
         if (targetElement) {
             targetElement.scrollIntoView({ behavior: 'smooth' });
         }

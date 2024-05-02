@@ -1,13 +1,17 @@
 import { BrowserRouter as Router, Route, Link, Routes } from 'react-router-dom';
+import { useAuth0 } from '@auth0/auth0-react';
 import GenerateImage from './components/GenerateImage';
 import Features from './components/Features';
 import Browse from './components/Browse';
 import Examples from './components/Examples';
 import UploadImage from './components/UploadImage';
 import SketchImage from './components/SketchImage';
+import LoginForm from './components/LoginForm';
 import './App.css';
 
 function App() {
+   const { isAuthenticated, user, loginWithRedirect } = useAuth0();
+
    return (
       <Router>
          <main>
@@ -32,9 +36,17 @@ function App() {
                   <li className='actionBtn'>
                      <Link to="/sketch">Sketch</Link>
                   </li>
-                  <li >
-                     <button>Sign Up</button>
-                  </li>
+                  {isAuthenticated ? (
+                     <div>
+                        <p>Welcome, {user?.name}!</p>
+                        <button onClick={() => loginWithRedirect()}>Log Out</button>
+                     </div>
+                  ) : (
+                     <div>
+                        <p>Please log in.</p>
+                        <button onClick={() => loginWithRedirect()}>Log In</button>
+                     </div>
+                  )}
                </ul>
             </nav>
             <Routes>
@@ -44,6 +56,7 @@ function App() {
                <Route path="/generate" Component={GenerateImage} />
                <Route path="/upload" Component={UploadImage} />
                <Route path="/sketch" Component={SketchImage} />
+               <Route path="/login" Component={LoginForm} />
 
                {/* Add routes for "Upload" and "Draw" components here */}
             </Routes>

@@ -123,7 +123,6 @@ input[type="email"] {
   border: 1px solid #dcdcdc74;
   border-radius: 0.2rem;
   padding: 0.45rem;
-  margin: 10px;
   height: 40px;
   font-size: 1.2rem;
   min-width: 200px;
@@ -222,8 +221,10 @@ textarea {
   font-size: 0.5em;
   display: block;
   box-shadow: 0px 0px 5px 0px #333;
-  transition: opacity 0.3s ease; /* Smooth transition for the hover effect */
+  transition: opacity 0.3s ease;
+  /* Smooth transition for the hover effect */
 }
+
 .arrow-wrap:hover {
   opacity: 0.5;
 }
@@ -333,6 +334,11 @@ textarea {
   border: 1px solid white;
 }
 
+form {
+  display: flex;
+  flex-direction: row;
+}
+
 @media (max-width: 570px) {
 
   header img {
@@ -344,6 +350,7 @@ textarea {
     align-items: center;
   }
 }
+
 
 @media (max-width: 400px) {
   form {
