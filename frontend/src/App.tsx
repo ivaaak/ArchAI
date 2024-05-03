@@ -1,12 +1,13 @@
-import { BrowserRouter as Router, Route, Link, Routes } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useAuth0 } from '@auth0/auth0-react';
-import GenerateImage from './components/GenerateImage';
-import Features from './components/Features';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'; // Updated import
 import Browse from './components/Browse';
 import Examples from './components/Examples';
-import UploadImage from './components/UploadImage';
-import SketchImage from './components/SketchImage';
+import Features from './components/Features';
+import GenerateImage from './components/GenerateImage';
 import LoginForm from './components/LoginForm';
+import SketchImage from './components/SketchImage';
+import UploadImage from './components/UploadImage';
 import './App.css';
 
 function App() {
@@ -50,15 +51,13 @@ function App() {
                </ul>
             </nav>
             <Routes>
-               <Route path="/" Component={Features} />
-               <Route path="/browse" Component={Browse} />
-               <Route path="/examples" Component={Examples} />
-               <Route path="/generate" Component={GenerateImage} />
-               <Route path="/upload" Component={UploadImage} />
-               <Route path="/sketch" Component={SketchImage} />
-               <Route path="/login" Component={LoginForm} />
-
-               {/* Add routes for "Upload" and "Draw" components here */}
+               <Route path="/" element={<Features />} />
+               <Route path="/browse" element={<Browse />} />
+               <Route path="/examples" element={<Examples />} />
+               <Route path="/generate" element={<GenerateImage />} />
+               <Route path="/upload" element={<UploadImage />} />
+               <Route path="/sketch" element={<SketchImage />} />
+               <Route path="/login" element={<LoginForm />} />
             </Routes>
          </main>
       </Router>

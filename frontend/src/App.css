@@ -194,6 +194,13 @@ textarea {
   border: 1px dashed white;
   border-radius: 20px;
 }
+.feature:hover {
+  opacity: 0.9;
+  border: 6px dashed white;
+  transform: translateY(-4px);
+  transition: opacity 0.4s ease, border 0.4s ease, transform 0.4s ease;
+}
+
 
 .feature img {
   width: 150px;
