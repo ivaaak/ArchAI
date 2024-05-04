@@ -170,11 +170,11 @@ input[type="file"] {
 }
 
 header {
-  height: 40vh;
+  height: 50vh;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  margin: 3rem 3rem 0rem 3rem;
+  justify-content: space-evenly;
+  margin: 1rem 3rem 1rem 3rem;
 }
 
 h1 {
@@ -289,7 +289,7 @@ textarea {
 .feature-name {
   font-weight: 700;
   font-size: 1.5rem;
-  padding: 0 1rem 1rem 1rem;
+  padding: 0 1rem 0rem 1rem;
   text-decoration: none !important;
   color: white;
 }

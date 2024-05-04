@@ -50,7 +50,6 @@ function App() {
                         <li style={{ textAlign: 'center' }}>
                            <Link to="/profile">
                               <p>{user?.name?.split('@')[0]}</p>
-                              Profile
                            </Link>
                         </li>
                         <button onClick={() => loginWithRedirect()}>
@@ -61,8 +60,8 @@ function App() {
                         <button onClick={() => loginWithRedirect()}>Log In</button>
                      )}
                      <li>
-                        <button onClick={toggleTheme}>
-                           {theme === 'light' ? <FontAwesomeIcon icon={faMoon} /> : <FontAwesomeIcon icon={faSun} />}
+                        <button >
+                           <FontAwesomeIcon onClick={toggleTheme} icon={faMoon} />
                         </button>                     
                      </li>
                   </ul>

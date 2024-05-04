@@ -1,0 +1,40 @@
+.carousel {
+    height: 100%;
+    margin: 10px;
+    opacity: 0.95;
+    display: flex; /* Use flexbox to align items */
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+}
+.control-arrow {
+    background-color: rgba(0, 0, 0, 0.455) !important;
+}
+.slide {
+    display: flex; /* Use flexbox to align items */
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    height: 100%; /* Ensure the slide takes full height */
+    width: 100%; /* Ensure the slide takes full width */
+}
+
+
+.carousel.slide img {
+    border-radius: 20px;
+    width: 100%; /* Make the image take full width */
+    height: auto; /* Maintain the aspect ratio */
+    object-fit: cover; /* Ensure the image covers the area without stretching */
+}
+
+.carousel .thumbs-wrapper {
+    display: none;
+}
+
+header .carousel-root {
+    width: 50%;
+    height: 500px;
+}
+
+.carousel .slide img {
+    border-radius: 20px;
+    
+}

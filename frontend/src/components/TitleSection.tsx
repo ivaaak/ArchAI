@@ -1,6 +1,8 @@
 import { Link } from 'react-router-dom';
-import '../App.css'
 import { useEffect, useState } from 'react';
+import { Carousel } from 'react-responsive-carousel';
+import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
+import './TitleSection.css'
 
 const TitleSection = () => {
   const [currentQuote, setCurrentQuote] = useState('');
@@ -15,6 +17,28 @@ const TitleSection = () => {
     "Elevate Your Designs with AI Precision.",
     "Transform Ideas into Masterpieces.",
     "Architectural Excellence Made Effortless."
+  ];
+  // const images = [
+  //   "/public/carousel/1.jpg",
+  //   "/public/carousel/2.jpg",
+  //   "/public/carousel/3.jpeg",
+  //   "/public/carousel/4.jpg",
+  //   "/public/carousel/5.jpg",
+  //   "/public/carousel/6.jpg",
+  //   "/public/carousel/7.jpeg",
+  //   "/public/carousel/8.jpeg",
+  //   "/public/carousel/10.jpeg",
+  //   "/public/carousel/11.jpg",
+  //   "/public/carousel/12.jpg",
+  //   "/public/carousel/13.jpeg",
+  // ];
+  const images = [
+    "/public/carousel-nobg/1.png",
+    "/public/carousel-nobg/3.png",
+    "/public/carousel-nobg/4.png",
+    "/public/carousel-nobg/5.png",
+    "/public/carousel-nobg/8.png",
+    "/public/carousel-nobg/10.png"
   ];
 
   const getRandomQuote = () => {
@@ -39,7 +63,15 @@ const TitleSection = () => {
           </Link>
         </form>
       </div>
-      <img src="https://stories.freepiklabs.com/storage/49289/Software-integration-01.svg" alt="" />
+      {/* <img src="https://stories.freepiklabs.com/storage/49289/Software-integration-01.svg" alt="" /> */}
+      <Carousel autoPlay infiniteLoop useKeyboardArrows showThumbs={false}
+      showIndicators={false}>
+        {images.map((image, index) => (
+          <div key={index}>
+            <img src={image} />
+          </div>
+        ))}
+      </Carousel>
     </header>
   );
 };
