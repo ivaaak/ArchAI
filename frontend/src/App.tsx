@@ -8,14 +8,18 @@ import GenerateImage from './components/GenerateImage';
 import LoginForm from './components/LoginForm';
 import SketchImage from './components/SketchImage';
 import UploadImage from './components/UploadImage';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
 import './App.css';
+import UserProfile from './UserProfile';
+import ImageShowcase from './components/ImageShowcase';
 
 function App() {
    const { isAuthenticated, user, loginWithRedirect } = useAuth0();
 
    return (
       <Router>
-         <main>
+         <main style={{ backgroundImage: `url('/../../public/assetImages/bg.png')` }}>
             <nav>
                <Link to="/">
                   <div className='navTitle'><h1 className='title'>Arch</h1><h1 className='title2'>AI</h1></div>
@@ -28,26 +32,32 @@ function App() {
                   <li>
                      <Link to="/examples">Examples</Link>
                   </li>
-                  <li className='actionBtn'>
+                  <li>
                      <Link to="/generate">Generate</Link>
                   </li>
-                  <li className='actionBtn'>
+                  <li>
                      <Link to="/upload">Upload</Link>
                   </li>
-                  <li className='actionBtn'>
+                  <li>
                      <Link to="/sketch">Sketch</Link>
                   </li>
-                  {isAuthenticated ? (
-                     <div>
-                        <p>Welcome, {user?.name}!</p>
-                        <button onClick={() => loginWithRedirect()}>Log Out</button>
-                     </div>
+                  {isAuthenticated ? (<>
+                     <li style={{ textAlign: 'center' }}>
+                        <Link to="/profile">
+                           <p>{user?.name?.split('@')[0]}</p>
+                           Profile
+                        </Link>
+                     </li>
+                     <button onClick={() => loginWithRedirect()}>
+                        <FontAwesomeIcon icon={faSignOutAlt} />
+                     </button>
+                  </>
                   ) : (
-                     <div>
-                        <p>Please log in.</p>
-                        <button onClick={() => loginWithRedirect()}>Log In</button>
-                     </div>
+                     <button onClick={() => loginWithRedirect()}>Log In</button>
                   )}
+                  <li>
+                     <FontAwesomeIcon icon={faSignOutAlt} />
+                  </li>
                </ul>
             </nav>
             <Routes>
@@ -58,6 +68,8 @@ function App() {
                <Route path="/upload" element={<UploadImage />} />
                <Route path="/sketch" element={<SketchImage />} />
                <Route path="/login" element={<LoginForm />} />
+               <Route path="/profile" element={<UserProfile />} />
+               <Route path="/details/src/uploads/:id" element={<ImageShowcase />} />
             </Routes>
          </main>
       </Router>

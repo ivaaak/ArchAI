@@ -1,6 +1,9 @@
+import { useNavigate } from 'react-router-dom';
 import './Browse.css'
 
 const ExampleShowcase = () => {
+    const navigate = useNavigate();
+
     const images = [
         {
             src: "/public/sketchTypePreviews/single building 3d sketch.jpeg",
@@ -49,6 +52,7 @@ const ExampleShowcase = () => {
                             <h3> Name: {image.name}</h3>
                             <h3> Prompt: {image.description}</h3>
                             <p> Tags: </p>
+                            {/* <button onClick={() =>  navigate(`/details/${}`)}>View Details</button> */}
                         </div>
                     </div>
                 </div>

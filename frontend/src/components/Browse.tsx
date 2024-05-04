@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
-import './Browse.css';
+import { useNavigate } from 'react-router-dom';
 import apiClient from '../utils/axios';
+import './Browse.css';
 
 interface ImageData {
     imageData: string;
@@ -9,6 +10,8 @@ interface ImageData {
 
 const Browse = () => {
     const [imagesData, setImagesData] = useState<ImageData[]>([]);
+    const navigate = useNavigate();
+
     useEffect(() => {
         apiClient.get('/image')
             .then(response => {
@@ -38,7 +41,7 @@ const Browse = () => {
                         <img src={`http://localhost:3000/${image.imageData}`} alt={`Generated Image ${index + 1}`} />
                         <div className="overlay">
                             <button onClick={() => downloadImage(image.imageData, index)} className="overlay-button">Download</button>
-                            <button className="overlay-button">Edit</button>
+                            <button className="overlay-button" onClick={() => navigate(`/details/${image.imageData}`)}>View Details</button>
                             <button className="overlay-button">Share</button>
                             <button onClick={() => openInNewTab(image.imageData)} className="overlay-button">Open in New Tab</button>
                         </div>

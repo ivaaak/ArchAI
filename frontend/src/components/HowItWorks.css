@@ -14,7 +14,7 @@
 }
 
 .gallery .instructionImg:hover {
-    opacity: 0.6;
+    opacity: 0.8;
     transition: opacity 0.4s ease;
     border: 6px dashed white;
     transition: border 0.4s ease;

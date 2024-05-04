@@ -54,16 +54,41 @@ nav ul {
   color: #91e3a9;
 }
 
-
 nav ul li {
-  text-decoration: none;
   color: white;
+  position: relative;
 }
 
 nav ul li a {
-  text-decoration: none;
   color: inherit;
+  text-decoration: none;
+  display: block;
+  padding: 10px;
+  background-color: #0b0b0b7e;
+  border-radius: 6px;
 }
+
+nav ul li:hover {
+  border-bottom: 2px solid white;
+  transition: border-bottom 0.3s ease;
+}
+
+nav ul li:hover a {
+  color: white;
+}
+
+nav ul li:hover::after {
+  content: "";
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: white;
+  box-shadow: 2px 4px 8px rgb(0, 0, 0);
+  transition: all 0.3s ease;
+}
+
 
 button,
 input[type="submit"],
