@@ -16,9 +16,11 @@
     "@fortawesome/react-fontawesome": "^0.2.0",
     "axios": "^1.6.8",
     "react": "^18.2.0",
+    "react-context-api": "^1.0.2",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.22.3",
-    "react-sketch-canvas": "^6.2.0"
+    "react-sketch-canvas": "^6.2.0",
+    "styled-components": "^6.1.9"
   },
   "devDependencies": {
     "@types/auth0-js": "^9.21.5",
