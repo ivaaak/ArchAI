@@ -9,17 +9,17 @@ import LoginForm from './components/LoginForm';
 import SketchImage from './components/SketchImage';
 import UploadImage from './components/UploadImage';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faMoon, faSignOutAlt, faSun } from '@fortawesome/free-solid-svg-icons';
+import { faMoon, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
 import UserProfile from './components/UserProfile';
 import ImageShowcase from './components/ImageShowcase';
 import { ThemeContext } from './components/ThemeContext';
 import { useContext } from 'react';
+import Pricing from './components/Pricing';
 import './App.css';
 
 function App() {
    const { isAuthenticated, user, loginWithRedirect } = useAuth0();
    const { theme, toggleTheme } = useContext(ThemeContext);
-
 
    return (
       <div className={`App ${theme}`}> {/* Theme Class */}
@@ -32,10 +32,13 @@ function App() {
 
                   <ul>
                      <li>
-                        <Link to="/browse">Gallery</Link>
+                        <Link to="/pricing">Pricing</Link>
                      </li>
                      <li>
-                        <Link to="/examples">Examples</Link>
+                        <Link to="/browse">Collections</Link>
+                     </li>
+                     <li>
+                        <Link to="/examples">Prompts</Link>
                      </li>
                      <li>
                         <Link to="/generate">Generate</Link>
@@ -60,9 +63,9 @@ function App() {
                         <button onClick={() => loginWithRedirect()}>Log In</button>
                      )}
                      <li>
-                        <button >
-                           <FontAwesomeIcon onClick={toggleTheme} icon={faMoon} />
-                        </button>                     
+                        <button  onClick={toggleTheme}>
+                           <FontAwesomeIcon icon={faMoon} />
+                        </button>
                      </li>
                   </ul>
                </nav>
@@ -75,6 +78,7 @@ function App() {
                   <Route path="/sketch" element={<SketchImage />} />
                   <Route path="/login" element={<LoginForm />} />
                   <Route path="/profile" element={<UserProfile />} />
+                  <Route path="/pricing" element={<Pricing />} />
                   <Route path="/details/src/uploads/:id" element={<ImageShowcase />} />
                </Routes>
             </main>

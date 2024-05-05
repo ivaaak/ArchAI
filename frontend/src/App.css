@@ -2,13 +2,16 @@
   --text-primary-light: #2f2e42;
   --text-primary-dark: white;
 
+  --text-primary-light-reversed: white;
+  --text-primary-dark-reversed: #2f2e42;
+
   --text-secondary-light: rgb(70, 70, 70);
   --text-secondary-dark: rgb(160, 160, 160);
 
   --bg-primary-light: rgb(208, 208, 208);
   --bg-primary-dark: #2f2e42;
 
-  --bg-primary-transparent-light: rgb(208, 208, 208, 0.8);
+  --bg-primary-transparent-light: rgba(208, 208, 208, 0.532);
   --bg-primary-transparent-dark: #2f2e42c3;
 
   --bg-secondary-light: rgb(255, 255, 255);
@@ -23,10 +26,13 @@
   --primary-blue: rgb(0, 0, 255);
   --secondary-blue: rgb(96, 96, 182);
 }
+
 .dark-theme {
   --text-primary: var(--text-primary-dark);
+  --text-primary-reversed: var(--text-primary-dark-reversed);
   --text-secondary: var(--text-secondary-dark);
   --bg-primary: var(--bg-primary-dark);
+  --bg-primary-reverse: var(--bg-primary-light);
   --bg-primary-transparent: var(--bg-primary-transparent-dark);
   --bg-secondary: var(--bg-secondary-dark);
   --bg-navbar: var(--bg-navbar-dark);
@@ -35,8 +41,10 @@
 
 .light-theme {
   --text-primary: var(--text-primary-light);
+  --text-primary-reversed: var(--text-primary-light-reversed);
   --text-secondary: var(--text-secondary-light);
   --bg-primary: var(--bg-primary-light);
+  --bg-primary-reverse: var(--bg-primary-dark);
   --bg-primary-transparent: var(--bg-primary-transparent-light);
   --bg-secondary: var(--bg-secondary-light);
   --bg-navbar: var(--bg-navbar-light);
@@ -88,7 +96,7 @@ nav ul {
   margin-left: auto;
   width: max-content;
   font-size: 1.2rem;
-  color: white;
+  color: var(--text-primary-reversed);
 }
 
 .navTitle .title {
@@ -110,7 +118,7 @@ nav ul {
 }
 
 nav ul li {
-  color: white;
+  color: var(--text-primary-reversed);
   position: relative;
 }
 
@@ -118,8 +126,8 @@ nav ul li a {
   color: inherit;
   text-decoration: none;
   display: block;
-  padding: 10px;
-  background-color: #0b0b0b7e;
+  padding: 0.5rem;
+  background-color: var(--bg-primary-reverse);
   border-radius: 6px;
 }
 
@@ -140,6 +148,15 @@ nav ul li:hover::after {
   transition: all 0.3s ease;
 }
 
+h2, h3 {
+  font-size: 1.5rem;
+  font-weight: 500;
+  color: var(--text-primary)
+}
+
+p {
+  color: var(--text-primary)
+}
 
 button,
 input[type="submit"],
@@ -247,6 +264,10 @@ textarea {
   background: var(--bg-primary-transparent);
   padding: 2rem;
   margin: 0 3rem 3rem 3rem;
+}
+
+.features a {
+  max-height: 300px;
 }
 
 .checkItOut {

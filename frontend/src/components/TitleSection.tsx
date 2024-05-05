@@ -1,11 +1,13 @@
-import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { Carousel } from 'react-responsive-carousel';
+import { useAuth0 } from '@auth0/auth0-react';
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import './TitleSection.css'
 
 const TitleSection = () => {
   const [currentQuote, setCurrentQuote] = useState('');
+  const { isAuthenticated, user, loginWithRedirect } = useAuth0();
+
   const quotes = [
     "Design Beyond Imagination.",
     "Sketch, Create, Innovate.",
@@ -55,12 +57,11 @@ const TitleSection = () => {
       <div className="intro">
         <h1>Generate Sketches Using AI </h1>
         <h1 style={{ opacity: '0.7' }}>{currentQuote}</h1>
-        <p>Powered By StableDiffusion and ControlNet AI Models</p>
+        {isAuthenticated && <h3 style={{ opacity: '0.7' }}>Welcome, {user?.name}</h3>}
+        <h2 style={{ opacity: '0.7' }}>Powered By StableDiffusion and ControlNet AI Models</h2>
         <form>
           <input type="email" name="email" id="email" placeholder="Email Address" />
-          <Link to="/login">
-            <input type="submit" value="Sign Up" />
-          </Link>
+            <input type='submit' value="Sign Up" onClick={() => loginWithRedirect()} /> {/* TODO Hook up to Leads */}
         </form>
       </div>
       {/* <img src="https://stories.freepiklabs.com/storage/49289/Software-integration-01.svg" alt="" /> */}

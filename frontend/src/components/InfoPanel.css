@@ -1,0 +1,114 @@
+.my-7 {
+    margin: 7rem 0;
+  }
+  
+  .flex {
+    display: flex;
+  }
+  
+  .flex-col {
+    flex-direction: column;
+  }
+  
+  .items-center {
+    align-items: center;
+  }
+  
+  .border-b {
+    border-bottom: 1px solid #cbd5e0;
+  }
+  
+  .text-justify {
+    text-align: justify;
+  }
+  
+  .mx-5 {
+    margin-left: 5rem;
+    margin-right: 5rem;
+  }
+  
+  .mt-5 {
+    margin-top: 5rem;
+  }
+  
+  .max-w-6xl {
+    max-width: 48rem;
+  }
+  
+  .text-xl {
+    font-size: 1.25rem;
+  }
+  
+  .font-light {
+    font-weight: 300;
+  }
+  
+  .text-arch-grey {
+    color: #718096;
+  }
+  
+  .mt-2 {
+    margin-top: 0.5rem;
+  }
+  
+  .grid {
+    display: grid;
+  }
+  
+  .grid-cols-1 {
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+  }
+  
+  .justify-around {
+    justify-items: center;
+  }
+  
+  .gap-4 {
+    gap: 1rem;
+  }
+  
+  .pb-5 {
+    padding-bottom: 1.25rem;
+  }
+  
+  .md\:grid-cols-3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  
+  .w-64 {
+    width: 16rem;
+  }
+  
+  .lg\:w-72 {
+    width: 18rem;
+  }
+  
+  .mb-2 {
+    margin-bottom: 0.5rem;
+  }
+  
+  .font-dense {
+    font-weight: 500;
+  }
+  
+  .text-4xl {
+    font-size: 2.25rem;
+  }
+  
+  .uppercase {
+    text-transform: uppercase;
+  }
+  
+  .my-5 {
+    margin-top: 1.25rem;
+    margin-bottom: 1.25rem;
+  }
+  
+  .text-center {
+    text-align: center;
+  }
+  
+  .lg\:mt-11 {
+    margin-top: 2.75rem;
+  }
+  

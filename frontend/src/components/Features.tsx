@@ -3,6 +3,7 @@ import TitleSection from './TitleSection';
 import ExampleShowcase from './ExampleShowcase';
 import HowItWorks from './HowItWorks';
 import '../App.css'
+import InfoPanel from './InfoPanel';
 
 const Features = () => {
     const scrollToElementId = (elementId: string) => {
@@ -49,6 +50,7 @@ const Features = () => {
                     </a>
                 </div>
             </section>
+            <InfoPanel></InfoPanel>
             <HowItWorks></HowItWorks>
             <ExampleShowcase></ExampleShowcase>
         </>
