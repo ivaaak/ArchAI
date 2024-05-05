@@ -2,10 +2,12 @@ import * as mongodb from "mongodb";
 import { employeeJsonSchema } from "./dbSchemaValidations/employeeSchema";
 import { Employee } from "./models/employee";
 import { Image } from "./models/image";
+import { Lead } from "./models/lead";
 
 export const collections: {
     employees?: mongodb.Collection<Employee>;
     images?: mongodb.Collection<Image>;
+    leads?: mongodb.Collection<Image>;
 } = {};
 
 export async function connectToDatabase(uri: string) {
@@ -20,6 +22,9 @@ export async function connectToDatabase(uri: string) {
 
     const imagesCollection = db.collection<Image>("images");
     collections.images = imagesCollection;
+
+    const leadsCollection = db.collection<Lead>("lead");
+    collections.leads = leadsCollection;
 }
 
 
