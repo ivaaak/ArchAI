@@ -1,9 +1,9 @@
 import { SetStateAction, useState } from 'react';
-import apiClient from '../utils/axios';
+import apiClient from '../../utils/axios';
 import PromptsMenu from './PromptMenu';
 import ImageGenerationParameters from './ImageGenerationParameters';
-import '../App.css';
 import ImageOptions from './ImageOptions';
+import '../../App.css';
 
 const GenerateImage = () => {
     const [textPrompt, setTextPrompt] = useState('');

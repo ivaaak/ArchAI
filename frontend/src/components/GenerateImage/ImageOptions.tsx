@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import '../App.css';
+import '../../App.css';
 
 interface ImageOptionsProps {
     onImageOptionsChange: (imagesOptions: { count: string; res: string }) => void;

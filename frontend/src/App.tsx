@@ -1,20 +1,19 @@
 import { Link } from 'react-router-dom';
 import { useAuth0 } from '@auth0/auth0-react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'; // Updated import
-import Browse from './components/Browse';
-import Examples from './components/Examples';
+import Browse from './components/Browse/Browse';
+import Examples from './components/Browse/Examples';
 import Features from './components/Features';
-import GenerateImage from './components/GenerateImage';
-import LoginForm from './components/LoginForm';
+import GenerateImage from './components/GenerateImage/GenerateImage';
 import SketchImage from './components/SketchImage';
 import UploadImage from './components/UploadImage';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMoon, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
 import UserProfile from './components/UserProfile';
-import ImageShowcase from './components/ImageShowcase';
+import ImageShowcase from './components/Showcase/ImageShowcase';
 import { ThemeContext } from './components/ThemeContext';
 import { useContext } from 'react';
-import Pricing from './components/Pricing';
+import Pricing from './components/Pricing/Pricing';
 import './App.css';
 
 function App() {
@@ -76,7 +75,6 @@ function App() {
                   <Route path="/generate" element={<GenerateImage />} />
                   <Route path="/upload" element={<UploadImage />} />
                   <Route path="/sketch" element={<SketchImage />} />
-                  <Route path="/login" element={<LoginForm />} />
                   <Route path="/profile" element={<UserProfile />} />
                   <Route path="/pricing" element={<Pricing />} />
                   <Route path="/details/src/uploads/:id" element={<ImageShowcase />} />

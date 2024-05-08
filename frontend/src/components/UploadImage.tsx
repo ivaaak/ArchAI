@@ -1,6 +1,6 @@
 import { SetStateAction, useState } from 'react';
-import PromptsMenu from './PromptMenu';
-import ImageGenerationParameters from './ImageGenerationParameters';
+import PromptsMenu from './GenerateImage/PromptMenu';
+import ImageGenerationParameters from './GenerateImage/ImageGenerationParameters';
 import apiClient from '../utils/axios';
 import '../App.css';
 

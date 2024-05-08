@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import apiClient from '../utils/axios';
+import apiClient from '../../utils/axios';
 import './Browse.css';
 
 interface ImageData {

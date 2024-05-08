@@ -1,9 +1,9 @@
 import { Link } from 'react-router-dom';
-import TitleSection from './TitleSection';
-import ExampleShowcase from './ExampleShowcase';
-import HowItWorks from './HowItWorks';
+import TitleSection from './TitleSection/TitleSection';
+import ExampleShowcase from './Browse/ExampleShowcase';
+import HowItWorks from './HowItWorks/HowItWorks';
 import '../App.css'
-import InfoPanel from './InfoPanel';
+import InfoPanel from './InfoPanel/InfoPanel';
 
 const Features = () => {
     const scrollToElementId = (elementId: string) => {
