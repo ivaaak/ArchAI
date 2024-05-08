@@ -1,26 +1,16 @@
 import { useState, useRef, useEffect } from 'react';
-import Prompts from './PromptMenu';
 import { ReactSketchCanvas } from 'react-sketch-canvas';
+import PromptsMenu from '../components/GenerateImage/PromptMenu';
+import sketchBg from '../../public/assetImages/sketchBackground.jpg'
 import '../App.css';
-import PromptsMenu from './PromptMenu';
 
 const SketchImage = () => {
     const [prompt, setPrompt] = useState('');
-    const canvasRef = useRef<HTMLCanvasElement>(null);
-    const contextRef = useRef<CanvasRenderingContext2D | null>(null);
     const [selectedPromptsMenu, setSelectedPromptsMenu] = useState<string[]>([]);
-
-    useEffect(() => {
-        const canvas = canvasRef.current;
-        if (canvas) {
-            contextRef.current = canvas.getContext('2d');
-            // Set canvas background to white
-            if (contextRef.current) {
-                contextRef.current.fillStyle = '#FFFFFF';
-                contextRef.current.fillRect(0, 0, canvas.width, canvas.height);
-            }
-        }
-    }, []);
+    const [backgroundColor, setBackgroundColor] = useState('#FFFFFF');
+    const [brushSize, setBrushSize] = useState(4);
+    const [brushColor, setBrushColor] = useState('white');
+    const [backgroundImage, setBackgroundImage] = useState<string>(sketchBg);
 
     const styles = {
         border: "0.0625rem solid #9c9c9c",
@@ -34,6 +24,22 @@ const SketchImage = () => {
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         console.log("event", event);
+    };
+
+    const handleBackgroundColorChange = (color: string) => {
+        setBackgroundColor(color);
+    };
+
+    const handleBrushSizeChange = (size: number) => {
+        setBrushSize(size);
+    };
+
+    const handleBrushColorChange = (color: string) => {
+        setBrushColor(color);
+    };
+
+    const handleBackgroundImageChange = (image: string) => {
+        setBackgroundImage(image);
     };
 
     return (
@@ -51,13 +57,32 @@ const SketchImage = () => {
                     />
                     <input className='submit-prompt-button' type="submit" value="Generate From Sketch" />
                 </form>
+                <div>
+                    <h1> Canvas Options: </h1>
+                    <label>Background Color:</label>
+                    <input type="color" value={backgroundColor} onChange={(e) => handleBackgroundColorChange(e.target.value)} />
+                </div>
+                <div>
+                    <label>Brush Size:</label>
+                    <input type="number" value={brushSize} onChange={(e) => handleBrushSizeChange(parseInt(e.target.value, 10))} />
+                </div>
+                <div>
+                    <label>Brush Color:</label>
+                    <input type="color" value={brushColor} onChange={(e) => handleBrushColorChange(e.target.value)} />
+                </div>
+                <div>
+                    <label>Background Image:</label>
+                    <input type="text" value={backgroundImage} onChange={(e) => handleBackgroundImageChange(e.target.value)} />
+                </div>
             </div>
             <div className="single-feature">
                 <ReactSketchCanvas
                     style={styles}
-
-                    strokeWidth={4}
-                    strokeColor="red"
+                    strokeWidth={brushSize}
+                    strokeColor={brushColor}
+                    backgroundImage={backgroundImage}
+                    canvasColor={backgroundColor}
+                // preserveBackgroundImageAspectRatio={"16:9"}
                 />
             </div>
         </section>
