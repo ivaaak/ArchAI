@@ -8,17 +8,27 @@ import GenerateImage from './components/GenerateImage/GenerateImage';
 import SketchImage from './components/SketchImage';
 import UploadImage from './components/UploadImage';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faMoon, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
+import { faMoon, faSearch, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
 import UserProfile from './components/UserProfile';
 import ImageShowcase from './components/Showcase/ImageShowcase';
 import { ThemeContext } from './components/ThemeContext';
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import Pricing from './components/Pricing/Pricing';
 import './App.css';
+import GlobalSearchModal from './components/GlobalSearchModal';
 
 function App() {
    const { isAuthenticated, user, loginWithRedirect } = useAuth0();
    const { theme, toggleTheme } = useContext(ThemeContext);
+   const [globalSearchModalOpen, setGlobalSearchModalOpen] = useState(false);
+
+   const openModal = () => {
+      setGlobalSearchModalOpen(true);
+   };
+
+   const closeModal = () => {
+      setGlobalSearchModalOpen(false);
+   };
 
    return (
       <div className={`App ${theme}`}> {/* Theme Class */}
@@ -30,9 +40,12 @@ function App() {
                   </Link>
 
                   <ul>
-                     <li>
-                        <Link to="/pricing">Pricing</Link>
-                     </li>
+                     <button className='globalSearchBtn' onClick={openModal}>
+                        <FontAwesomeIcon icon={faSearch} />
+                         Imagine...
+                     </button>
+                     <GlobalSearchModal isOpen={globalSearchModalOpen} onClose={closeModal}>
+                     </GlobalSearchModal>
                      <li>
                         <Link to="/browse">Collections</Link>
                      </li>
@@ -62,7 +75,7 @@ function App() {
                         <button onClick={() => loginWithRedirect()}>Log In</button>
                      )}
                      <li>
-                        <button  onClick={toggleTheme}>
+                        <button onClick={toggleTheme}>
                            <FontAwesomeIcon icon={faMoon} />
                         </button>
                      </li>

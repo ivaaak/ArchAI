@@ -1,0 +1,47 @@
+.modal-backdrop {
+    z-index: 1000;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    max-width: 50%;
+    background-color: white;
+    padding: 20px;
+    border-radius: 4px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-wrap: wrap; /* Allows the items to wrap onto multiple lines if needed */
+    justify-content: space-between; /* Distributes space evenly between the items */
+    align-items: flex-start; /* Aligns items to the start of the container */
+    gap: 20px; /* Adds some space between the items */
+    padding: 20px; /* Adds some padding around the content */
+  }
+  
+  /* CSS for the single-intro class */
+  .modal-third {
+    flex: 1 0 33%; /* This makes each.single-intro take up 33% of the container's width */
+    box-sizing: border-box; /* Includes padding and border in the element's total width and height */
+    padding: 20px; /* Adds some padding inside each.single-intro */
+    background-color: #f9f9f9; /* Light grey background for each section */
+    border-radius: 8px; /* Rounded corners for each section */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Adds a subtle shadow for depth */
+  }
+  
+  /* Additional styles for the submit-prompt-button */
+  .submit-prompt-button {
+    min-width: 50%;
+    padding: 10px;
+  }
+
+  textarea { 
+    min-width: 50%;
+  }
+  
