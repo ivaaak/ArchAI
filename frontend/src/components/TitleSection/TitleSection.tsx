@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
 import { Carousel } from 'react-responsive-carousel';
 import { useAuth0 } from '@auth0/auth0-react';
-import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
+import { Link } from 'react-router-dom';
+import "react-responsive-carousel/lib/styles/carousel.min.css";
 import './TitleSection.css'
 
 const TitleSection = () => {
@@ -61,12 +62,13 @@ const TitleSection = () => {
         <h2 style={{ opacity: '0.7' }}>Powered By StableDiffusion and ControlNet AI Models</h2>
         <form>
           <input type="email" name="email" id="email" placeholder="Email Address" />
-            <input type='submit' value="Sign Up" onClick={() => loginWithRedirect()} /> {/* TODO Hook up to Leads */}
+          <input type='submit' value="Sign Up" onClick={() => loginWithRedirect()} /> {/* TODO Hook up to Leads */}
+          <Link to="/pricing" className='pricingBtn'>Pricing</Link>
         </form>
       </div>
       {/* <img src="https://stories.freepiklabs.com/storage/49289/Software-integration-01.svg" alt="" /> */}
       <Carousel autoPlay infiniteLoop useKeyboardArrows showThumbs={false}
-      showIndicators={false}>
+        showIndicators={false}>
         {images.map((image, index) => (
           <div key={index}>
             <img src={image} />

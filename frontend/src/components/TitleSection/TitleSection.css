@@ -2,27 +2,29 @@
     height: 100%;
     margin: 10px;
     opacity: 0.95;
-    display: flex; /* Use flexbox to align items */
-    justify-content: center; /* Center horizontally */
-    align-items: center; /* Center vertically */
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
+
 .control-arrow {
     background-color: rgba(0, 0, 0, 0.455) !important;
 }
+
 .slide {
-    display: flex; /* Use flexbox to align items */
-    justify-content: center; /* Center horizontally */
-    align-items: center; /* Center vertically */
-    height: 100%; /* Ensure the slide takes full height */
-    width: 100%; /* Ensure the slide takes full width */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
 }
 
 
 .carousel.slide img {
     border-radius: 20px;
-    width: 100%; /* Make the image take full width */
-    height: auto; /* Maintain the aspect ratio */
-    object-fit: cover; /* Ensure the image covers the area without stretching */
+    width: 100%;
+    height: auto;
+    object-fit: cover;
 }
 
 .carousel .thumbs-wrapper {
@@ -36,5 +38,28 @@ header .carousel-root {
 
 .carousel .slide img {
     border-radius: 20px;
-    
+}
+
+.pricingBtn {
+    background: var(--secondary-blue);
+    cursor: pointer;
+    border: none;
+    border-radius: 0.2rem;
+    padding: 0.5rem;
+    color: var(---primary);
+    font-size: 1.2rem;
+    margin-left: 10px;
+    text-decoration: none;
+}
+
+.intro {
+    margin-top: 4rem;
+}
+
+h2 {
+    margin-top: 1rem;
+}
+
+form {
+    margin-top: 1rem;
 }
