@@ -36,12 +36,18 @@ const TitleSection = () => {
   //   "/public/carousel/13.jpeg",
   // ];
   const images = [
-    "/public/carousel-nobg/1.png",
-    "/public/carousel-nobg/3.png",
-    "/public/carousel-nobg/4.png",
-    "/public/carousel-nobg/5.png",
-    "/public/carousel-nobg/8.png",
-    "/public/carousel-nobg/10.png"
+    "/public/mj/1.png",
+    "/public/mj/2.png",
+    "/public/mj/3.png",
+    "/public/mj/4.png",
+    "/public/mj/5.png",
+    "/public/mj/6.png",
+    "/public/mj/7.png",
+    "/public/mj/8.png",
+    "/public/mj/9.png",
+    "/public/mj/10.png",
+    "/public/mj/11.png",
+    "/public/mj/12.png"
   ];
 
   const getRandomQuote = () => {
