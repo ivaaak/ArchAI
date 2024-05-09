@@ -29,21 +29,21 @@ const GlobalSearchModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
     const modalContentRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
-      const handleClickOutside = (event: MouseEvent) => {
-        if (modalContentRef.current &&!modalContentRef.current.contains(event.target as Node)) {
-          onClose();
+        const handleClickOutside = (event: MouseEvent) => {
+            if (modalContentRef.current && !modalContentRef.current.contains(event.target as Node)) {
+                onClose();
+            }
+        };
+
+        if (isOpen) {
+            document.addEventListener('mousedown', handleClickOutside);
         }
-      };
-  
-      if (isOpen) {
-        document.addEventListener('mousedown', handleClickOutside);
-      }
-  
-      return () => {
-        document.removeEventListener('mousedown', handleClickOutside);
-      };
+
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
     }, [isOpen, onClose]);
-  
+
 
     const handleSelectedPromptsChange = (newSelectedPrompts: string[]) => {
         setSelectedPromptsMenu(newSelectedPrompts);

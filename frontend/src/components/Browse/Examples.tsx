@@ -3,6 +3,7 @@ import combinedImage from '../../../public/sketchTypePreviews/combined.jpeg'
 import singleBuildingImage from '../../../public/sketchTypePreviews/single building 3d sketch.jpeg'
 import sitePlanImage from '../../../public/sketchTypePreviews/site plan.jpeg'
 import sketchAerialImage from '../../../public/sketchTypePreviews/sketch aerial isomorphic view.jpeg'
+import Tabs from '../Tabs'
 import './Browse.css';
 
 interface ImageData {
@@ -35,21 +36,27 @@ const Examples = () => {
     ]
 
     return (
-        <div className="gallery">
-            {imagesData.map((imageData, index) => (
-                <div key={index} className="gallery-item">
-                    <div className="image-container">
-                        <img src={imageData.url} alt={`Generated Image ${index + 1}`} />
-                        <div className="overlay">
-                            <button className="overlay-button">Download</button>
-                            <button className="overlay-button">Edit</button>
-                            <button className="overlay-button">Share</button>
+        <>
+            <Tabs routes={[
+                { route: "/browse", label: "Generated Images" },
+                { route: "/examples", label: "Example Prompts" }
+            ]} />
+            <div className="gallery">
+                {imagesData.map((imageData, index) => (
+                    <div key={index} className="gallery-item">
+                        <div className="image-container">
+                            <img src={imageData.url} alt={`Generated Image ${index + 1}`} />
+                            <div className="overlay">
+                                <button className="overlay-button">Download</button>
+                                <button className="overlay-button">Edit</button>
+                                <button className="overlay-button">Share</button>
+                            </div>
+                            <p className='prompt-detail'>Example of a : {imageData.prompt} Prompt</p>
                         </div>
-                        <p className='prompt-detail'>Example of a : {imageData.prompt} Prompt</p>
                     </div>
-                </div>
-            ))}
-        </div>
+                ))}
+            </div>
+        </>
     );
 };
 

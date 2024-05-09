@@ -1,0 +1,24 @@
+.tabsContainer {
+    list-style-type: none;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.tab {
+    width: 300px;
+    margin: 10px;
+    text-align: center;
+    color: var(--text-primary-reversed);
+    position: relative;
+}
+
+.tab a {
+    color: inherit;
+    text-decoration: none;
+    display: block;
+    padding: 0.5rem;
+    background-color: var(--bg-primary-reverse);
+    border-radius: 6px;
+}

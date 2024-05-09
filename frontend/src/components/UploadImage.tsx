@@ -3,6 +3,7 @@ import PromptsMenu from './GenerateImage/PromptMenu';
 import ImageGenerationParameters from './GenerateImage/ImageGenerationParameters';
 import apiClient from '../utils/axios';
 import '../App.css';
+import Tabs from './Tabs';
 
 const UploadImage = () => {
     const [prompt, setPrompt] = useState('');
@@ -114,58 +115,65 @@ const UploadImage = () => {
     const handleModifySubmit = () => { }
 
     return (
-        <section className="single-feature-container">
-            <div className="single-intro">
-                {uploadedImage &&
-                    <>
-                        <h1> 2. Modify The Sketch: </h1>
-                        <PromptsMenu onSelectedPromptsChange={handleSelectedPromptsChange}></PromptsMenu>
-                        <ImageGenerationParameters onParametersChange={handleParametersChange}></ImageGenerationParameters>
-                        <form onSubmit={handleUploadSubmit}> {/*  handleModifySubmit */}
+        <>
+            <Tabs routes={[
+                { route: "/generate", label: "Generate Image" },
+                { route: "/upload", label: "Upload Image" },
+                { route: "/sketch", label: "Sketch Image" }
+            ]} />
+            <section className="single-feature-container">
+                <div className="single-intro">
+                    {uploadedImage &&
+                        <>
+                            <h1> 2. Modify The Sketch: </h1>
+                            <PromptsMenu onSelectedPromptsChange={handleSelectedPromptsChange}></PromptsMenu>
+                            <ImageGenerationParameters onParametersChange={handleParametersChange}></ImageGenerationParameters>
+                            <form onSubmit={handleUploadSubmit}> {/*  handleModifySubmit */}
+                                <textarea
+                                    placeholder="Prompt The Model"
+                                    value={prompt}
+                                    onChange={(e) => setPrompt(e.target.value)}
+                                    rows={4}
+                                    style={{ width: '100%' }}
+                                />
+                                <input className='submit-prompt-button' type="submit" value="Modify Image" />
+                            </form>
+                            <button className='undo-button' onClick={revertImageUpload}> Undo Image Upload </button>
+                        </>}
+                    {!uploadedImage &&
+                        <>
+                            <h1> 1. Upload A Sketch: </h1>
                             <textarea
-                                placeholder="Prompt The Model"
-                                value={prompt}
-                                onChange={(e) => setPrompt(e.target.value)}
+                                placeholder="Add An Image Description"
+                                value={imageUploadDescription}
+                                onChange={(e) => setImageUploadDescription(e.target.value)}
                                 rows={4}
                                 style={{ width: '100%' }}
                             />
-                            <input className='submit-prompt-button' type="submit" value="Modify Image" />
-                        </form>
-                        <button className='undo-button' onClick={revertImageUpload}> Undo Image Upload </button>
-                    </>}
-                {!uploadedImage &&
-                    <>
-                        <h1> 1. Upload A Sketch: </h1>
-                        <textarea
-                            placeholder="Add An Image Description"
-                            value={imageUploadDescription}
-                            onChange={(e) => setImageUploadDescription(e.target.value)}
-                            rows={4}
-                            style={{ width: '100%' }}
-                        />
-                        <form onSubmit={handleUploadSubmit}>
-                            <input type="file" accept="image/*" id="customFileInput"
-                                onChange={handleFileChange} style={{ width: '100%', height: '75px' }} />
-                        </form>
-                    </>}
-            </div>
-            <div className="single-feature"
-                onDragOver={handleDragOver}
-                onDragLeave={handleDragLeave}
-                onDrop={handleDrop}
-                style={{ border: '6px dashed #ccc', padding: '20px', textAlign: 'center' }}>
-                {!uploadedImage && (
-                    <>
-                        <img src="https://stories.freepiklabs.com/storage/1864/Meeting-01.svg" />
-                        <h1>Drag and drop your image here</h1>
-                    </>
-                )}
-                {uploadedImage &&
-                    <img src={uploadedImage} alt="Uploaded Image Preview" />}
-                {prompt &&
-                    <p className="single-feature-note">Prompt Used: {prompt}</p>}
-            </div>
-        </section>
+                            <form onSubmit={handleUploadSubmit}>
+                                <input type="file" accept="image/*" id="customFileInput"
+                                    onChange={handleFileChange} style={{ width: '100%', height: '75px' }} />
+                            </form>
+                        </>}
+                </div>
+                <div className="single-feature"
+                    onDragOver={handleDragOver}
+                    onDragLeave={handleDragLeave}
+                    onDrop={handleDrop}
+                    style={{ border: '6px dashed #ccc', padding: '20px', textAlign: 'center' }}>
+                    {!uploadedImage && (
+                        <>
+                            <img src="https://stories.freepiklabs.com/storage/1864/Meeting-01.svg" />
+                            <h1>Drag and drop your image here</h1>
+                        </>
+                    )}
+                    {uploadedImage &&
+                        <img src={uploadedImage} alt="Uploaded Image Preview" />}
+                    {prompt &&
+                        <p className="single-feature-note">Prompt Used: {prompt}</p>}
+                </div>
+            </section>
+        </>
     );
 };
 

@@ -3,6 +3,7 @@ import apiClient from '../../utils/axios';
 import PromptsMenu from './PromptMenu';
 import ImageGenerationParameters from './ImageGenerationParameters';
 import ImageOptions from './ImageOptions';
+import Tabs from '../Tabs';
 import '../../App.css';
 
 const GenerateImage = () => {
@@ -25,7 +26,7 @@ const GenerateImage = () => {
         setSelectedPromptsMenu(newSelectedPrompts);
     };
 
-    const handleImagesCountOptionChange = () => {};
+    const handleImagesCountOptionChange = () => { };
 
 
     const handleParametersChange = (newParameters: SetStateAction<{
@@ -102,42 +103,49 @@ const GenerateImage = () => {
 
 
     return (
-        <section className="single-feature-container">
-            <div className="single-intro">
-                <h1>Generate A Sketch: </h1>
-                <PromptsMenu onSelectedPromptsChange={handleSelectedPromptsChange}></PromptsMenu>
-                <ImageOptions onImageOptionsChange={handleImagesCountOptionChange}></ImageOptions>
-                <ImageGenerationParameters onParametersChange={handleParametersChange}></ImageGenerationParameters>
-                <form onSubmit={handleSubmit}>
-                    <textarea
-                        placeholder="Describe specifics or details to the model"
-                        value={textPrompt}
-                        onChange={(e) => setTextPrompt(e.target.value)}
-                        rows={4}
-                        style={{ width: '100%' }}
-                    />
-                    <input className='submit-prompt-button' type="submit" value="PROMPT" />
-                </form>
-            </div>
-            <div className="single-feature">
-                {isLoading &&
-                    <>
-                        <div className="loader"></div>
-                        <p> Loading... </p>
-                    </>
-                }
-                {!generatedImage && !isLoading &&
-                    <img src="https://stories.freepiklabs.com/storage/1864/Meeting-01.svg" />}
-                {generatedImage && !isLoading &&
-                    <img src={generatedImage} />}
-                {textPrompt && !isLoading &&
-                <>
-                    <p className="single-feature-note"> Prompt Used: {textPrompt}</p>
-                    <p className="single-feature-note"> Options Used: {selectedPromptsMenu}</p>
-                    <p className="single-feature-note"> Parameters Used: {combinePromptParameters()}</p>
-                </>}
-            </div>
-        </section>
+        <>
+            <Tabs routes={[
+                { route: "/generate", label: "Generate Image" },
+                { route: "/upload", label: "Upload Image" },
+                { route: "/sketch", label: "Sketch Image" }
+            ]} />
+            <section className="single-feature-container">
+                <div className="single-intro">
+                    <h1>Generate A Sketch: </h1>
+                    <PromptsMenu onSelectedPromptsChange={handleSelectedPromptsChange}></PromptsMenu>
+                    <ImageOptions onImageOptionsChange={handleImagesCountOptionChange}></ImageOptions>
+                    <ImageGenerationParameters onParametersChange={handleParametersChange}></ImageGenerationParameters>
+                    <form onSubmit={handleSubmit}>
+                        <textarea
+                            placeholder="Describe specifics or details to the model"
+                            value={textPrompt}
+                            onChange={(e) => setTextPrompt(e.target.value)}
+                            rows={4}
+                            style={{ width: '100%' }}
+                        />
+                        <input className='submit-prompt-button' type="submit" value="PROMPT" />
+                    </form>
+                </div>
+                <div className="single-feature">
+                    {isLoading &&
+                        <>
+                            <div className="loader"></div>
+                            <p> Loading... </p>
+                        </>
+                    }
+                    {!generatedImage && !isLoading &&
+                        <img src="https://stories.freepiklabs.com/storage/1864/Meeting-01.svg" />}
+                    {generatedImage && !isLoading &&
+                        <img src={generatedImage} />}
+                    {textPrompt && !isLoading &&
+                        <>
+                            <p className="single-feature-note"> Prompt Used: {textPrompt}</p>
+                            <p className="single-feature-note"> Options Used: {selectedPromptsMenu}</p>
+                            <p className="single-feature-note"> Parameters Used: {combinePromptParameters()}</p>
+                        </>}
+                </div>
+            </section>
+        </>
     );
 };
 

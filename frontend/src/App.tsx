@@ -50,16 +50,7 @@ function App() {
                         <Link to="/browse">Collections</Link>
                      </li>
                      <li>
-                        <Link to="/examples">Prompts</Link>
-                     </li>
-                     <li>
                         <Link to="/generate">Generate</Link>
-                     </li>
-                     <li>
-                        <Link to="/upload">Upload</Link>
-                     </li>
-                     <li>
-                        <Link to="/sketch">Sketch</Link>
                      </li>
                      {isAuthenticated ? (<>
                         <li style={{ textAlign: 'center' }}>

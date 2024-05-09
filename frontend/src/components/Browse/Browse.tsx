@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import apiClient from '../../utils/axios';
+import Tabs from '../Tabs';
 import './Browse.css';
 
 interface ImageData {
@@ -34,21 +35,27 @@ const Browse = () => {
     };
 
     return (
-        <div className="gallery">
-            {imagesData.map((image, index) => (
-                <div key={index} className="gallery-item">
-                    <div className="image-container">
-                        <img src={`http://localhost:3000/${image.imageData}`} alt={`Generated Image ${index + 1}`} />
-                        <div className="overlay">
-                            <button onClick={() => downloadImage(image.imageData, index)} className="overlay-button">Download</button>
-                            <button className="overlay-button" onClick={() => navigate(`/details/${image.imageData}`)}>View Details</button>
-                            <button className="overlay-button">Share</button>
-                            <button onClick={() => openInNewTab(image.imageData)} className="overlay-button">Open in New Tab</button>
+        <>
+            <Tabs routes={[
+                { route: "/browse", label: "Generated Images" },
+                { route: "/examples", label: "Example Prompts" }
+            ]} />
+            <div className="gallery">
+                {imagesData.map((image, index) => (
+                    <div key={index} className="gallery-item">
+                        <div className="image-container">
+                            <img src={`http://localhost:3000/${image.imageData}`} alt={`Generated Image ${index + 1}`} />
+                            <div className="overlay">
+                                <button onClick={() => downloadImage(image.imageData, index)} className="overlay-button">Download</button>
+                                <button className="overlay-button" onClick={() => navigate(`/details/${image.imageData}`)}>View Details</button>
+                                <button className="overlay-button">Share</button>
+                                <button onClick={() => openInNewTab(image.imageData)} className="overlay-button">Open in New Tab</button>
+                            </div>
                         </div>
                     </div>
-                </div>
-            ))}
-        </div>
+                ))}
+            </div>
+        </>
     );
 
 };

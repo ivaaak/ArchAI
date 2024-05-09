@@ -123,8 +123,10 @@ nav ul li {
 }
 
 .globalSearchBtn {
-  margin-right: 6rem;
-  width: 350px;
+  border-radius: 5px;
+  position: absolute;
+  width: 24%;
+  left: 38%;
 }
 
 nav ul li a {
@@ -192,7 +194,7 @@ input[type="file"] {
 }
 
 header {
-  height: 50vh;
+  height: 54vh;
   display: flex;
   align-items: center;
   justify-content: space-evenly;
@@ -201,7 +203,7 @@ header {
 
 h1 {
   font-size: 2.5rem;
-  font-weight: 500;
+  font-weight: 600;
   color:  var(--text-primary);
 }
 

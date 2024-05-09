@@ -5,7 +5,7 @@
     justify-content: center;
     gap: 10px;
     overflow-y: scroll;
-    height: 88vh; /* Adjust this value as needed */
+    height: 88vh;
 }
 
 .gallery-item {
@@ -71,6 +71,7 @@
     opacity: 1;
     border-radius: 20px;
 }
+
 .gallery-item-homepage:hover .overlay {
     opacity: 1;
     border-radius: 20px;
