@@ -1,0 +1,37 @@
+.unauthorized-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    text-align: center;
+}
+
+.unauthorized-page h1 {
+    font-size: 10em;
+    margin-bottom: 0.2em;
+}
+
+.unauthorized-page h2 {
+    font-size: 2em;
+    margin-bottom: 1em;
+}
+
+.unauthorized-page h3 {
+    font-size: 1.5em;
+    margin-bottom: 0.5em;
+}
+
+.unauthorized-page button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 0.5em 1em;
+    cursor: pointer;
+    font-size: 1em;
+    margin-top: 1em;
+}
+
+.unauthorized-page button:hover {
+    background-color: #0056b3;
+}

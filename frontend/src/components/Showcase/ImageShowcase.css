@@ -30,6 +30,7 @@
 .overlay h3,
 .overlay p {
     margin: 0;
+    color: var(--text-primary-reversed);
 }
 
 .panel {

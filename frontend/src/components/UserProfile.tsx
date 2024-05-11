@@ -1,5 +1,6 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import { SetStateAction, useState } from "react";
+import Pricing from "./Pricing/Pricing";
 import './UserProfile.css';
 
 const Profile = () => {
@@ -78,6 +79,9 @@ const Profile = () => {
               <li>
                 <button onClick={() => handleTabChange('prompts')}>Prompt Collection</button>
               </li>
+              <li>
+                <button onClick={() => handleTabChange('plans')}>Pricing Plans</button>
+              </li>
             </ul>
           </nav>
           <div className="content">
@@ -129,6 +133,12 @@ const Profile = () => {
                     <li key={index} className="list-item">{prompt}</li>
                   ))}
                 </ul>
+              </div>
+            )}
+            {tab === 'plans' && (
+              <div className="container">
+                <h3 className="title">Pricing Plans</h3>
+                <Pricing></Pricing>
               </div>)}
           </div>
         </div>

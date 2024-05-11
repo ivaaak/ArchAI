@@ -1,21 +1,22 @@
 import { Link } from 'react-router-dom';
 import { useAuth0 } from '@auth0/auth0-react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'; // Updated import
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faMoon, faSearch, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
+import { ThemeContext } from './components/ThemeContext';
+import { useContext, useState } from 'react';
+import UserProfile from './components/UserProfile';
+import ImageShowcase from './components/Showcase/ImageShowcase';
+import Pricing from './components/Pricing/Pricing';
+import GlobalSearchModal from './components/GlobalSearchModal';
 import Browse from './components/Browse/Browse';
 import Examples from './components/Browse/Examples';
 import Features from './components/Features';
 import GenerateImage from './components/GenerateImage/GenerateImage';
 import SketchImage from './components/SketchImage';
 import UploadImage from './components/UploadImage';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faMoon, faSearch, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
-import UserProfile from './components/UserProfile';
-import ImageShowcase from './components/Showcase/ImageShowcase';
-import { ThemeContext } from './components/ThemeContext';
-import { useContext, useState } from 'react';
-import Pricing from './components/Pricing/Pricing';
+import UnauthorizedPage from './components/UnauthorizedPage';
 import './App.css';
-import GlobalSearchModal from './components/GlobalSearchModal';
 
 function App() {
    const { isAuthenticated, user, loginWithRedirect } = useAuth0();
@@ -42,7 +43,7 @@ function App() {
                   <ul>
                      <button className='globalSearchBtn' onClick={openModal}>
                         <FontAwesomeIcon icon={faSearch} />
-                         Imagine...
+                        Imagine...
                      </button>
                      <GlobalSearchModal isOpen={globalSearchModalOpen} onClose={closeModal}>
                      </GlobalSearchModal>
@@ -55,7 +56,7 @@ function App() {
                      {isAuthenticated ? (<>
                         <li style={{ textAlign: 'center' }}>
                            <Link to="/profile">
-                              <p>{user?.name?.split('@')[0]}</p>
+                              {user?.name?.split('@')[0]}
                            </Link>
                         </li>
                         <button onClick={() => loginWithRedirect()}>
@@ -76,12 +77,13 @@ function App() {
                   <Route path="/" element={<Features />} />
                   <Route path="/browse" element={<Browse />} />
                   <Route path="/examples" element={<Examples />} />
-                  <Route path="/generate" element={<GenerateImage />} />
-                  <Route path="/upload" element={<UploadImage />} />
-                  <Route path="/sketch" element={<SketchImage />} />
                   <Route path="/profile" element={<UserProfile />} />
                   <Route path="/pricing" element={<Pricing />} />
                   <Route path="/details/src/uploads/:id" element={<ImageShowcase />} />
+                  <Route path="/generate" element={isAuthenticated ? <GenerateImage /> : <UnauthorizedPage />} />
+                  <Route path="/upload" element={isAuthenticated ? <UploadImage /> : <UnauthorizedPage />} />
+                  <Route path="/sketch" element={isAuthenticated ? <SketchImage /> : <UnauthorizedPage />} />
+                  <Route path="*" element={<UnauthorizedPage />} /> {/* Catch-all route for unauthorized access */}
                </Routes>
             </main>
          </Router>

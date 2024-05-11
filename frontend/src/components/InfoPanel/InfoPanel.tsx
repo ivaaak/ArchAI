@@ -11,7 +11,7 @@ const InfoPanel = () => {
         <div className="inputSection">
           <h2>Input</h2>
           <img className="imageSection" src="../../public/assetImages/parameters.webp" alt="Input" />
-          <p className="textCenter my-5 text-4xl">1.-Introduction of Design Criteria and Details</p>
+          <h3 className="textCenter my-5 text-4xl">1. Design Criteria and Details</h3>
           <p className="font-light text-arch-grey">
             The user inputs the design criteria that the sketch must meet and defines and models the solution online in an easy and intuitive way.
           </p>
@@ -19,7 +19,7 @@ const InfoPanel = () => {
         <div className="processingSection">
           <h2>Processing</h2>
           <img className="imageSection" src="../../public/assetImages/AI-Flow.webp" alt="Processing" />
-          <p className="textCenter my-5 text-4xl">2.-AI Optimized Design Development</p>
+          <h3 className="textCenter my-5 text-4xl">2.-AI Optimized Design Development</h3>
           <p className="font-light text-arch-grey">
             The cloud-based AI system generates the drawing and geometry that best fits the parameters entered for each user iteration.
           </p>
@@ -27,7 +27,7 @@ const InfoPanel = () => {
         <div className="outputSection">
           <h2>Output</h2>
           <img className="imageSection" src="../../public/assetImages/bim-block.webp" alt="Output" />
-          <p className="textCenter my-5 text-4xl">3.-Generation of the sketch and Project Data</p>
+          <h3 className="textCenter my-5 text-4xl">3.-Generation of the sketch and Project Data</h3>
           <p className="font-light text-arch-grey">
             The platform shows the resulting sketch and all its metrics to be later downloaded and iterate on.
           </p>
