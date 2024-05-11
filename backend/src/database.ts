@@ -3,11 +3,13 @@ import { employeeJsonSchema } from "./dbSchemaValidations/employeeSchema";
 import { Employee } from "./models/employee";
 import { Image } from "./models/image";
 import { Lead } from "./models/lead";
+import Project from "./models/project";
 
 export const collections: {
     employees?: mongodb.Collection<Employee>;
+    projects?: mongodb.Collection<Project>;
     images?: mongodb.Collection<Image>;
-    leads?: mongodb.Collection<Image>;
+    leads?: mongodb.Collection<Lead>;
 } = {};
 
 export async function connectToDatabase(uri: string) {
@@ -19,6 +21,9 @@ export async function connectToDatabase(uri: string) {
 
     const employeesCollection = db.collection<Employee>("employees");
     collections.employees = employeesCollection;
+
+    const projectsCollection = db.collection<Project>("projects");
+    collections.projects = projectsCollection;
 
     const imagesCollection = db.collection<Image>("images");
     collections.images = imagesCollection;

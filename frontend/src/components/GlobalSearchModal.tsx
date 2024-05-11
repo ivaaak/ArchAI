@@ -5,6 +5,8 @@ import PromptsMenu from './GenerateImage/PromptMenu';
 import ImageGenerationParameters from './GenerateImage/ImageGenerationParameters';
 import ImageOptions from './GenerateImage/ImageOptions';
 import apiClient from '../utils/axios';
+import { useAuth0 } from '@auth0/auth0-react';
+import UnauthorizedPage from './UnauthorizedPage';
 
 interface ModalProps {
     isOpen: boolean;
@@ -12,6 +14,7 @@ interface ModalProps {
 }
 
 const GlobalSearchModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
+    const { isAuthenticated } = useAuth0();
     const [textPrompt, setTextPrompt] = useState('');
     const [combinedPrompt, setCombinedPrompt] = useState('');
     const [generatedImage, setGeneratedImage] = useState('');
@@ -119,26 +122,31 @@ const GlobalSearchModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
     return (
         <div className="modal-backdrop">
             <div className="modal-content" ref={modalContentRef}>
-                <div className="modal-third">
-                    <h1>Generate A Sketch: </h1>
-                    <PromptsMenu onSelectedPromptsChange={handleSelectedPromptsChange}></PromptsMenu>
-                </div>
-                <div className="modal-third">
-                    <ImageOptions onImageOptionsChange={handleImagesCountOptionChange}></ImageOptions>
-                    <ImageGenerationParameters onParametersChange={handleParametersChange}></ImageGenerationParameters>
-                </div>
-                <div className="modal-third">
-                    <form onSubmit={handleSubmit}>
-                        <textarea
-                            placeholder="Describe specifics or details to the model"
-                            value={textPrompt}
-                            onChange={(e) => setTextPrompt(e.target.value)}
-                            rows={4}
-                            style={{ width: '100%' }}
-                        />
-                        <input className='submit-prompt-button' type="submit" value="PROMPT" />
-                    </form>
-                </div>
+                {!isAuthenticated
+                    ? <UnauthorizedPage></UnauthorizedPage>
+                    : <>
+                        <div className="modal-third">
+                            <h1>Generate A Sketch: </h1>
+                            <PromptsMenu onSelectedPromptsChange={handleSelectedPromptsChange}></PromptsMenu>
+                        </div>
+                        <div className="modal-third">
+                            <ImageOptions onImageOptionsChange={handleImagesCountOptionChange}></ImageOptions>
+                            <ImageGenerationParameters onParametersChange={handleParametersChange}></ImageGenerationParameters>
+                        </div>
+                        <div className="modal-third">
+                            <form onSubmit={handleSubmit}>
+                                <textarea
+                                    placeholder="Describe specifics or details to the model"
+                                    value={textPrompt}
+                                    onChange={(e) => setTextPrompt(e.target.value)}
+                                    rows={4}
+                                    style={{ width: '100%' }}
+                                />
+                                <input className='submit-prompt-button' type="submit" value="PROMPT" />
+                            </form>
+                        </div>
+                    </>
+                }
             </div>
         </div>
     );
