@@ -20,10 +20,10 @@ const uploadToStorage = multer({ storage: storage });
 // Use multer.memoryStorage to store files in memory as Buffer objects
 const uploadToDB = multer({ storage: multer.memoryStorage() });
 
-const imageService = express.Router();
+const imageController = express.Router();
 
 // Add getById endpoint
-imageService.get('/:id', async (req: Request, res: Response) => {
+imageController.get('/:id', async (req: Request, res: Response) => {
     console.log("Get image by ID endpoint called");
     const id = req.params.id;
 
@@ -42,7 +42,7 @@ imageService.get('/:id', async (req: Request, res: Response) => {
 });
 
 // Add getAll endpoint
-imageService.get('/', async (req: Request, res: Response) => {
+imageController.get('/', async (req: Request, res: Response) => {
     console.log("Get all images endpoint called");
 
     try {
@@ -60,7 +60,7 @@ imageService.get('/', async (req: Request, res: Response) => {
 });
 
 // Upload base64 to DB
-imageService.post('/uploadToDB', uploadToDB.single('image'), async (req, res) => {
+imageController.post('/uploadToDB', uploadToDB.single('image'), async (req, res) => {
     console.log("Image upload endpoint called");
     if (!req.file) {
         return res.status(400).json({ message: "No file uploaded" });
@@ -68,13 +68,13 @@ imageService.post('/uploadToDB', uploadToDB.single('image'), async (req, res) =>
 
     try {
         const imageData: Image = {
-            employeeId: new ObjectId(req.body?.employeeId),
+            userId: new ObjectId(req.body?.userId),
             name: req.file.originalname,
             //imageData: req.file.buffer 
             // Save the file data (Buffer) directly - very slow
         };
-        if (!req.body.employeeId) {
-            imageData.employeeId = new ObjectId();
+        if (!req.body.userId) {
+            imageData.userId = new ObjectId();
         }
 
         const result = await collections.images?.insertOne(imageData);
@@ -91,7 +91,7 @@ imageService.post('/uploadToDB', uploadToDB.single('image'), async (req, res) =>
 });
 
 // Upload file to server /src/uploads
-imageService.post('/', uploadToStorage.single('image'), async (req, res) => {
+imageController.post('/', uploadToStorage.single('image'), async (req, res) => {
     console.log("Image upload endpoint called");
     if (!req.file) {
         return res.status(400).json({ message: "No file uploaded" });
@@ -99,11 +99,11 @@ imageService.post('/', uploadToStorage.single('image'), async (req, res) => {
 
     try {
         const imageData: Image = {
-            employeeId: new ObjectId(req.body?.employeeId),
+            userId: new ObjectId(req.body?.userId),
             name: req.file.originalname,
             imageData: req.file.path
         };
-        if (!req.body.employeeId) { imageData.employeeId = new ObjectId(); }
+        if (!req.body.userId) { imageData.userId = new ObjectId(); }
         const result = await collections.images?.insertOne(imageData);
         if (result) {
             res.status(201).json({ message: "Image uploaded successfully", imageId: result.insertedId });
@@ -117,4 +117,4 @@ imageService.post('/', uploadToStorage.single('image'), async (req, res) => {
 });
 
 // Export the router
-export default imageService;
+export default imageController;

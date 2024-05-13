@@ -1,17 +1,19 @@
 import express from 'express';
-import employeeService from './services/employeeService';
-import stableDiffusionController from './services/stableDiffusionController';
-import imageService from './services/imageService';
-import leadService from './services/leadService';
+import userController from './controllers/userController';
+import imageController from './controllers/imageController';
+import leadController from './controllers/leadController';
+import checkoutController from './controllers/stripe/checkoutController';
+import stableDiffusionController from './controllers/stableDiffusionController';
 
 const router = express.Router();
 
-// Register your services
-router.use('/employees', employeeService);
-router.use('/image', imageService);
-router.use('/stableDiffusion', stableDiffusionController);
-router.use('/lead', leadService);
+// Register your controllers
+router.use('/users', userController);
+router.use('/image', imageController);
+router.use('/lead', leadController);
 
+router.use('/stableDiffusion', stableDiffusionController);
+router.use('/checkout', checkoutController);
 
 
 export default router;

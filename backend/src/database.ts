@@ -1,12 +1,12 @@
 import * as mongodb from "mongodb";
-import { employeeJsonSchema } from "./dbSchemaValidations/employeeSchema";
-import { Employee } from "./models/employee";
+import { userJsonSchema } from "./dbSchemaValidations/userSchema";
+import { User } from "./models/user";
 import { Image } from "./models/image";
 import { Lead } from "./models/lead";
 import Project from "./models/project";
 
 export const collections: {
-    employees?: mongodb.Collection<Employee>;
+    users?: mongodb.Collection<User>;
     projects?: mongodb.Collection<Project>;
     images?: mongodb.Collection<Image>;
     leads?: mongodb.Collection<Lead>;
@@ -19,8 +19,8 @@ export async function connectToDatabase(uri: string) {
     const db = client.db("archai");
     await applySchemaValidation(db);
 
-    const employeesCollection = db.collection<Employee>("employees");
-    collections.employees = employeesCollection;
+    const usersCollection = db.collection<User>("users");
+    collections.users = usersCollection;
 
     const projectsCollection = db.collection<Project>("projects");
     collections.projects = projectsCollection;
@@ -35,11 +35,11 @@ export async function connectToDatabase(uri: string) {
 
 async function applySchemaValidation(db: mongodb.Db) {
     await db.command({
-        collMod: "employees",
-        validator: employeeJsonSchema
+        collMod: "users",
+        validator: userJsonSchema
     }).catch(async (error: mongodb.MongoServerError) => {
         if (error.codeName === "NamespaceNotFound") {
-            await db.createCollection("employees", { validator: employeeJsonSchema });
+            await db.createCollection("users", { validator: userJsonSchema });
         }
     });
 }

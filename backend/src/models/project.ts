@@ -13,7 +13,7 @@ interface Prompt {
 interface Project {
   _id: ObjectId;
   auth0UserId: string; // Assuming this is the Auth0 user ID
-  employeeId: string; // Assuming this is the ID of the associated employee
+  usereId: string;
   title: string;
   description: string;
   images: Image[];

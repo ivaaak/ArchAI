@@ -35,7 +35,7 @@ const UploadImage = () => {
 
             const formData = new FormData();
             formData.append('image', blob, 'uploadedImage.jpg');
-            //formData.append('employeeId', '');
+            //formData.append('userId', '');
 
             // Send the FormData to the backend using Axios
             const result = await apiClient.post('/image/', formData, {

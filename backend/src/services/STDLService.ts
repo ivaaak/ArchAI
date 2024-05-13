@@ -9,8 +9,6 @@ export async function generateImage(prompt: string, negative_prompt: string, ima
     auth: process.env.REPLICATE_API_TOKEN,
     userAgent: 'https://www.npmjs.com/package/create-replicate'
  });
-//REPLICATE_API_TOKEN=r8_N1CwfSyine0YpdaWqT2DSEoNSVOPDgK3a23mS
-//ATLAS_URI="mongodb+srv://ivaaakpavlov:9wL4okXzveD5Fic4@scagiledesk.1li1lmp.mongodb.net/?retryWrites=true&w=majority&appName=scagileDesk"
 
  const model = 'stability-ai/sdxl:39ed52f2a78e934b3ba6e2a89f5b1c712de7dfea535525255b1aa35c5565e08b';
  const input = {

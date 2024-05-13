@@ -3,10 +3,10 @@ import { collections } from '../database'; // Assuming you have a database modul
 import { ObjectId } from 'mongodb';
 import Project from '../models/project';
 
-const projectService = express.Router();
+const projectController = express.Router();
 
 // GET /api/projects/
-projectService.get('/', async (req, res) => {
+projectController.get('/', async (req, res) => {
     console.log("projectService / GET /api/projects/ called");
     try {
         const projects = await collections.projects?.find().toArray();
@@ -21,7 +21,7 @@ projectService.get('/', async (req, res) => {
 });
 
 // POST /api/projects/
-projectService.post('/', async (req, res) => {
+projectController.post('/', async (req, res) => {
     console.log("projectService / POST /api/projects/ called");
     const newProject: Project = req.body;
     try {
@@ -38,7 +38,7 @@ projectService.post('/', async (req, res) => {
 });
 
 // PUT /api/projects/:id
-projectService.put('/:id', async (req, res) => {
+projectController.put('/:id', async (req, res) => {
     console.log("projectService / PUT /api/projects/:id called");
     try {
         const updatedProject = req.body;
@@ -56,7 +56,7 @@ projectService.put('/:id', async (req, res) => {
 });
 
 // DELETE /api/projects/:id
-projectService.delete('/:id', async (req, res) => {
+projectController.delete('/:id', async (req, res) => {
     console.log("projectService / DELETE /api/projects/:id called");
     try {
         const id = new ObjectId(req.params.id);
@@ -72,4 +72,4 @@ projectService.delete('/:id', async (req, res) => {
 });
 
 // Export the router
-export default projectService;
+export default projectController;

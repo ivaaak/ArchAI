@@ -2,11 +2,11 @@ import express from 'express';
 import { collections } from '../database';
 import { Lead } from '../models/lead';
 
-const leadService = express.Router();
+const leadController = express.Router();
 
 // Store the leads that are generated from the landing page.
 // Duplicate emails just return 200 OK
-leadService.post('/', async (req, res) => {
+leadController.post('/', async (req, res) => {
 
   const body = req.body;
 
@@ -40,4 +40,4 @@ leadService.post('/', async (req, res) => {
   }
 });
 
-export default leadService;
+export default leadController;

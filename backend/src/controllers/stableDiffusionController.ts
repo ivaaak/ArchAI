@@ -1,6 +1,6 @@
 import express from 'express';
-import { generateImage } from './STDLService';
-import { regenerateImageFromUrl } from './controlNetService';
+import { generateImage } from '../services/STDLService';
+import { regenerateImageFromUrl } from '../services/controlNetService';
 const stableDiffusionController = express.Router();
 
 // POST /api/stableDiffusion/
