@@ -5,4 +5,6 @@ export interface Image {
     userId?: mongodb.ObjectId;
     name?: string;
     imageData?: string;
+    imageUrl?: string;
+    createdAt?: Date;
 }
