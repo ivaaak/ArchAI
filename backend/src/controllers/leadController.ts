@@ -7,7 +7,6 @@ const leadController = express.Router();
 // Store the leads that are generated from the landing page.
 // Duplicate emails just return 200 OK
 leadController.post('/', async (req, res) => {
-
   const body = req.body;
 
   if (!body.email) {
@@ -27,9 +26,9 @@ leadController.post('/', async (req, res) => {
       if (result) {
         res.status(201).json({ message: "Lead created successfully", id: result.insertedId });
         // Send a welcome email /mailgun
-    } else {
+      } else {
         res.status(500).json({ message: "Error creating lead" });
-    }
+      }
     }
 
     res.json({});
