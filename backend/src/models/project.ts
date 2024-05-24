@@ -1,9 +1,5 @@
 import { ObjectId } from 'mongodb';
-
-interface Image {
-  url: string;
-  description?: string;
-}
+import { Image } from './image'
 
 interface Prompt {
   text: string;
