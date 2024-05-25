@@ -1,5 +1,5 @@
 import express from 'express';
-import { generateImage } from '../services/STDLService';
+import { generateImage, imageToImage } from '../services/STDLService';
 import { regenerateImageFromUrl } from '../services/controlNetService';
 const stableDiffusionController = express.Router();
 
@@ -18,6 +18,23 @@ stableDiffusionController.post('/', async (req, res) => {
     }
 });
 
+
+// POST /api/stableDiffusion/imageToImage/
+stableDiffusionController.post('/imageToImage', async (req, res) => {
+    const { inputImageUrl, prompt, outputImageCount = 1 } = req.body;
+
+    console.log("Received request:", { inputImageUrl, prompt, outputImageCount });
+
+    try {
+        const result = await imageToImage(inputImageUrl, prompt, outputImageCount);
+        res.status(200).json(result); // Send the result back to the client
+    } catch (error) {
+        console.error("Error processing image generation request:", error);
+        res.status(500).send('Error generating image');
+    }
+});
+
+
 // POST /api/stableDiffusion/controlNet/
 stableDiffusionController.post('/controlNet', async (req, res) => {
     const input = { image: req.body.image, prompt: req.body.prompt };
@@ -33,9 +50,6 @@ stableDiffusionController.post('/controlNet', async (req, res) => {
     }
 });
 
-//export async function regenerateImageFromUrl(input: {image: string, prompt: string}) {
-
-//TODO get from DB
 
 // Export the router
 export default stableDiffusionController;
