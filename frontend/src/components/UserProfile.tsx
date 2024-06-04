@@ -61,7 +61,7 @@ const Profile = () => {
         <div className="container">
           {isAuthenticated && (
             <div>
-              <h2>Welcome, {user?.name}!</h2>
+              <h2>Welcome, {user?.name?.split('@')[0]}</h2>
               <p>{user?.email}</p>
             </div>
           )}

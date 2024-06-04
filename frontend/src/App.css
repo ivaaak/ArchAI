@@ -65,7 +65,7 @@
 
 main {
   position: relative;
-  background-image: url('../public/assetImages/bg4.png') !important;
+  background-image: url('../assetImages/bg4.png') !important;
 }
 
 body {

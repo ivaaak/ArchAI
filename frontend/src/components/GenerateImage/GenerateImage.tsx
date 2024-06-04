@@ -105,9 +105,10 @@ const GenerateImage = () => {
     return (
         <>
             <Tabs routes={[
-                { route: "/generate", label: "Generate Image" },
-                { route: "/upload", label: "Upload Image" },
-                { route: "/sketch", label: "Sketch Image" }
+                { route: "/generate", label: "Text to Image" },
+                { route: "/upload", label: "Image to Image" },
+                { route: "/sketch", label: "Sketch to Image" },
+                { route: "/inpaint", label: "Image In-Painting" },
             ]} />
             <section className="single-feature-container">
                 <div className="single-intro">

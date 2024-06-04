@@ -38,18 +38,18 @@ const TitleSection = () => {
   //   "/public/carousel/13.jpeg",
   // ];
   const images = [
-    "/public/mj/1.png",
-    "/public/mj/2.png",
-    "/public/mj/3.png",
-    "/public/mj/4.png",
-    "/public/mj/5.png",
-    "/public/mj/6.png",
-    "/public/mj/7.png",
-    "/public/mj/8.png",
-    "/public/mj/9.png",
-    "/public/mj/10.png",
-    "/public/mj/11.png",
-    "/public/mj/12.png"
+    "/mj/1.png",
+    "/mj/2.png",
+    "/mj/3.png",
+    "/mj/4.png",
+    "/mj/5.png",
+    "/mj/6.png",
+    "/mj/7.png",
+    "/mj/8.png",
+    "/mj/9.png",
+    "/mj/10.png",
+    "/mj/11.png",
+    "/mj/12.png"
   ];
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -81,7 +81,7 @@ const TitleSection = () => {
       <div className="intro">
         <h1>Generate Sketches Using AI </h1>
         <h1 style={{ opacity: '0.7' }}>{currentQuote}</h1>
-        {isAuthenticated && <h3 style={{ opacity: '0.7' }}>Welcome, {user?.name}</h3>}
+        {isAuthenticated && <h3 style={{ opacity: '0.7' }}>Welcome, {user?.name?.split('@')[0]}</h3>}
         <h2 style={{ opacity: '0.7' }}>Powered By StableDiffusion and ControlNet AI Models</h2>
         <form onSubmit={handleSubmit}>
           <input

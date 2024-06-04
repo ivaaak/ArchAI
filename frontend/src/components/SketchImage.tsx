@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState } from 'react';
 import { ReactSketchCanvas } from 'react-sketch-canvas';
 import PromptsMenu from '../components/GenerateImage/PromptMenu';
 import sketchBg from '../../public/assetImages/sketchBackground.jpg'
@@ -46,9 +46,11 @@ const SketchImage = () => {
     return (
         <>
             <Tabs routes={[
-                { route: "/generate", label: "Generate Image" },
-                { route: "/upload", label: "Upload Image" },
-                { route: "/sketch", label: "Sketch Image" }
+                { route: "/generate", label: "Text to Image" },
+                { route: "/upload", label: "Image to Image" },
+                { route: "/sketch", label: "Sketch to Image" },
+                { route: "/inpaint", label: "Image In-Painting" },
+                //{ route: "/sketch", label: "Sketch Image" }
             ]} />
             <section className="single-feature-container">
                 <div className="single-intro">
