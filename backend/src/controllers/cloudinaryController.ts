@@ -1,23 +1,52 @@
 import express from "express";
-import multer from "multer";
 import axios from 'axios';
 import { ObjectId } from 'mongodb';
+const cloudinary = require('../services/cloudinaryConfig');
 
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, './uploads');
-  },
-  filename: function (req, file, cb) {
-    cb(null, Date.now() + '-' + file.originalname);
+const multer = require('multer');
+const upload = multer({ dest: 'uploads/' });
+
+interface MulterFile {
+  originalname?: string;
+  encoding?: string;
+  mimetype?: string;
+  size?: number;
+  destination?: string;
+  filename?: string;
+  path?: string;
+  buffer?: Buffer;
+}
+
+// Define the upload function
+async function handleUpload(file: MulterFile) {
+  if (!file.buffer) {
+    throw new Error('Buffer is undefined');
   }
-});
-const upload = multer({ storage: storage });
 
+  const res = await cloudinary.uploader.upload(file.buffer.toString('base64'), {
+    resource_type: "auto",
+  });
+  return res;
+}
 
 const cloudinaryController = express.Router();
 cloudinaryController.use('/uploads', express.static('uploads'));
 
-cloudinaryController.post('/upload', upload.single('image'), async (req, res) => {
+
+cloudinaryController.post("/upload", upload.single("image"), async (req, res) => {
+  try {
+    if (!req.file) {
+      throw new Error('File is undefined');
+    }
+    const result = await handleUpload(req.file);
+    res.json({ imageUrl: result.secure_url });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Error uploading image to Cloudinary" });
+  }
+});
+
+cloudinaryController.post('/uploadToCloudAndDB', upload.single('image'), async (req, res) => {
   if (!req.file) {
     return res.status(400).json({ error: 'No file was uploaded.' });
   }

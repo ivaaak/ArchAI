@@ -20,41 +20,6 @@ const UploadImage = () => {
         location: '',
     });
 
-    const handleUploadSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
-
-        if (!uploadedImage) {
-            alert('Please upload an image');
-            return;
-        }
-
-        try {
-            // Convert the data URL to a Blob
-            const response = await fetch(uploadedImage);
-            const blob = await response.blob();
-
-            const formData = new FormData();
-            formData.append('image', blob, 'uploadedImage.jpg');
-            //formData.append('userId', '');
-
-            // Send the FormData to the backend using Axios
-            const result = await apiClient.post('/image/', formData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data',
-                },
-            });
-
-            if (result.status === 201) {
-                alert(`Image uploaded successfully. Image ID: ${result.data.imageId}`);
-            } else {
-                alert('Error uploading image');
-            }
-        } catch (error) {
-            console.error('Error:', error);
-            alert('Error uploading image');
-        }
-    };
-
     const handleDragOver = (event: React.DragEvent<HTMLDivElement>) => {
         event.preventDefault();
     };
@@ -90,6 +55,36 @@ const UploadImage = () => {
         }
     };
 
+    const handleUploadSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+    
+        if (!uploadedImage) {
+            alert('Please upload an image');
+            return;
+        }
+    
+        try {
+            const formData = new FormData();
+            formData.append('image', uploadedImage);
+    
+            const response = await apiClient.post('cloudinary/upload', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+            });
+    
+            if (response.data.imageUrl) {
+                alert('Image uploaded successfully!');
+                // Optionally, handle the success scenario here, such as displaying a success message or navigating to a different page
+            } else {
+                alert('Failed to upload image.');
+            }
+        } catch (error) {
+            console.error('Error uploading image:', error);
+            alert('An error occurred during the upload.');
+        }
+    };
+
     const handleSelectedPromptsChange = (newSelectedPrompts: string[]) => {
         setSelectedPromptsMenu(newSelectedPrompts);
     };
@@ -112,14 +107,15 @@ const UploadImage = () => {
     }
 
     //TODO
-    const handleModifySubmit = () => { }
+    //const handleModifySubmit = () => { }
 
     return (
         <>
             <Tabs routes={[
-                { route: "/generate", label: "Generate Image" },
-                { route: "/upload", label: "Upload Image" },
-                { route: "/sketch", label: "Sketch Image" }
+                { route: "/generate", label: "Text to Image" },
+                { route: "/upload", label: "Image to Image" },
+                { route: "/sketch", label: "Sketch to Image" },
+                { route: "/inpaint", label: "Image In-Painting" },
             ]} />
             <section className="single-feature-container">
                 <div className="single-intro">
