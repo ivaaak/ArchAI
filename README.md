@@ -5,6 +5,12 @@ A Web App built with React as a Frontend and Express as a Backend. It uses [Stab
 ## Frontend: [ArchAI React Frontend](https://github.com/ivaaak/ArchAI/tree/main/frontend)
 ## Backend: [ArchAI Express Backend](https://github.com/ivaaak/ArchAI/tree/main/backend)
 
+**Screenshots:**
+<img src="https://raw.githubusercontent.com/ivaaak/ArchAI/main/frontend/public/screenshots/1.png"></img>
+<img src="https://raw.githubusercontent.com/ivaaak/ArchAI/main/frontend/public/screenshots/2.png"></img>
+<img src="https://raw.githubusercontent.com/ivaaak/ArchAI/main/frontend/public/screenshots/3.png"></img>
+<img src="https://raw.githubusercontent.com/ivaaak/ArchAI/main/frontend/public/screenshots/4.png"></img>
+
 ### Getting Started:
 You need the following API keys to add to a .env file in the `backend` folder:
 ```cmd
