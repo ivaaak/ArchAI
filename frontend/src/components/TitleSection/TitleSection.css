@@ -63,3 +63,12 @@ h2 {
 form {
     margin-top: 1rem;
 }
+
+header img {
+    width: 100%;
+}
+
+img-comparison-slider {
+    max-width: 42%;
+    border-radius: 20px;
+}

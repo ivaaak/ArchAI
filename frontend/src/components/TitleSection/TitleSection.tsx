@@ -1,9 +1,8 @@
 import { useEffect, useState } from 'react';
-import { Carousel } from 'react-responsive-carousel';
 import { useAuth0 } from '@auth0/auth0-react';
 import { Link } from 'react-router-dom';
 import apiClient from '../../utils/axios';
-import "react-responsive-carousel/lib/styles/carousel.min.css";
+import { ImgComparisonSlider } from '@img-comparison-slider/react';
 import './TitleSection.css'
 
 const TitleSection = () => {
@@ -22,34 +21,6 @@ const TitleSection = () => {
     "Elevate Your Designs with AI Precision.",
     "Transform Ideas into Masterpieces.",
     "Architectural Excellence Made Effortless."
-  ];
-  // const images = [
-  //   "/public/carousel/1.jpg",
-  //   "/public/carousel/2.jpg",
-  //   "/public/carousel/3.jpeg",
-  //   "/public/carousel/4.jpg",
-  //   "/public/carousel/5.jpg",
-  //   "/public/carousel/6.jpg",
-  //   "/public/carousel/7.jpeg",
-  //   "/public/carousel/8.jpeg",
-  //   "/public/carousel/10.jpeg",
-  //   "/public/carousel/11.jpg",
-  //   "/public/carousel/12.jpg",
-  //   "/public/carousel/13.jpeg",
-  // ];
-  const images = [
-    "/mj/1.png",
-    "/mj/2.png",
-    "/mj/3.png",
-    "/mj/4.png",
-    "/mj/5.png",
-    "/mj/6.png",
-    "/mj/7.png",
-    "/mj/8.png",
-    "/mj/9.png",
-    "/mj/10.png",
-    "/mj/11.png",
-    "/mj/12.png"
   ];
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -97,14 +68,10 @@ const TitleSection = () => {
         </form>
       </div>
       {/* <img src="https://stories.freepiklabs.com/storage/49289/Software-integration-01.svg" alt="" /> */}
-      <Carousel autoPlay infiniteLoop useKeyboardArrows showThumbs={false}
-        showIndicators={false}>
-        {images.map((image, index) => (
-          <div key={index}>
-            <img src={image} />
-          </div>
-        ))}
-      </Carousel>
+      <ImgComparisonSlider>
+        <img slot="first" width="50%" src="/comparison/comparisonRender.jpg" />
+        <img slot="second" width="50%" src="/comparison/comparisonSketch.jpg" />
+      </ImgComparisonSlider>
     </header>
   );
 };

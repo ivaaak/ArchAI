@@ -1,9 +1,10 @@
 import { Link } from 'react-router-dom';
-import TitleSection from './TitleSection/TitleSection';
 import ExampleShowcase from './Browse/ExampleShowcase';
 import HowItWorks from './HowItWorks/HowItWorks';
 import '../App.css'
 import InfoPanel from './InfoPanel/InfoPanel';
+import Carousel from './Carousel/Carousel';
+import TitleSection from './TitleSection/TitleSection';
 
 const Features = () => {
     const scrollToElementId = (elementId: string) => {
@@ -50,6 +51,7 @@ const Features = () => {
                     </a>
                 </div>
             </section>
+            <Carousel></Carousel>
             <InfoPanel></InfoPanel>
             <HowItWorks></HowItWorks>
             <ExampleShowcase></ExampleShowcase>

@@ -14,6 +14,7 @@
     "@fortawesome/fontawesome-svg-core": "^6.5.2",
     "@fortawesome/free-solid-svg-icons": "^6.5.2",
     "@fortawesome/react-fontawesome": "^0.2.0",
+    "@img-comparison-slider/react": "^8.0.2",
     "axios": "^1.6.8",
     "react": "^18.2.0",
     "react-context-api": "^1.0.2",
