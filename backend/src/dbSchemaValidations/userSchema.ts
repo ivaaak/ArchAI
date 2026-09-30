@@ -31,10 +31,18 @@ export const userJsonSchema = {
                 bsonType: "string",
                 description: "'priceId' is optional and is a string that should include 'price_'",
             },
-            // hasAccess: {
-            //     bsonType: "boolean",
-            //     description: "'hasAccess' is optional and is a boolean with a default value of false",
-            // },
+            auth0Id: {
+                bsonType: "string",
+                description: "'auth0Id' is optional and is the Auth0 user id (user.sub)",
+            },
+            position: {
+                bsonType: "string",
+                description: "'position' is optional and is a string",
+            },
+            hasAccess: {
+                bsonType: "bool",
+                description: "'hasAccess' is optional and is a boolean with a default value of false",
+            },
         },
     },
 };

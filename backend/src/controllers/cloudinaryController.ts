@@ -1,108 +1,67 @@
 import express from "express";
-import axios from 'axios';
-import { ObjectId } from 'mongodb';
-const cloudinary = require('../services/cloudinaryConfig');
-
-const multer = require('multer');
-const upload = multer({ dest: 'uploads/' });
-
-interface MulterFile {
-  originalname?: string;
-  encoding?: string;
-  mimetype?: string;
-  size?: number;
-  destination?: string;
-  filename?: string;
-  path?: string;
-  buffer?: Buffer;
-}
-
-// Define the upload function
-async function handleUpload(file: MulterFile) {
-  if (!file.buffer) {
-    throw new Error('Buffer is undefined');
-  }
-
-  const res = await cloudinary.uploader.upload(file.buffer.toString('base64'), {
-    resource_type: "auto",
-  });
-  return res;
-}
+import { collections } from '../database';
+import { isCloudinaryConfigured } from '../config';
+import cloudinary from '../services/cloudinaryConfig';
+import { bufferToDataUri } from '../services/storageService';
+import { HttpError, asyncHandler, requireCollection } from '../utils/http';
+import { imageUpload } from '../utils/upload';
 
 const cloudinaryController = express.Router();
-cloudinaryController.use('/uploads', express.static('uploads'));
 
-
-cloudinaryController.post("/upload", upload.single("image"), async (req, res) => {
-  try {
-    if (!req.file) {
-      throw new Error('File is undefined');
-    }
-    const result = await handleUpload(req.file);
-    res.json({ imageUrl: result.secure_url });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: "Error uploading image to Cloudinary" });
+cloudinaryController.use((_req, _res, next) => {
+  if (!isCloudinaryConfigured) {
+    return next(new HttpError(503, 'Cloudinary is not configured on the server'));
   }
+  next();
 });
 
-cloudinaryController.post('/uploadToCloudAndDB', upload.single('image'), async (req, res) => {
+async function uploadFile(file: Express.Multer.File) {
+  return cloudinary.uploader.upload(bufferToDataUri(file.buffer, file.mimetype), {
+    folder: 'uploads',
+    resource_type: 'image',
+  });
+}
+
+// POST /api/cloudinary/upload - multipart: image
+cloudinaryController.post("/upload", imageUpload.single("image"), asyncHandler(async (req, res) => {
   if (!req.file) {
-    return res.status(400).json({ error: 'No file was uploaded.' });
+    throw new HttpError(400, 'No file was uploaded.');
   }
-  try {
-    const result = await cloudinary.uploader.upload(req.file.path, {
-      folder: 'uploads'
-    });
+  const result = await uploadFile(req.file);
+  res.json({ imageUrl: result.secure_url, publicId: result.public_id });
+}));
 
-    // Call the imageController.post('/') endpoint
-    const imageUploadResponse = await axios.post('http://localhost:3000/api/image/', {
-      userId: new ObjectId(),
-      originalName: req.file.originalname,
-      filePath: req.file.path
-    }, {
-      headers: {
-        'Content-Type': 'application/json',
-      }
-    });
-
-    // Handle the response from the imageController.post('/')
-    if (imageUploadResponse.data.message === "Image uploaded successfully") {
-      res.status(200).json({
-        message: 'Image uploaded successfully',
-        imageUrl: result.secure_url,
-        imageId: imageUploadResponse.data.imageId
-      });
-    } else {
-      res.status(500).json({
-        message: 'Error uploading image',
-        error: imageUploadResponse.data.error
-      });
-    }
-  } catch (error) {
-    res.status(500).json({ error: 'An error occurred during the upload.' });
+// POST /api/cloudinary/uploadToCloudAndDB - multipart: image, ownerId?, description?
+cloudinaryController.post('/uploadToCloudAndDB', imageUpload.single('image'), asyncHandler(async (req, res) => {
+  const images = requireCollection(collections.images);
+  if (!req.file) {
+    throw new HttpError(400, 'No file was uploaded.');
   }
-});
+  const result = await uploadFile(req.file);
+  const insertResult = await images.insertOne({
+    ownerId: req.body.ownerId || undefined,
+    name: req.file.originalname,
+    imageUrl: result.secure_url,
+    mode: 'upload',
+    prompt: req.body.description || undefined,
+    createdAt: new Date(),
+  });
 
-// Endpoint to retrieve an image's URL by its ID
-cloudinaryController.get('/get-image-url/:id', async (req, res) => {
-  try {
-    const cloudinaryPublicId = req.params.id;
-    if (!cloudinaryPublicId) {
-      return res.status(404).json({ error: 'Image not found' });
-    }
+  res.status(200).json({
+    message: 'Image uploaded successfully',
+    imageUrl: result.secure_url,
+    imageId: insertResult.insertedId,
+  });
+}));
 
-    // Retrieve the image URL from Cloudinary
-    const imageUrl = await cloudinary.url(cloudinaryPublicId, {
-      format: 'jpg',
-      quality: 'auto',
-    });
-
-    res.status(200).json({ imageUrl });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'An error occurred while fetching the image URL' });
-  }
+// GET /api/cloudinary/get-image-url/:id - retrieve an image's URL by its Cloudinary public id
+cloudinaryController.get('/get-image-url/:id', (req, res) => {
+  const imageUrl = cloudinary.url(req.params.id, {
+    format: 'jpg',
+    quality: 'auto',
+    secure: true,
+  });
+  res.status(200).json({ imageUrl });
 });
 
 export default cloudinaryController;

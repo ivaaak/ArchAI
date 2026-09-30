@@ -7,13 +7,15 @@ interface Prompt {
 }
 
 interface Project {
-  _id: ObjectId;
-  auth0UserId: string; // Assuming this is the Auth0 user ID
-  usereId: string;
+  _id?: ObjectId;
+  auth0UserId: string; // Auth0 user ID (user.sub)
+  userId?: string;
   title: string;
-  description: string;
+  description?: string;
   images: Image[];
   prompts: Prompt[];
+  createdAt?: Date;
+  updatedAt?: Date;
 }
 
 export default Project;

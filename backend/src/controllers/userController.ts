@@ -1,76 +1,81 @@
 import express from 'express';
-import { collections } from '../database'; // Assuming you have a database module that exports collections
-import { ObjectId } from 'mongodb';
+import { collections } from '../database';
 import { User } from '../models/user';
+import { HttpError, asyncHandler, parseObjectId, requireCollection, withoutId } from '../utils/http';
+
 const userController = express.Router();
 
+// Only these fields may be written by clients (the collection rejects unknown fields)
+const WRITABLE_FIELDS: (keyof User)[] = ['auth0Id', 'name', 'position', 'email', 'image'];
+
+function pickWritable(body: Record<string, unknown>): Partial<User> {
+    const user: Record<string, unknown> = {};
+    for (const field of WRITABLE_FIELDS) {
+        if (typeof body[field] === 'string') {
+            user[field] = (body[field] as string).trim();
+        }
+    }
+    return user as Partial<User>;
+}
+
 // GET /api/users/
-userController.get('/', async (req, res) => {
+userController.get('/', asyncHandler(async (_req, res) => {
     console.log("usersService / GET /api/users/ called");
-    try {
-        const users = await collections.users?.find().toArray();
-        if (users) {
-            res.json(users);
-        } else {
-            res.status(404).send('No users found');
-        }
-    } catch (error) {
-        res.status(500).send('Error retrieving users');
-    }
-});
+    const users = await requireCollection(collections.users).find().toArray();
+    res.json(users);
+}));
 
-// POST /api/users/
-userController.post('/', async (req, res) => {
+// GET /api/users/auth0/:auth0Id
+userController.get('/auth0/:auth0Id', asyncHandler(async (req, res) => {
+    const user = await requireCollection(collections.users).findOne({ auth0Id: req.params.auth0Id });
+    if (!user) {
+        throw new HttpError(404, 'User not found');
+    }
+    res.json(user);
+}));
+
+// POST /api/users/ - creates a user, or updates the existing one with the same auth0Id
+userController.post('/', asyncHandler(async (req, res) => {
     console.log("usersService / POST /api/users/ called");
-    const newuser: User = req.body;
-    //newuser._id = new ObjectId(req.body.id);
-    console.log("newuser", newuser)
-    try {
-        const result = await collections.users?.insertOne(newuser);
-        if (result) {
-            res.status(201).json({ message: "user created successfully", userId: result.insertedId });
-        } else {
-            res.status(500).json({ message: "Error creating user" });
-        }
-    } catch (error) {
-        const err = error as Error;
-        res.status(500).json({ message: "Error creating user", error: err.message });
-    }
-});
+    const users = requireCollection(collections.users);
+    const newUser = pickWritable(req.body);
 
-// PUT /api/users/id
-userController.put('/:id', async (req, res) => {
+    if (newUser.auth0Id) {
+        const result = await users.findOneAndUpdate(
+            { auth0Id: newUser.auth0Id },
+            { $set: newUser, $setOnInsert: { hasAccess: false } },
+            { upsert: true, returnDocument: 'after' }
+        );
+        return res.status(200).json({ message: "user synced successfully", userId: result?._id, user: result });
+    }
+
+    const result = await users.insertOne({ ...newUser, hasAccess: false });
+    res.status(201).json({ message: "user created successfully", userId: result.insertedId });
+}));
+
+// PUT /api/users/:id
+userController.put('/:id', asyncHandler(async (req, res) => {
     console.log("usersService / PUT /api/users/:id called");
-    try {
-        const updateduser = req.body;
-        const id = new ObjectId(req.params.id);
-        const result = await collections.users?.updateOne({ _id: id }, { $set: updateduser });
-        if (result && result.modifiedCount > 0) {
-            res.send(updateduser);
-        } else {
-            res.status(404).send('user not found');
-        }
-    } catch (error) {
-        const err = error as Error;
-        res.status(500).json({ message: "Error creating user", error: err.message });
+    const update = pickWritable(withoutId(req.body));
+    const result = await requireCollection(collections.users).findOneAndUpdate(
+        { _id: parseObjectId(req.params.id) },
+        { $set: update },
+        { returnDocument: 'after' }
+    );
+    if (!result) {
+        throw new HttpError(404, 'user not found');
     }
-});
+    res.json(result);
+}));
 
-// DELETE /api/users/id
-userController.delete('/:id', async (req, res) => {
+// DELETE /api/users/:id
+userController.delete('/:id', asyncHandler(async (req, res) => {
     console.log("usersService / DELETE /api/users/:id called");
-    try {
-        const id = new ObjectId(req.params.id);
-        const result = await collections.users?.deleteOne({ _id: id });
-        if (result && result.deletedCount > 0) {
-            res.status(204).send();
-        } else {
-            res.status(404).send('user not found');
-        }
-    } catch (error) {
-        res.status(500).send('Error deleting user');
+    const result = await requireCollection(collections.users).deleteOne({ _id: parseObjectId(req.params.id) });
+    if (result.deletedCount === 0) {
+        throw new HttpError(404, 'user not found');
     }
-});
+    res.status(204).send();
+}));
 
-// Export the router
 export default userController;

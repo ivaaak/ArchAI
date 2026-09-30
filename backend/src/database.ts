@@ -30,6 +30,12 @@ export async function connectToDatabase(uri: string) {
 
     const leadsCollection = db.collection<Lead>("lead");
     collections.leads = leadsCollection;
+
+    // Collections are browsed newest first and filtered by owner
+    await Promise.all([
+        imagesCollection.createIndex({ ownerId: 1, createdAt: -1 }),
+        leadsCollection.createIndex({ email: 1 }),
+    ]).catch((error) => console.error("Could not create indexes:", error.message));
 }
 
 
@@ -40,6 +46,8 @@ async function applySchemaValidation(db: mongodb.Db) {
     }).catch(async (error: mongodb.MongoServerError) => {
         if (error.codeName === "NamespaceNotFound") {
             await db.createCollection("users", { validator: userJsonSchema });
+        } else {
+            console.error("Could not apply the users schema validation:", error.message);
         }
     });
 }

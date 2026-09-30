@@ -1,10 +1,7 @@
-// runReplicate.js
 import Replicate from 'replicate';
-import dotenv from 'dotenv';
+import '../config';
 
-dotenv.config();
-
-const replicate = new Replicate({
+export const replicate = new Replicate({
    auth: process.env.REPLICATE_API_TOKEN,
    userAgent: 'https://www.npmjs.com/package/create-replicate'
 });
@@ -17,76 +14,70 @@ const GUIDANCE_SCALE = 7.5;
 const HIGH_NOISE_FRAC = 0.8;
 const PROMPT_STRENGTH = 0.9;
 const NUM_INFERENCE_STEPS = 30;
+export const DEFAULT_NEGATIVE_PROMPT = 'blurry, low quality, distorted, deformed, watermark, text, signature';
 
-export async function generateImage(prompt: string, negative_prompt: string, outputImageCount?: number) {
-   if (!outputImageCount) {
-      outputImageCount = 1;
-   }
+export interface GenerationOptions {
+   prompt: string;
+   negativePrompt?: string;
+   numOutputs?: number;
+   width?: number;
+   height?: number;
+   seed?: number;
+   // How strongly the prompt overrides the input image (image-to-image / inpainting only). 1 = ignore the image.
+   promptStrength?: number;
+}
 
-   const input = {
-      width: 1024,
-      height: 1024,
-      prompt: prompt,
+// Replicate returns an array of URLs for SDXL (older clients) or FileOutput objects (newer clients).
+export function toUrlList(output: unknown): string[] {
+   const items = Array.isArray(output) ? output : [output];
+   return items.filter(Boolean).map((item) => String(item));
+}
+
+function baseInput(options: GenerationOptions) {
+   return {
+      prompt: options.prompt,
+      negative_prompt: options.negativePrompt || DEFAULT_NEGATIVE_PROMPT,
+      num_outputs: options.numOutputs || 1,
       refine: BASE_IMAGE_REFINER,
       scheduler: KARRAS_DPM,
-      lora_scale: 0.6,
-      num_outputs: outputImageCount,
       guidance_scale: GUIDANCE_SCALE,
+      high_noise_frac: HIGH_NOISE_FRAC,
+      num_inference_steps: NUM_INFERENCE_STEPS,
       apply_watermark: false,
-      high_noise_frac: HIGH_NOISE_FRAC,
-      negative_prompt: negative_prompt,
-      prompt_strength: PROMPT_STRENGTH,
-      num_inference_steps: NUM_INFERENCE_STEPS,
+      ...(options.seed !== undefined && { seed: options.seed }),
    };
+}
 
-   console.log({ model, input });
-   console.log('Running...');
+async function run(input: Record<string, unknown>) {
+   console.log('Running SDXL', { ...input, image: input.image ? '[image]' : undefined, mask: input.mask ? '[mask]' : undefined });
    const output = await replicate.run(model, { input });
-   console.log('Done!', output);
-
-   return output;
+   return toUrlList(output);
 }
 
-export async function imageToImage(inputImageUrl: string, prompt: string, outputImageCount: number) {
-   if (!outputImageCount) {
-      outputImageCount = 1;
-   }
-
-   const input = {
-      image: inputImageUrl,
-      width: 1024,
-      height: 1024,
-      prompt: prompt,
-      refine: BASE_IMAGE_REFINER,
-      scheduler: KARRAS_DPM,
-      num_outputs: outputImageCount,
-      guidance_scale: GUIDANCE_SCALE,
-      high_noise_frac: HIGH_NOISE_FRAC,
-      prompt_strength: PROMPT_STRENGTH,
-      num_inference_steps: NUM_INFERENCE_STEPS,
-   };
-
-   console.log({ model, input });
-   console.log('Running...');
-   const output = await replicate.run(model, { input });
-   console.log('Done!', output);
-
-   return output;
+export async function generateImage(options: GenerationOptions) {
+   return run({
+      ...baseInput(options),
+      width: options.width || 1024,
+      height: options.height || 1024,
+      lora_scale: 0.6,
+   });
 }
 
-/* Example Input for the Replicate API:
-{
-  "mask": "https://replicate.delivery/pbxt/JF3OMU8P5Kpxi4EmDqDKEH1fxE5qGOZThplanZAXnzJzzVja/nyc-mask.png",
-  "image": "https://replicate.delivery/pbxt/JF3OMzdRCDSp9ZL2bxRDb6YZWryrT0OxfTB60W4y5PFA6MYi/nyc.png",
-  "width": 1024,
-  "height": 1024,
-  "prompt": "Alien invasion",
-  "refine": "base_image_refiner",
-  "scheduler": "KarrasDPM",
-  "num_outputs": 1,
-  "guidance_scale": 7.5,
-  "high_noise_frac": 0.8,
-  "prompt_strength": 0.9,
-  "num_inference_steps": 30
+// image: a public URL or a data URI
+export async function imageToImage(image: string, options: GenerationOptions) {
+   return run({
+      ...baseInput(options),
+      image,
+      prompt_strength: options.promptStrength ?? PROMPT_STRENGTH,
+   });
 }
-*/
+
+// Black areas of the mask are preserved, white areas are re-generated.
+export async function inpaintImage(image: string, mask: string, options: GenerationOptions) {
+   return run({
+      ...baseInput(options),
+      image,
+      mask,
+      prompt_strength: options.promptStrength ?? PROMPT_STRENGTH,
+   });
+}

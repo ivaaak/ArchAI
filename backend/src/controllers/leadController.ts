@@ -1,42 +1,37 @@
 import express from 'express';
 import { collections } from '../database';
 import { Lead } from '../models/lead';
+import { HttpError, asyncHandler, requireCollection } from '../utils/http';
 
 const leadController = express.Router();
 
+const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
 // Store the leads that are generated from the landing page.
 // Duplicate emails just return 200 OK
-leadController.post('/', async (req, res) => {
-  const body = req.body;
+leadController.post('/', asyncHandler(async (req, res) => {
+  const leads = requireCollection(collections.leads);
+  const email = String(req.body.email ?? '').trim().toLowerCase();
 
-  if (!body.email) {
-    return res.status(400).json({ error: "Email is required" });
+  if (!email) {
+    throw new HttpError(400, "Email is required");
+  }
+  if (!EMAIL_PATTERN.test(email)) {
+    throw new HttpError(400, "Please enter a valid email address");
   }
 
-  try {
-    const existingLead = await collections.leads?.findOne({ email: body.email });
-
-    if (!existingLead) {
-      const newLead: Lead = {
-        email: body.email,
-        timestamp: new Date(),
-      }
-
-      const result = await collections.leads?.insertOne(newLead);
-      if (result) {
-        res.status(201).json({ message: "Lead created successfully", id: result.insertedId });
-        // Send a welcome email /mailgun
-      } else {
-        res.status(500).json({ message: "Error creating lead" });
-      }
-    }
-
-    res.json({});
-  } catch (e) {
-    const err = e as Error;
-    console.error(err);
-    res.status(500).json({ error: err.message });
+  const existingLead = await leads.findOne({ email });
+  if (existingLead) {
+    return res.status(200).json({ message: "Already subscribed", id: existingLead._id });
   }
-});
+
+  const newLead: Lead = {
+    email,
+    timestamp: new Date(),
+  };
+  const result = await leads.insertOne(newLead);
+  // TODO: send a welcome email (mailgun)
+  res.status(201).json({ message: "Lead created successfully", id: result.insertedId });
+}));
 
 export default leadController;

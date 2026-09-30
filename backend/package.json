@@ -5,7 +5,9 @@
   "scripts": {
     "start": "ts-node src/server.ts",
     "build": "tsc",
-    "test": "eslint ."
+    "test": "tsc --noEmit && eslint src --ext .ts",
+    "lint": "eslint src --ext .ts",
+    "dev": "ts-node src/server.ts"
   },
   "license": "Apache 2.0",
   "dependencies": {
@@ -17,7 +19,6 @@
     "mongodb": "^6.3.0",
     "multer": "^1.4.5-lts.1",
     "replicate": "^0.29.1",
-    "stdxl": "^1.0.4",
     "stripe": "^15.6.0"
   },
   "devDependencies": {
@@ -30,5 +31,8 @@
     "eslint": "^8.56.0",
     "ts-node": "^10.9.2",
     "typescript": "^5.3.3"
+  },
+  "engines": {
+    "node": ">=18"
   }
 }
