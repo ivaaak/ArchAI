@@ -1,74 +1,104 @@
-.carousel {
-    height: 100%;
-    margin: 10px;
-    opacity: 0.95;
-    display: flex;
-    justify-content: center;
+.hero {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
     align-items: center;
+    gap: 3rem;
+    padding: 3rem 0 4rem;
 }
 
-.control-arrow {
-    background-color: rgba(0, 0, 0, 0.455) !important;
+.eyebrow {
+    display: inline-block;
+    padding: 0.3rem 0.75rem;
+    margin-bottom: 1.25rem;
+    border-radius: 999px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--accent);
+    background: var(--accent-soft);
 }
 
-.slide {
+.hero-title {
+    font-size: clamp(2.4rem, 5vw, 3.75rem);
+    font-weight: 800;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    margin: 0;
+}
+
+.hero-quote {
+    margin-top: 0.75rem;
+    font-size: clamp(1.25rem, 2.4vw, 1.75rem);
+    font-weight: 600;
+    color: var(--text-secondary);
+}
+
+.hero-subtitle {
+    margin: 1.25rem 0 1.75rem;
+    max-width: 34rem;
+    font-size: 1.1rem;
+    line-height: 1.6;
+    color: var(--text-secondary);
+}
+
+.hero-actions {
     display: flex;
-    justify-content: center;
+    flex-wrap: wrap;
     align-items: center;
-    height: 100%;
+    gap: 0.75rem;
+}
+
+.hero-welcome {
     width: 100%;
+    font-weight: 600;
 }
 
+.hero-form {
+    display: flex;
+    gap: 0.5rem;
+    max-width: 30rem;
+    margin-bottom: 0.75rem;
+}
 
-.carousel.slide img {
-    border-radius: 20px;
+.hero-form input {
+    flex: 1;
+    min-width: 0;
+}
+
+.hero-media {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.hero-compare {
+    width: 100%;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow-lg);
+    --divider-color: var(--mint);
+    --default-handle-color: var(--mint);
+}
+
+.hero-compare img {
+    display: block;
     width: 100%;
     height: auto;
-    object-fit: cover;
 }
 
-.carousel .thumbs-wrapper {
-    display: none;
+@media (max-width: 900px) {
+    .hero {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+        padding-top: 1.5rem;
+    }
 }
 
-header .carousel-root {
-    width: 50%;
-    height: 500px;
-}
-
-.carousel .slide img {
-    border-radius: 20px;
-}
-
-.pricingBtn {
-    background: var(--secondary-blue);
-    cursor: pointer;
-    border: none;
-    border-radius: 0.2rem;
-    padding: 0.5rem;
-    color: var(---primary);
-    font-size: 1.2rem;
-    margin-left: 10px;
-    text-decoration: none;
-}
-
-.intro {
-    margin-top: 4rem;
-}
-
-h2 {
-    margin-top: 1rem;
-}
-
-form {
-    margin-top: 1rem;
-}
-
-header img {
-    width: 100%;
-}
-
-img-comparison-slider {
-    max-width: 42%;
-    border-radius: 20px;
+@media (max-width: 480px) {
+    .hero-form {
+        flex-direction: column;
+    }
 }

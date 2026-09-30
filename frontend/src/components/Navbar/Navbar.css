@@ -1,0 +1,174 @@
+.navbar {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    height: 68px;
+    padding: 0 clamp(1rem, 3vw, 2.5rem);
+    background: var(--bg-navbar);
+    backdrop-filter: saturate(160%) blur(12px);
+    border-bottom: 1px solid var(--border);
+}
+
+.brand {
+    font-size: 2rem;
+    font-weight: 900;
+    letter-spacing: -0.03em;
+    color: var(--text-primary);
+    text-decoration: none;
+    line-height: 1;
+}
+
+.quick-generate-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    flex: 0 1 360px;
+    margin: 0 auto;
+    padding: 0.55rem 0.9rem;
+    color: var(--text-secondary);
+    background: var(--bg-inset);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    font-size: 0.95rem;
+    text-align: left;
+    transition: border-color 0.15s ease, color 0.15s ease;
+}
+
+.quick-generate-btn:hover {
+    color: var(--text-primary);
+    border-color: var(--accent);
+}
+
+.quick-generate-btn span {
+    flex: 1;
+}
+
+.quick-generate-btn kbd {
+    font-family: inherit;
+    font-size: 0.75rem;
+    padding: 0.1rem 0.4rem;
+    border-radius: 4px;
+    border: 1px solid var(--border-strong);
+}
+
+.navbar-menu {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.nav-link {
+    padding: 0.5rem 0.8rem;
+    border-radius: var(--radius);
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.15s ease, background-color 0.15s ease;
+}
+
+.nav-link:hover {
+    color: var(--text-primary);
+    background: var(--bg-hover);
+}
+
+.nav-link.active {
+    color: var(--text-primary);
+    box-shadow: inset 0 -2px 0 var(--accent);
+    border-radius: 0;
+}
+
+.navbar-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-left: 0.75rem;
+}
+
+.profile-link {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.25rem 0.6rem 0.25rem 0.25rem;
+    border-radius: 999px;
+    color: var(--text-primary);
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.profile-link:hover,
+.profile-link.active {
+    background: var(--bg-hover);
+}
+
+.profile-name {
+    max-width: 140px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.navbar-toggle {
+    display: none;
+}
+
+@media (max-width: 900px) {
+    .quick-generate-btn kbd {
+        display: none;
+    }
+
+    .navbar-toggle {
+        display: inline-flex;
+    }
+
+    .navbar-menu {
+        display: none;
+        position: absolute;
+        top: 68px;
+        left: 0;
+        right: 0;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0.25rem;
+        padding: 0.75rem 1rem 1rem;
+        background: var(--bg-surface);
+        border-bottom: 1px solid var(--border);
+        box-shadow: var(--shadow);
+    }
+
+    .navbar-menu.open {
+        display: flex;
+    }
+
+    .nav-link.active {
+        box-shadow: inset 3px 0 0 var(--accent);
+    }
+
+    .navbar-actions {
+        margin: 0.5rem 0 0;
+        padding-top: 0.75rem;
+        border-top: 1px solid var(--border);
+    }
+}
+
+@media (max-width: 520px) {
+    .navbar {
+        gap: 0.75rem;
+    }
+
+    .brand {
+        font-size: 1.6rem;
+    }
+
+    .quick-generate-btn span {
+        display: none;
+    }
+
+    .quick-generate-btn {
+        flex: 0 0 auto;
+        margin-left: auto;
+        margin-right: 0;
+    }
+}

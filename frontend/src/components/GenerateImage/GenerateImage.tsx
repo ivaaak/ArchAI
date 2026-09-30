@@ -1,152 +1,49 @@
-import { SetStateAction, useState } from 'react';
-import apiClient from '../../utils/axios';
-import PromptsMenu from './PromptMenu';
-import ImageGenerationParameters from './ImageGenerationParameters';
-import ImageOptions from './ImageOptions';
-import Tabs from '../Tabs';
-import '../../App.css';
+import { useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
+import { useAuth0 } from '@auth0/auth0-react';
+import { requestGeneration } from '../../lib/api';
+import { createDefaultSettings } from '../../lib/prompt';
+import { useGeneration } from '../../hooks/useGeneration';
+import GenerationControls from './GenerationControls';
+import ResultsPanel from './ResultsPanel';
+import Workspace from './Workspace';
 
 const GenerateImage = () => {
-    const [textPrompt, setTextPrompt] = useState('');
-    const [selectedPromptsMenu, setSelectedPromptsMenu] = useState<string[]>([]);
-    const [combinedPrompt, setCombinedPrompt] = useState('');
-    const [generatedImage, setGeneratedImage] = useState('');
-    const [isLoading, setIsLoading] = useState(false);
-    const [parameters, setParameters] = useState({
-        sketchType: '',
-        color: '',
-        artStyle: '',
-        perspective: '',
-        dimension: '',
-        structure: '',
-        location: '',
-    });
+    const [searchParams] = useSearchParams();
+    const { user } = useAuth0();
+    // Prompts can be passed in from the examples / details pages: /generate?prompt=...
+    const [settings, setSettings] = useState(() => createDefaultSettings(searchParams.get('prompt') ?? ''));
+    const generation = useGeneration();
 
-    const handleSelectedPromptsChange = (newSelectedPrompts: string[]) => {
-        setSelectedPromptsMenu(newSelectedPrompts);
-    };
-
-    const handleImagesCountOptionChange = () => { };
-
-
-    const handleParametersChange = (newParameters: SetStateAction<{
-        sketchType: string;
-        color: string;
-        artStyle: string;
-        perspective: string;
-        dimension: string;
-        structure: string;
-        location: string;
-    }>) => {
-        setParameters(newParameters);
-        console.log(parameters);
-    };
-
-    const combinePromptParameters = () => {
-        let combinedParameters = '';
-        if (parameters.sketchType) {
-            combinedParameters += `((${parameters.sketchType})), `;
-        }
-        if (parameters.artStyle) {
-            combinedParameters += `((${parameters.artStyle})), `;
-        }
-        if (parameters.perspective) {
-            combinedParameters += `((${parameters.perspective})), `;
-        }
-        if (parameters.structure) {
-            combinedParameters += `((${parameters.structure})), `;
-        }
-        if (parameters.dimension) {
-            combinedParameters += `(${parameters.dimension}), `;
-        }
-        if (parameters.location) {
-            combinedParameters += `(${parameters.location}), `;
-        }
-        if (parameters.color) {
-            combinedParameters += `(${parameters.color}), `;
-        }
-
-        combinedParameters = combinedParameters.replace(/,\s*$/, '');
-        return combinedParameters;
-    };
-
-
-    const handleSubmit = async (event: { preventDefault: () => void; }) => {
-        event.preventDefault();
-        let combinedPrompt = `${combinePromptParameters()}, ((${textPrompt})), ${selectedPromptsMenu}`;
-        console.log("combinedPrompt", combinedPrompt)
-        setCombinedPrompt(combinedPrompt);
-        setIsLoading(true);
-        try {
-            const response = await apiClient.post('/stableDiffusion/', {
-                prompt: combinedPrompt,
-                negativePrompt: ''
-            });
-            setGeneratedImage(response.data);
-            saveImageToLocalStorage(response.data, textPrompt);
-        } catch (error) {
-            console.error('Error submitting the form:', error);
-        } finally {
-            setIsLoading(false);
-        }
-    };
-
-    const saveImageToLocalStorage = (imageUrl: string, prompt: string) => {
-        const storedData = JSON.parse(localStorage.getItem('generatedImages') || '[]');
-        const newImageData = {
-            url: imageUrl,
-            prompt: prompt
-        };
-        storedData.push(newImageData);
-        localStorage.setItem('generatedImages', JSON.stringify(storedData));
-    };
-
+    const handleSubmit = () => generation.run(() =>
+        requestGeneration('/stableDiffusion/', settings, { ownerId: user?.sub, includeSize: true })
+    );
 
     return (
-        <>
-            <Tabs routes={[
-                { route: "/generate", label: "Text to Image" },
-                { route: "/upload", label: "Image to Image" },
-                { route: "/sketch", label: "Sketch to Image" },
-                { route: "/inpaint", label: "Image In-Painting" },
-            ]} />
-            <section className="single-feature-container">
-                <div className="single-intro">
-                    <h1>Generate A Sketch: </h1>
-                    <PromptsMenu onSelectedPromptsChange={handleSelectedPromptsChange}></PromptsMenu>
-                    <ImageOptions onImageOptionsChange={handleImagesCountOptionChange}></ImageOptions>
-                    <ImageGenerationParameters onParametersChange={handleParametersChange}></ImageGenerationParameters>
-                    <form onSubmit={handleSubmit}>
-                        <textarea
-                            placeholder="Describe specifics or details to the model"
-                            value={textPrompt}
-                            onChange={(e) => setTextPrompt(e.target.value)}
-                            rows={4}
-                            style={{ width: '100%' }}
-                        />
-                        <input className='submit-prompt-button' type="submit" value="PROMPT" />
-                    </form>
-                </div>
-                <div className="single-feature">
-                    {isLoading &&
+        <Workspace
+            title="Text to Image"
+            description="Describe a design, pick the drawing type and style, and let SDXL sketch it."
+            controls={
+                <GenerationControls
+                    value={settings}
+                    onChange={setSettings}
+                    onSubmit={handleSubmit}
+                    isLoading={generation.isLoading}
+                />
+            }
+            output={
+                <ResultsPanel
+                    {...generation}
+                    placeholder={
                         <>
-                            <div className="loader"></div>
-                            <p> Loading... </p>
+                            <img src="/assetImages/Meeting-01.svg" alt="" />
+                            <p className="results-status-title">Your sketches will appear here</p>
+                            <p className="muted">Write a description or combine a few parameters, then press Generate.</p>
                         </>
                     }
-                    {!generatedImage && !isLoading &&
-                        <img src="https://stories.freepiklabs.com/storage/1864/Meeting-01.svg" />}
-                    {generatedImage && !isLoading &&
-                        <img src={generatedImage} />}
-                    {textPrompt && !isLoading &&
-                        <>
-                            <p className="single-feature-note"> Prompt Used: {textPrompt}</p>
-                            <p className="single-feature-note"> Options Used: {selectedPromptsMenu}</p>
-                            <p className="single-feature-note"> Parameters Used: {combinePromptParameters()}</p>
-                        </>}
-                </div>
-            </section>
-        </>
+                />
+            }
+        />
     );
 };
 

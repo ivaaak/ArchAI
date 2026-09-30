@@ -1,80 +1,47 @@
-.container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  border-bottom: 1px solid #cbd5e0;
-  text-align: justify;
-}
-
-.inputSection {
-  width: 16rem;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-self: center;
-  margin-top: 2rem;
-  margin-bottom: 2.5rem;
-  width: 16rem;
-}
-
-.processingSection {
-  width: 16rem;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-self: center;
-  margin-top: 2rem;
-  margin-bottom: 2.5rem;
-  width: 16rem;
-}
-
-.outputSection {
-  margin-top: 2rem;
-  width: 16rem;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-self: center;
-  width: 16rem;
-}
-
-.gridContainer {
+.steps {
   display: grid;
-  grid-template-columns: repeat(1, minmax(0, 1fr));
-  justify-items: center;
-  gap: 3rem;
-  padding-bottom: 1.25rem;
   grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.5rem;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  counter-reset: none;
 }
 
-.header {
-  margin: 2rem 5rem 2rem 5rem;
-  font-weight: 600;
-  font-size: 2.25rem;
-}
-
-.textSection {
-  margin-left: 5rem;
-  margin-right: 5rem;
-  max-width: 48rem;
-  font-size: 1.25rem;
-  font-weight: 300;
-  color: #718096;
-}
-
-.imageSection {
-  margin: 1rem;
-  width: 16rem;
-  height: 140px;
-  color: transparent;
-}
-
-.textCenter {
+.step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   text-align: center;
+  gap: 0.6rem;
+  padding: 1.5rem;
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
 }
 
-@media (min-width: 1024px) {
-  .lg\:mt-11 {
-    margin-top: 2.75rem;
+.step-label {
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--accent);
+}
+
+.step img {
+  width: 100%;
+  max-width: 260px;
+  height: 150px;
+  object-fit: contain;
+}
+
+.step h3 {
+  margin: 0;
+  font-size: 1.15rem;
+}
+
+@media (max-width: 800px) {
+  .steps {
+    grid-template-columns: 1fr;
   }
 }

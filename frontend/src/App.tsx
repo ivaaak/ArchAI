@@ -1,10 +1,8 @@
-import { Link } from 'react-router-dom';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { Link, Route, Routes, useLocation } from 'react-router-dom';
 import { useAuth0 } from '@auth0/auth0-react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faMoon, faSearch, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
-import { ThemeContext } from './components/ThemeContext';
-import { useContext, useState } from 'react';
+import { apiClient } from './lib/api';
+import Navbar from './components/Navbar/Navbar';
 import UserProfile from './components/UserProfile';
 import ImageShowcase from './components/Showcase/ImageShowcase';
 import Pricing from './components/Pricing/Pricing';
@@ -15,78 +13,91 @@ import Features from './components/Features';
 import GenerateImage from './components/GenerateImage/GenerateImage';
 import SketchImage from './components/SketchImage';
 import UploadImage from './components/UploadImage';
+import InpaintImage from './components/InpaintImage';
 import UnauthorizedPage from './components/UnauthorizedPage';
-import './App.css';
+import NotFoundPage from './components/ErrorPage/NotFoundPage';
+import ErrorBoundary from './components/ErrorPage/ErrorBoundary';
+
+// Renders the page only for signed-in users; waits for Auth0 instead of flashing the sign-in page
+const RequireAuth = ({ children }: { children: JSX.Element }) => {
+   const { isAuthenticated, isLoading } = useAuth0();
+   if (isLoading) {
+      return <div className="page gallery-loading"><span className="spinner spinner-large" aria-label="Loading" /></div>;
+   }
+   return isAuthenticated ? children : <UnauthorizedPage />;
+};
+
+// Creates / updates the user's record in the backend once per session
+function useSyncUser() {
+   const { isAuthenticated, user } = useAuth0();
+   const synced = useRef(false);
+
+   useEffect(() => {
+      if (!isAuthenticated || !user?.sub || synced.current) return;
+      synced.current = true;
+      apiClient.post('/users', {
+         auth0Id: user.sub,
+         name: user.name,
+         email: user.email,
+         image: user.picture,
+      }).catch((error) => console.warn('Could not sync the user profile:', error));
+   }, [isAuthenticated, user]);
+}
 
 function App() {
-   const { isAuthenticated, user, loginWithRedirect } = useAuth0();
-   const { theme, toggleTheme } = useContext(ThemeContext);
-   const [globalSearchModalOpen, setGlobalSearchModalOpen] = useState(false);
+   const [quickGenerateOpen, setQuickGenerateOpen] = useState(false);
+   const location = useLocation();
+   useSyncUser();
 
-   const openModal = () => {
-      setGlobalSearchModalOpen(true);
-   };
+   const openQuickGenerate = useCallback(() => setQuickGenerateOpen(true), []);
+   const closeQuickGenerate = useCallback(() => setQuickGenerateOpen(false), []);
 
-   const closeModal = () => {
-      setGlobalSearchModalOpen(false);
-   };
+   // Ctrl+K / Cmd+K opens the quick generator
+   useEffect(() => {
+      const handleKeyDown = (event: KeyboardEvent) => {
+         if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === 'k') {
+            event.preventDefault();
+            setQuickGenerateOpen((open) => !open);
+         }
+      };
+      window.addEventListener('keydown', handleKeyDown);
+      return () => window.removeEventListener('keydown', handleKeyDown);
+   }, []);
+
+   useEffect(() => {
+      window.scrollTo(0, 0);
+   }, [location.pathname]);
 
    return (
-      <div className={`App ${theme}`}> {/* Theme Class */}
-         <Router>
-            <main>
-               <nav>
-                  <Link to="/">
-                     <div className='navTitle'><h1 className='title'>Arch</h1><h1 className='title2'>AI</h1></div>
-                  </Link>
-
-                  <ul>
-                     <button className='globalSearchBtn' onClick={openModal}>
-                        <FontAwesomeIcon icon={faSearch} />
-                        Imagine...
-                     </button>
-                     <GlobalSearchModal isOpen={globalSearchModalOpen} onClose={closeModal}>
-                     </GlobalSearchModal>
-                     <li>
-                        <Link to="/browse">Collections</Link>
-                     </li>
-                     <li>
-                        <Link to="/generate">Generate</Link>
-                     </li>
-                     {isAuthenticated ? (<>
-                        <li style={{ textAlign: 'center' }}>
-                           <Link to="/profile">
-                              {user?.name?.split('@')[0]}
-                           </Link>
-                        </li>
-                        <button onClick={() => loginWithRedirect()}>
-                           <FontAwesomeIcon icon={faSignOutAlt} />
-                        </button>
-                     </>
-                     ) : (
-                        <button onClick={() => loginWithRedirect()}>Log In</button>
-                     )}
-                     <li>
-                        <button onClick={toggleTheme}>
-                           <FontAwesomeIcon icon={faMoon} />
-                        </button>
-                     </li>
-                  </ul>
-               </nav>
+      <div className="app">
+         <a className="skip-link" href="#main">Skip to content</a>
+         <Navbar onOpenQuickGenerate={openQuickGenerate} />
+         <GlobalSearchModal isOpen={quickGenerateOpen} onClose={closeQuickGenerate} />
+         <main id="main">
+            <ErrorBoundary resetKey={location.pathname}>
                <Routes>
                   <Route path="/" element={<Features />} />
                   <Route path="/browse" element={<Browse />} />
                   <Route path="/examples" element={<Examples />} />
-                  <Route path="/profile" element={<UserProfile />} />
-                  <Route path="/pricing" element={<Pricing />} />
-                  <Route path="/details/src/uploads/:id" element={<ImageShowcase />} />
-                  <Route path="/generate" element={isAuthenticated ? <GenerateImage /> : <UnauthorizedPage />} />
-                  <Route path="/upload" element={isAuthenticated ? <UploadImage /> : <UnauthorizedPage />} />
-                  <Route path="/sketch" element={isAuthenticated ? <SketchImage /> : <UnauthorizedPage />} />
-                  <Route path="*" element={<UnauthorizedPage />} /> {/* Catch-all route for unauthorized access */}
+                  <Route path="/pricing" element={<div className="page"><Pricing /></div>} />
+                  <Route path="/details/:id" element={<ImageShowcase />} />
+                  <Route path="/profile" element={<RequireAuth><UserProfile /></RequireAuth>} />
+                  <Route path="/generate" element={<RequireAuth><GenerateImage /></RequireAuth>} />
+                  <Route path="/upload" element={<RequireAuth><UploadImage /></RequireAuth>} />
+                  <Route path="/sketch" element={<RequireAuth><SketchImage /></RequireAuth>} />
+                  <Route path="/inpaint" element={<RequireAuth><InpaintImage /></RequireAuth>} />
+                  <Route path="*" element={<NotFoundPage />} />
                </Routes>
-            </main>
-         </Router>
+            </ErrorBoundary>
+         </main>
+         <footer className="footer">
+            <span>© {new Date().getFullYear()} ArchAI</span>
+            <nav aria-label="Footer">
+               <Link to="/examples">Examples</Link>
+               <Link to="/pricing">Pricing</Link>
+               <a href="https://github.com/ivaaak/ArchAI" target="_blank" rel="noreferrer">GitHub</a>
+            </nav>
+         </footer>
       </div>
    );
 }

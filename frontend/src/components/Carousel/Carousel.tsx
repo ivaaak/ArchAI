@@ -1,35 +1,25 @@
 import { Carousel } from 'react-responsive-carousel';
 import "react-responsive-carousel/lib/styles/carousel.min.css";
-import '../TitleSection/TitleSection.css'
+
+const IMAGES = Array.from({ length: 12 }, (_, index) => `/mj/${index + 1}.png`);
 
 const CarouselComponent = () => {
-    const images = [
-        "/mj/1.png",
-        "/mj/2.png",
-        "/mj/3.png",
-        "/mj/4.png",
-        "/mj/5.png",
-        "/mj/6.png",
-        "/mj/7.png",
-        "/mj/8.png",
-        "/mj/9.png",
-        "/mj/10.png",
-        "/mj/11.png",
-        "/mj/12.png"
-    ];
-
     return (
-        <>
-            <h1> Renders Generated Using AI: </h1>
-            <Carousel autoPlay infiniteLoop useKeyboardArrows showThumbs={false}
-                showIndicators={false}>
-                {images.map((image, index) => (
-                    <div key={index}>
-                        <img src={image} />
-                    </div>
-                ))}
-            </Carousel>
-        </>
+        <section className="landing-section" aria-labelledby="renders-title">
+            <header className="section-header">
+                <h2 id="renders-title">Renders generated using AI</h2>
+                <p className="muted">From loose concept sketches to photorealistic visualisations.</p>
+            </header>
+            <div className="render-carousel">
+                <Carousel autoPlay infiniteLoop useKeyboardArrows showThumbs={false} showStatus={false} interval={4000}>
+                    {IMAGES.map((image, index) => (
+                        <div key={image}>
+                            <img src={image} alt={`AI generated architectural render ${index + 1}`} loading={index === 0 ? 'eager' : 'lazy'} />
+                        </div>
+                    ))}
+                </Carousel>
+            </div>
+        </section>
     );
 };
 

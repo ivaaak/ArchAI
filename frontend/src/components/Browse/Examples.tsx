@@ -1,62 +1,41 @@
-import cityPlanImage from '../../../public/sketchTypePreviews/city plan.jpeg'
-import combinedImage from '../../../public/sketchTypePreviews/combined.jpeg'
-import singleBuildingImage from '../../../public/sketchTypePreviews/single building 3d sketch.jpeg'
-import sitePlanImage from '../../../public/sketchTypePreviews/site plan.jpeg'
-import sketchAerialImage from '../../../public/sketchTypePreviews/sketch aerial isomorphic view.jpeg'
+import { Link } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faDownload, faWandMagicSparkles } from '@fortawesome/free-solid-svg-icons';
+import { EXAMPLES } from '../../data/examples';
+import { downloadImage } from '../../lib/files';
+import { COLLECTION_ROUTES } from '../../lib/labels';
 import Tabs from '../Tabs'
 import './Browse.css';
 
-interface ImageData {
-    url: string;
-    prompt: string;
-}
-
 const Examples = () => {
-    const imagesData: ImageData[] = [
-        {
-            url: cityPlanImage,
-            prompt: 'City Plan'
-        },
-        {
-            url: combinedImage,
-            prompt: 'Combined Image'
-        },
-        {
-            url: singleBuildingImage,
-            prompt: 'Single Building'
-        },
-        {
-            url: sitePlanImage,
-            prompt: 'Site Plan'
-        },
-        {
-            url: sketchAerialImage,
-            prompt: 'Aerial'
-        }
-    ]
-
     return (
-        <>
-            <Tabs routes={[
-                { route: "/browse", label: "Generated Images" },
-                { route: "/examples", label: "Example Prompts" }
-            ]} />
-            <div className="gallery">
-                {imagesData.map((imageData, index) => (
-                    <div key={index} className="gallery-item">
-                        <div className="image-container">
-                            <img src={imageData.url} alt={`Generated Image ${index + 1}`} />
-                            <div className="overlay">
-                                <button className="overlay-button">Download</button>
-                                <button className="overlay-button">Edit</button>
-                                <button className="overlay-button">Share</button>
-                            </div>
-                            <p className='prompt-detail'>Example of a : {imageData.prompt} Prompt</p>
+        <div className="page">
+            <Tabs routes={COLLECTION_ROUTES} label="Collections" />
+            <div className="gallery-grid gallery-grid-large">
+                {EXAMPLES.map((example) => (
+                    <article key={example.src} className="gallery-card">
+                        <div className="gallery-card-image">
+                            <img src={example.src} alt={example.name} loading="lazy" />
                         </div>
-                    </div>
+                        <div className="gallery-card-body">
+                            <h2 className="gallery-card-title">{example.name}</h2>
+                            <p className="gallery-card-prompt gallery-card-prompt-full">{example.prompt}</p>
+                            <div className="tag-list">
+                                {example.tags.map((tag) => <span key={tag} className="badge">{tag}</span>)}
+                            </div>
+                        </div>
+                        <div className="gallery-card-actions">
+                            <Link className="btn btn-small btn-primary" to={`/generate?prompt=${encodeURIComponent(example.prompt)}`}>
+                                <FontAwesomeIcon icon={faWandMagicSparkles} /> Use this prompt
+                            </Link>
+                            <button className="icon-btn" onClick={() => downloadImage(example.src, `${example.name}.jpg`)} title="Download" aria-label="Download">
+                                <FontAwesomeIcon icon={faDownload} />
+                            </button>
+                        </div>
+                    </article>
                 ))}
             </div>
-        </>
+        </div>
     );
 };
 

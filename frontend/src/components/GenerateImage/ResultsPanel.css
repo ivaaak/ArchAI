@@ -1,0 +1,124 @@
+.results-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    min-height: 100%;
+}
+
+.results-status {
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 2rem;
+    min-height: 420px;
+}
+
+.results-status img {
+    max-width: min(360px, 80%);
+    height: auto;
+}
+
+.results-status-title {
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.results-error-icon {
+    font-size: 2.5rem;
+    color: var(--danger);
+}
+
+.result-main {
+    display: flex;
+    justify-content: center;
+    background: var(--bg-inset);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+}
+
+.result-image,
+.result-compare,
+.result-compare img {
+    display: block;
+    width: 100%;
+    max-height: 72vh;
+    object-fit: contain;
+}
+
+.result-compare {
+    --divider-color: var(--accent);
+    --default-handle-color: var(--accent);
+}
+
+.result-hint {
+    text-align: center;
+    font-size: 0.85rem;
+}
+
+.result-thumbnails {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.result-thumbnails button {
+    padding: 0;
+    width: 76px;
+    height: 76px;
+    border-radius: var(--radius);
+    border: 2px solid transparent;
+    overflow: hidden;
+    background: none;
+    opacity: 0.65;
+    transition: opacity 0.15s ease, border-color 0.15s ease;
+}
+
+.result-thumbnails button:hover,
+.result-thumbnails button.active {
+    opacity: 1;
+    border-color: var(--accent);
+}
+
+.result-thumbnails img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.result-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    justify-content: center;
+}
+
+/* Four drafting squares that fill in turn */
+.generation-loader {
+    display: grid;
+    grid-template-columns: repeat(2, 36px);
+    gap: 8px;
+    margin-bottom: 0.5rem;
+}
+
+.generation-loader span {
+    width: 36px;
+    height: 36px;
+    border: 2px solid var(--accent);
+    border-radius: 6px;
+    animation: loader-fill 1.6s ease-in-out infinite;
+}
+
+.generation-loader span:nth-child(2) { animation-delay: 0.2s; }
+.generation-loader span:nth-child(4) { animation-delay: 0.4s; }
+.generation-loader span:nth-child(3) { animation-delay: 0.6s; }
+
+@keyframes loader-fill {
+    0%, 100% { background: transparent; }
+    40%, 60% { background: var(--accent); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .generation-loader span { animation-duration: 4s; }
+}

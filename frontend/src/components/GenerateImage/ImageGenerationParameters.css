@@ -1,22 +1,11 @@
-.image-generation-parameters {
-    margin: 0 auto;
-    padding-top: 10px;
+.parameters-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.75rem;
 }
 
-.parameter {
-    margin-bottom: 10px;
-}
-
-.parameter select {
-    width: 100%;
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 3px;
-}
-.parameter input {
-    width: 100%;
-    padding: 8px;
-    margin: 0px;
-    border: 1px solid #ccc;
-    border-radius: 3px;
+@media (max-width: 420px) {
+    .parameters-grid {
+        grid-template-columns: 1fr;
+    }
 }

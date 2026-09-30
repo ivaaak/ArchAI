@@ -1,175 +1,132 @@
-import { SetStateAction, useState } from 'react';
-import PromptsMenu from './GenerateImage/PromptMenu';
-import ImageGenerationParameters from './GenerateImage/ImageGenerationParameters';
-import apiClient from '../utils/axios';
-import '../App.css';
-import Tabs from './Tabs';
+import { useState } from 'react';
+import { useAuth0 } from '@auth0/auth0-react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faFloppyDisk, faXmark } from '@fortawesome/free-solid-svg-icons';
+import { apiClient, getErrorMessage, requestGeneration } from '../lib/api';
+import { createDefaultSettings } from '../lib/prompt';
+import { resizeForModel } from '../lib/imageProcessing';
+import { useGeneration } from '../hooks/useGeneration';
+import { useSourceImage } from '../hooks/useSourceImage';
+import GenerationControls from './GenerateImage/GenerationControls';
+import ResultsPanel from './GenerateImage/ResultsPanel';
+import Workspace from './GenerateImage/Workspace';
+import ImageDropzone from './ImageDropzone';
 
 const UploadImage = () => {
-    const [prompt, setPrompt] = useState('');
-    const [imageUploadDescription, setImageUploadDescription] = useState('');
-    const [uploadedImage, setUploadedImage] = useState('');
-    const [selectedPromptsMenu, setSelectedPromptsMenu] = useState<string[]>([]);
-    const [parameters, setParameters] = useState({
-        sketchType: '',
-        color: '',
-        artStyle: '',
-        perspective: '',
-        dimension: '',
-        structure: '',
-        location: '',
+    const { user } = useAuth0();
+    const source = useSourceImage();
+    const [settings, setSettings] = useState(() => createDefaultSettings());
+    // How far the model may move away from the uploaded image
+    const [strength, setStrength] = useState(0.65);
+    const [saveStatus, setSaveStatus] = useState('');
+    const generation = useGeneration();
+
+    const handleSubmit = () => generation.run(async () => {
+        const image = await resizeForModel(source.preview);
+        return requestGeneration('/stableDiffusion/imageToImage', settings, {
+            ownerId: user?.sub,
+            image: image.blob,
+            promptStrength: strength,
+        });
     });
 
-    const handleDragOver = (event: React.DragEvent<HTMLDivElement>) => {
-        event.preventDefault();
-    };
-
-    const handleDragLeave = (event: React.DragEvent<HTMLDivElement>) => {
-        event.preventDefault();
-    };
-
-    const handleDrop = (event: React.DragEvent<HTMLDivElement>) => {
-        event.preventDefault();
-        const file = event.dataTransfer.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                if (typeof e?.target?.result === 'string') {
-                    setUploadedImage(e.target.result);
-                }
-            };
-            reader.readAsDataURL(file);
-        }
-    };
-
-    const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const file = event.target.files ? event.target.files[0] : null;
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                if (typeof e?.target?.result === 'string') {
-                    setUploadedImage(e.target.result);
-                }
-            };
-            reader.readAsDataURL(file);
-        }
-    };
-
-    const handleUploadSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
-    
-        if (!uploadedImage) {
-            alert('Please upload an image');
-            return;
-        }
-    
+    const saveToCollection = async () => {
+        if (!source.file) return;
+        setSaveStatus('Saving…');
         try {
-            const formData = new FormData();
-            formData.append('image', uploadedImage);
-    
-            const response = await apiClient.post('cloudinary/upload', formData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data',
-                },
-            });
-    
-            if (response.data.imageUrl) {
-                alert('Image uploaded successfully!');
-                // Optionally, handle the success scenario here, such as displaying a success message or navigating to a different page
-            } else {
-                alert('Failed to upload image.');
-            }
+            const form = new FormData();
+            form.append('image', source.file);
+            if (user?.sub) form.append('ownerId', user.sub);
+            if (settings.text.trim()) form.append('description', settings.text.trim());
+            await apiClient.post('/image', form);
+            setSaveStatus('Saved to your collection');
         } catch (error) {
-            console.error('Error uploading image:', error);
-            alert('An error occurred during the upload.');
+            setSaveStatus(getErrorMessage(error));
         }
     };
 
-    const handleSelectedPromptsChange = (newSelectedPrompts: string[]) => {
-        setSelectedPromptsMenu(newSelectedPrompts);
+    const clearImage = () => {
+        source.selectFile(null);
+        generation.reset();
+        setSaveStatus('');
     };
 
-    const handleParametersChange = (newParameters: SetStateAction<{
-        sketchType: string;
-        color: string;
-        artStyle: string;
-        perspective: string;
-        dimension: string;
-        structure: string;
-        location: string;
-    }>) => {
-        setParameters(newParameters);
-        console.log(parameters);
-    };
+    const controls = (
+        <>
+            {source.preview && (
+                <div className="source-card">
+                    <img src={source.preview} alt="Uploaded input" />
+                    <div className="source-card-body">
+                        <p className="source-card-title">{source.file?.name || 'Input image'}</p>
+                        <div className="source-card-actions">
+                            <button type="button" className="btn btn-small" onClick={saveToCollection}>
+                                <FontAwesomeIcon icon={faFloppyDisk} /> Save
+                            </button>
+                            <button type="button" className="btn btn-small btn-ghost" onClick={clearImage}>
+                                <FontAwesomeIcon icon={faXmark} /> Remove
+                            </button>
+                        </div>
+                        {saveStatus && <p className="muted small">{saveStatus}</p>}
+                    </div>
+                </div>
+            )}
+            <GenerationControls
+                value={settings}
+                onChange={setSettings}
+                onSubmit={handleSubmit}
+                isLoading={generation.isLoading}
+                canSubmit={Boolean(source.file)}
+                submitLabel={source.file ? 'Transform image' : 'Upload an image first'}
+                textLabel="How should the image change?"
+                textPlaceholder="e.g. turn into a watercolor rendering with warm evening light"
+                showSize={false}
+            >
+                <label className="field">
+                    <span className="field-label-row">
+                        <span className="field-label">Transformation strength</span>
+                        <span className="muted small">{Math.round(strength * 100)}%</span>
+                    </span>
+                    <input
+                        type="range"
+                        min={0.3}
+                        max={0.95}
+                        step={0.05}
+                        value={strength}
+                        onChange={(e) => setStrength(Number(e.target.value))}
+                    />
+                    <span className="range-labels muted small"><span>Keep the layout</span><span>Reimagine</span></span>
+                </label>
+            </GenerationControls>
+        </>
+    );
 
-    const revertImageUpload = () => {
-        setUploadedImage('');
-    }
-
-    //TODO
-    //const handleModifySubmit = () => { }
+    const output = source.preview ? (
+        <ResultsPanel
+            {...generation}
+            compareWith={source.preview}
+            placeholder={
+                <>
+                    <img className="source-preview" src={source.preview} alt="Uploaded input" />
+                    <p className="muted">Describe the change on the left, then press Transform image.</p>
+                </>
+            }
+        />
+    ) : (
+        <div className="results-status">
+            {source.isLoading ? <span className="spinner spinner-large" aria-label="Loading image" /> : (
+                <ImageDropzone onFile={source.selectFile} title="Drop a sketch, photo or render" />
+            )}
+            {source.error && <p className="form-error" role="alert">{source.error}</p>}
+        </div>
+    );
 
     return (
-        <>
-            <Tabs routes={[
-                { route: "/generate", label: "Text to Image" },
-                { route: "/upload", label: "Image to Image" },
-                { route: "/sketch", label: "Sketch to Image" },
-                { route: "/inpaint", label: "Image In-Painting" },
-            ]} />
-            <section className="single-feature-container">
-                <div className="single-intro">
-                    {uploadedImage &&
-                        <>
-                            <h1> 2. Modify The Sketch: </h1>
-                            <PromptsMenu onSelectedPromptsChange={handleSelectedPromptsChange}></PromptsMenu>
-                            <ImageGenerationParameters onParametersChange={handleParametersChange}></ImageGenerationParameters>
-                            <form onSubmit={handleUploadSubmit}> {/*  handleModifySubmit */}
-                                <textarea
-                                    placeholder="Prompt The Model"
-                                    value={prompt}
-                                    onChange={(e) => setPrompt(e.target.value)}
-                                    rows={4}
-                                    style={{ width: '100%' }}
-                                />
-                                <input className='submit-prompt-button' type="submit" value="Modify Image" />
-                            </form>
-                            <button className='undo-button' onClick={revertImageUpload}> Undo Image Upload </button>
-                        </>}
-                    {!uploadedImage &&
-                        <>
-                            <h1> 1. Upload A Sketch: </h1>
-                            <textarea
-                                placeholder="Add An Image Description"
-                                value={imageUploadDescription}
-                                onChange={(e) => setImageUploadDescription(e.target.value)}
-                                rows={4}
-                                style={{ width: '100%' }}
-                            />
-                            <form onSubmit={handleUploadSubmit}>
-                                <input type="file" accept="image/*" id="customFileInput"
-                                    onChange={handleFileChange} style={{ width: '100%', height: '75px' }} />
-                            </form>
-                        </>}
-                </div>
-                <div className="single-feature"
-                    onDragOver={handleDragOver}
-                    onDragLeave={handleDragLeave}
-                    onDrop={handleDrop}
-                    style={{ border: '6px dashed #ccc', padding: '20px', textAlign: 'center' }}>
-                    {!uploadedImage && (
-                        <>
-                            <img src="https://stories.freepiklabs.com/storage/1864/Meeting-01.svg" />
-                            <h1>Drag and drop your image here</h1>
-                        </>
-                    )}
-                    {uploadedImage &&
-                        <img src={uploadedImage} alt="Uploaded Image Preview" />}
-                    {prompt &&
-                        <p className="single-feature-note">Prompt Used: {prompt}</p>}
-                </div>
-            </section>
-        </>
+        <Workspace
+            title="Image to Image"
+            description="Upload a sketch, photo or render and restyle it while keeping its composition."
+            controls={controls}
+            output={output}
+        />
     );
 };
 

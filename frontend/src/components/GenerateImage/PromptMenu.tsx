@@ -1,65 +1,82 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCog } from '@fortawesome/free-solid-svg-icons';
-import '../../App.css';
+import { faPlus, faXmark } from '@fortawesome/free-solid-svg-icons';
+import { getPreferences, setPreferences } from '../../lib/storage';
 
-interface GenerateImageProps {
-    onSelectedPromptsChange: (selectedPrompts: string[]) => void;
+const DEFAULT_STYLES = [
+    'Angular', 'Sharp', 'Smooth', 'Paper', 'Minimalist', 'Detailed',
+    'Outline', 'Shaded', 'Geometric', 'Textured', 'Depth of Field',
+];
+
+interface PromptsMenuProps {
+    selected: string[];
+    onChange: (selectedPrompts: string[]) => void;
 }
 
-const PromptsMenu: React.FC<GenerateImageProps> = ({ onSelectedPromptsChange }) => {
-    const [showDefaultOptions, setShowDefaultOptions] = useState(false);
-    const [selectedPrompts, setSelectedPrompts] = useState<string[]>([]);
+const PromptsMenu: React.FC<PromptsMenuProps> = ({ selected, onChange }) => {
+    const [customStyles, setCustomStyles] = useState(() => getPreferences().customStyles);
+    const [isAdding, setIsAdding] = useState(false);
+    const [newStyle, setNewStyle] = useState('');
 
-    useEffect(() => {
-        onSelectedPromptsChange(selectedPrompts);
-    }, [selectedPrompts, onSelectedPromptsChange]);
-
-    const handlePromptClick = (prompt: string) => {
-        setSelectedPrompts(prevPrompts => {
-            const newSelectedPrompts = prevPrompts.includes(prompt)
-                ? prevPrompts.filter(p => p !== prompt)
-                : [...prevPrompts, prompt];
-            return newSelectedPrompts;
-        });
+    const toggle = (style: string) => {
+        onChange(selected.includes(style) ? selected.filter((s) => s !== style) : [...selected, style]);
     };
 
+    const saveCustomStyles = (styles: string[]) => {
+        setCustomStyles(styles);
+        setPreferences({ ...getPreferences(), customStyles: styles });
+    };
+
+    const addCustomStyle = (event: React.FormEvent) => {
+        event.preventDefault();
+        const style = newStyle.trim();
+        if (style && !DEFAULT_STYLES.includes(style) && !customStyles.includes(style)) {
+            saveCustomStyles([...customStyles, style]);
+            onChange([...selected, style]);
+        }
+        setNewStyle('');
+        setIsAdding(false);
+    };
+
+    const removeCustomStyle = (style: string) => {
+        saveCustomStyles(customStyles.filter((s) => s !== style));
+        onChange(selected.filter((s) => s !== style));
+    };
 
     return (
-        <div className="prompts">
-            <button className={`prompt-button ${selectedPrompts.includes('Angular') ? 'selected' : ''}`}
-                onClick={() => handlePromptClick('Angular')}>Angular</button>
-            <button className={`prompt-button ${selectedPrompts.includes('Sharp') ? 'selected' : ''}`}
-                onClick={() => handlePromptClick('Sharp')}>Sharp</button>
-            <button className={`prompt-button ${selectedPrompts.includes('Smooth') ? 'selected' : ''}`}
-                onClick={() => handlePromptClick('Smooth')}>Smooth</button>
-            <button className={`prompt-button ${selectedPrompts.includes('Paper') ? 'selected' : ''}`}
-                onClick={() => handlePromptClick('Paper')}>Paper</button>
-            <button className={`prompt-button ${selectedPrompts.includes('Minimalist') ? 'selected' : ''}`}
-                onClick={() => handlePromptClick('Minimalist')}>Minimalist</button>
-            <button className={`prompt-button ${selectedPrompts.includes('Detailed') ? 'selected' : ''}`}
-                onClick={() => handlePromptClick('Detailed')}>Detailed</button>
-            <button className={`prompt-button ${selectedPrompts.includes('Outline') ? 'selected' : ''}`}
-                onClick={() => handlePromptClick('Outline')}>Outline</button>
-            <button className={`prompt-button ${selectedPrompts.includes('Shaded') ? 'selected' : ''}`}
-                onClick={() => handlePromptClick('Shaded')}>Shaded</button>
-            <button className={`prompt-button ${selectedPrompts.includes('Geometric') ? 'selected' : ''}`}
-                onClick={() => handlePromptClick('Geometric')}>Geometric</button>
-            <button className={`prompt-button ${selectedPrompts.includes('Textured') ? 'selected' : ''}`}
-                onClick={() => handlePromptClick('Textured')}>Textured</button>
-            <button className={`prompt-button ${selectedPrompts.includes('Depth of Field') ? 'selected' : ''}`}
-                onClick={() => handlePromptClick('Depth of Field')}>Depth of Field</button>
-            <button className='default-options-button' type="button" onClick={() => setShowDefaultOptions(!showDefaultOptions)}>
-                <FontAwesomeIcon icon={faCog} />
-            </button>
-            {showDefaultOptions && (
-                <div className="default-options">
+        <div className="chip-group" role="group" aria-label="Style keywords">
+            {[...DEFAULT_STYLES, ...customStyles].map((style) => {
+                const isCustom = customStyles.includes(style);
+                const isSelected = selected.includes(style);
+                return (
+                    <span key={style} className={`chip ${isSelected ? 'selected' : ''} ${isCustom ? 'custom' : ''}`}>
+                        <button type="button" aria-pressed={isSelected} onClick={() => toggle(style)}>
+                            {style}
+                        </button>
+                        {isCustom && (
+                            <button type="button" className="chip-remove" aria-label={`Remove ${style}`} onClick={() => removeCustomStyle(style)}>
+                                <FontAwesomeIcon icon={faXmark} />
+                            </button>
+                        )}
+                    </span>
+                );
+            })}
+            {isAdding ? (
+                <form className="chip-form" onSubmit={addCustomStyle}>
                     <input
-                        type="text"
-                        placeholder="Default Prompt Option"
-                    // Add functionality to handle default options
+                        autoFocus
+                        value={newStyle}
+                        onChange={(e) => setNewStyle(e.target.value)}
+                        onBlur={() => !newStyle && setIsAdding(false)}
+                        onKeyDown={(e) => e.key === 'Escape' && setIsAdding(false)}
+                        placeholder="Your keyword"
+                        maxLength={40}
                     />
-                </div>
+                </form>
+            ) : (
+                <button type="button" className="chip chip-add" onClick={() => setIsAdding(true)}>
+                    <FontAwesomeIcon icon={faPlus} /> Custom
+                </button>
             )}
         </div>
     );

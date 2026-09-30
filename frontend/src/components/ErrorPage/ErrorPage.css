@@ -1,39 +1,43 @@
 .errorBoundaryContainer {
-  height: 100vh;
+  min-height: 70vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 1.5rem;
+  gap: 1.25rem;
   padding: 1.5rem;
+  text-align: center;
 }
 
 .errorBoundaryContent {
   padding: 1.5rem;
-  background-color: white;
-  border-radius: 1rem;
+  background-color: #fff;
+  border-radius: var(--radius-lg);
+}
+
+.errorBoundaryIllustration {
+  width: 220px;
+  height: 220px;
 }
 
 .errorBoundaryText {
-  font-size: 1rem;
-  font-weight: 500;
-  text-align: center;
+  font-size: 1.25rem;
+  font-weight: 600;
 }
 
 .errorBoundaryError {
-  color: red;
+  color: var(--danger);
+  font-family: ui-monospace, monospace;
+  font-size: 0.9rem;
+  max-width: 640px;
 }
 
-.errorBoundaryButton {
-  padding: 0.5rem 1rem;
-  background-color: transparent;
-  border: none;
-  cursor: pointer;
+.errorBoundaryActions {
+  display: flex;
+  gap: 0.5rem;
 }
 
-.errorBoundaryLink {
-  padding: 0.5rem 1rem;
-  background-color: transparent;
-  border: none;
-  cursor: pointer;
+.errorBoundaryIcon {
+  width: 1.1em;
+  height: 1.1em;
 }

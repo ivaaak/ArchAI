@@ -1,59 +1,77 @@
-.container {
-  padding: 20px;
-  background-color: var(--bg-secondary);
-  border-radius: 8px;
-  max-width: 60%;
-  margin: 20px auto;
+.profile {
+  max-width: 1100px;
+  margin: 0 auto;
 }
 
-.title {
-  margin-bottom: 10px;
-}
-
-.input-field {
-  padding: 10px;
-  font-size: 16px;
-  margin-bottom: 10px;
-  border-radius: 4px;
-  border: 1px solid #ccc;
-}
-
-.list-item {
-  padding: 10px;
-  border-bottom: 1px solid #ccc;
-}
-
-/* SettingsPage.css */
-.container {
+.profile-header {
   display: flex;
-  flex-direction: column;
   align-items: center;
-  justify-content: center;
-  padding: 20px;
+  gap: 1.25rem;
+  margin-bottom: 1.5rem;
 }
 
-nav ul {
-  list-style-type: none;
-  padding: 0;
-  display: flex;
-  justify-content: center;
-  gap: 10px;
+.profile-header h1 {
+  font-size: 1.75rem;
+  margin: 0;
 }
 
-nav ul li button {
-  background-color: #007bff;
-  color: white;
-  border: none;
-  padding: 5px 10px;
-  cursor: pointer;
+.profile-content {
+  min-height: 300px;
 }
 
-nav ul li button:hover {
-  background-color: #0056b3;
+.profile-images {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 0.75rem;
 }
 
-.content {
+.profile-image {
+  display: block;
+  aspect-ratio: 1 / 1;
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: var(--bg-inset);
+}
+
+.profile-image img {
   width: 100%;
-  max-width: 600px;
-  margin-top: 20px;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.profile-image:hover img {
+  transform: scale(1.05);
+}
+
+.profile-more {
+  margin-top: 1rem;
+  text-align: center;
+}
+
+.inline-form {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.prompt-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.prompt-list li {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.6rem 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.prompt-list li span {
+  flex: 1;
+}
+
+.preferences-form {
+  max-width: 520px;
 }

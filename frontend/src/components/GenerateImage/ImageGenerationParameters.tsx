@@ -1,139 +1,118 @@
-import { ChangeEvent, SetStateAction, useState } from 'react';
+import { PromptParameters } from '../../types';
 import './ImageGenerationParameters.css'
 
+type Option = [value: string, label: string];
+
+const SELECTS: { key: keyof PromptParameters; label: string; options: Option[] }[] = [
+  {
+    key: 'sketchType', label: 'Sketch type', options: [
+      ['city plan', 'City Plan'],
+      ['single building sketch', 'Single Building Sketch'],
+      ['site plan', 'Site Plan'],
+      ['floor plan', 'Floor Plan'],
+      ['cross section', 'Cross Section'],
+      ['landscape', 'Landscape'],
+      ['interior', 'Interior'],
+    ]
+  },
+  {
+    key: 'artStyle', label: 'Art style', options: [
+      ['wireframe', 'Wireframe'],
+      ['pencil sketch', 'Pencil Sketch'],
+      ['hough line map', 'Hough Line Map'],
+      ['outline', 'Outline'],
+      ['realistic', 'Realistic'],
+      ['stylized', 'Stylized'],
+      ['cinematic', 'Cinematic'],
+      ['photographic', 'Photographic'],
+      ['3d model', '3D Model'],
+      ['simplified', 'Simplified'],
+      ['abstract', 'Abstract'],
+    ]
+  },
+  {
+    key: 'perspective', label: 'Perspective', options: [
+      ['aerial view', 'Aerial View'],
+      ['topdown view', 'Top-Down View'],
+      ['front view', 'Front View'],
+      ['side view', 'Side View'],
+      ['rear view', 'Rear View'],
+      ['ground plan', 'Ground Plan'],
+      ['elevation', 'Elevation'],
+      ['section', 'Section'],
+      ['perspective', 'Perspective'],
+      ['birds eye view', "Bird's Eye View"],
+      ['oblique view', 'Oblique View'],
+      ['detail view', 'Detail View'],
+      ['walkthrough', 'Walkthrough'],
+      ['interior view', 'Interior View'],
+      ['exterior view', 'Exterior View'],
+      ['night view', 'Night View'],
+      ['day view', 'Day View'],
+      ['sunrise view', 'Sunrise View'],
+      ['sunset view', 'Sunset View'],
+    ]
+  },
+  {
+    key: 'dimension', label: 'Projection', options: [
+      ['2D', '2D'],
+      ['3D', '3D'],
+      ['One-Point Perspective', 'One-Point Perspective'],
+      ['Two-Point Perspective', 'Two-Point Perspective'],
+      ['Multi-Point Perspective', 'Multi-Point Perspective'],
+      ['Isometric Projection', 'Isometric Projection'],
+      ['Trimetric', 'Trimetric'],
+      ['Dimetric', 'Dimetric'],
+      ['Cabinet Projection', 'Cabinet Projection'],
+      ['Multiview (elevation)', 'Multiview (Elevation)'],
+    ]
+  },
+  {
+    key: 'color', label: 'Color', options: [
+      ['black and white', 'Black and White'],
+      ['monochrome', 'Monochrome'],
+      ['colored', 'Colored'],
+      ['contrasting', 'Contrasting'],
+      ['watercolor', 'Watercolor'],
+      ['warm', 'Warm'],
+      ['vibrant', 'Vibrant'],
+      ['triadic color palette', 'Triadic Color Palette'],
+    ]
+  },
+];
+
+const INPUTS: { key: keyof PromptParameters; label: string; placeholder: string }[] = [
+  { key: 'structure', label: 'Structure type', placeholder: 'e.g. timber cabin, museum' },
+  { key: 'location', label: 'Location', placeholder: 'e.g. Attersee, Austria' },
+];
+
 interface ImageGenerationParametersProps {
-  onParametersChange: (parameters: {
-    sketchType: string;
-    color: string;
-    artStyle: string;
-    perspective: string;
-    dimension: string;
-    structure: string;
-    location: string;
-  }) => void;
+  value: PromptParameters;
+  onChange: (parameters: PromptParameters) => void;
 }
 
-const ImageGenerationParameters: React.FC<ImageGenerationParametersProps> = ({ onParametersChange }) => {
-  const [sketchType, setSketchType] = useState('');
-  const [color, setColor] = useState('');
-  const [artStyle, setArtStyle] = useState('');
-  const [perspective, setPerspective] = useState('');
-  const [dimension, setDimension] = useState('');
-  const [structure, setStructure] = useState('');
-  const [location, setLocation] = useState('');
-
-  const handleChange = (
-    event: ChangeEvent<HTMLSelectElement> | ChangeEvent<HTMLInputElement>,
-    setter: {
-      (value: SetStateAction<string>): void;
-      (value: SetStateAction<string>): void;
-      (value: SetStateAction<string>): void;
-      (value: SetStateAction<string>): void;
-      (value: SetStateAction<string>): void;
-      (value: SetStateAction<string>): void;
-      (value: SetStateAction<string>): void;
-      (arg0: any): void;
-    }) => {
-    setter(event.target.value);
-    onParametersChange({
-      sketchType,
-      color,
-      artStyle,
-      perspective,
-      dimension,
-      structure,
-      location,
-    });
-  };
+const ImageGenerationParameters: React.FC<ImageGenerationParametersProps> = ({ value, onChange }) => {
+  const set = (key: keyof PromptParameters, newValue: string) => onChange({ ...value, [key]: newValue });
 
   return (
-    <div className="image-generation-parameters">
-      <div className="parameter">
-        <select id="sketchType" value={sketchType} onChange={(event) => handleChange(event, setSketchType)}>
-          <option value="" disabled hidden>General Sketch Type:</option>
-          <option value="city plan">City Plan</option>
-          <option value="single building sketch">Single Building Sketch</option>
-          <option value="site plan">Site Plan</option>
-          <option value="floor plan">Floor Plan</option>
-          <option value="cross section">Cross Section</option>
-          <option value="landscape">Landscape</option>
-        </select>
-      </div>
-      <div className="parameter">
-        <select id="color" value={color} onChange={(event) => handleChange(event, setColor)}>
-          <option value="" disabled hidden> Color Options: </option>
-          <option value="black and white">Black and White</option>
-          <option value="monochrome">Monochrome</option>
-          <option value="colored">Colored</option>
-          <option value="contrasting">Contrasting</option>
-          <option value="watercolor">Watercolor</option>
-          <option value="warm">Warm</option>
-          <option value="vibrant">Vibrant</option>
-          <option value="triadic color palette">Triadic Color Palette</option>
-
-        </select>
-      </div>
-      <div className="parameter">
-        <select id="artStyle" value={artStyle} onChange={(event) => handleChange(event, setArtStyle)}>
-          <option value="" disabled hidden> Art style: </option>
-          <option value="wireframe">Wireframe</option>
-          <option value="pencil sketch">Pencil Sketch</option>
-          <option value="hough line map">Hough Line Map</option>
-          <option value="outline">Outline</option>
-          <option value="realistic">Realistic</option>
-          <option value="stylized">Stylized</option>
-          <option value="cinematic">Cinematic</option>
-          <option value="photographic">Photographic</option>
-          <option value="3d model">3D Model</option>
-          <option value="simplified">Simplified</option>
-          <option value="abstract">Abstract</option>
-        </select>
-      </div>
-      <div className="parameter">
-        <select id="perspective" value={perspective} onChange={(event) => handleChange(event, setPerspective)}>
-          <option value="" disabled hidden> Perspective:</option>
-          <option value="aerial view">Aerial View</option>
-          <option value="topdown view">Top-Down View</option>
-          <option value="front view">Front View</option>
-          <option value="side view">Side View</option>
-          <option value="rear view">Rear View</option>
-          <option value="ground plan">Ground Plan</option>
-          <option value="elevation">Elevation</option>
-          <option value="section">Section</option>
-          <option value="perspective">Perspective</option>
-          <option value="birds eye view">Bird's Eye View</option>
-          <option value="oblique view">Oblique View</option>
-          <option value="detail view">Detail View</option>
-          <option value="walkthrough">Walkthrough</option>
-          <option value="interior view">Interior View</option>
-          <option value="exterior view">Exterior View</option>
-          <option value="night view">Night View</option>
-          <option value="day view">Day View</option>
-          <option value="sunrise view">Sunrise View</option>
-          <option value="sunset view">Sunset View</option>
-        </select>
-      </div>
-      <div className="parameter">
-        <select id="dimension" value={dimension} onChange={(event) => handleChange(event, setDimension)}>
-          <option value="" disabled hidden> Dimension</option>
-          <option value="2D">2D</option>
-          <option value="3D">3D</option>
-          <option value="One-Point Perspective">One-Point Perspective</option>
-          <option value="Two-Point Perspective">Two-Point Perspective</option>
-          <option value="Multi-Point Perspective">Multi-Point Perspective</option>
-          <option value="Isometric Projection">Isometric Projection</option>
-          <option value="Trimetric">Trimetric</option>
-          <option value="Dimetric">Dimetric</option>
-          <option value="Cabinet Projection">Cabinet Projection</option>
-          <option value="Multiview (elevation)">Multiview (Elevation)</option>
-        </select>
-      </div>
-      <div className="parameter">
-        <input type="text" id="structure" placeholder='Structure Type:' value={structure} onChange={(event) => handleChange(event, setStructure)} />
-      </div>
-      <div className="parameter">
-        <input type="text" id="location" placeholder='Location' value={location} onChange={(event) => handleChange(event, setLocation)} />
-      </div>
+    <div className="parameters-grid">
+      {SELECTS.map(({ key, label, options }) => (
+        <label className="field" key={key}>
+          <span className="field-label">{label}</span>
+          <select value={value[key]} onChange={(e) => set(key, e.target.value)}>
+            <option value="">Any</option>
+            {options.map(([optionValue, optionLabel]) => (
+              <option key={optionValue} value={optionValue}>{optionLabel}</option>
+            ))}
+          </select>
+        </label>
+      ))}
+      {INPUTS.map(({ key, label, placeholder }) => (
+        <label className="field" key={key}>
+          <span className="field-label">{label}</span>
+          <input type="text" value={value[key]} placeholder={placeholder} maxLength={80} onChange={(e) => set(key, e.target.value)} />
+        </label>
+      ))}
     </div>
   );
 };

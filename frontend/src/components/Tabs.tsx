@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import './Tabs.css'
 
 interface Route {
@@ -8,17 +8,18 @@ interface Route {
 
 interface TabsProps {
   routes: Route[];
+  label?: string;
 }
 
-const Tabs: React.FC<TabsProps> = ({ routes }) => {
+const Tabs: React.FC<TabsProps> = ({ routes, label = 'Sections' }) => {
   return (
-    <ul className="tabsContainer">
-      {routes.map((route, index) => (
-        <li className="tab" key={index}>
-          <Link to={route.route}>{route.label}</Link>
-        </li>
+    <nav className="tabs" aria-label={label}>
+      {routes.map((route) => (
+        <NavLink key={route.route} to={route.route} className={({ isActive }) => `tab ${isActive ? 'active' : ''}`}>
+          {route.label}
+        </NavLink>
       ))}
-    </ul>
+    </nav>
   );
 };
 
